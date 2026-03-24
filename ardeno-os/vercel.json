@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "regions": ["syd1"],
   "crons": [
     {
       "path": "/api/cron/agency-daily",
