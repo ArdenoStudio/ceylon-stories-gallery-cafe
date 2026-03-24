@@ -1,44 +1,75 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { OrchestrationGraph } from '@/engine/OrchestrationGraph';
-import { SubAgentDispatcher } from '@/engine/SubAgentDispatcher';
+import { Receiver } from '@upstash/qstash';
+import { AgencyEngine } from '../../../../engine/AgencyEngine';
+import { supabaseAdmin } from '../../../../lib/supabase/client';
 
 /**
- * Priority 3: Hierarchical Agent Orchestration (§35)
- * QStash Background Queue Responder
- * Resumes agent workflows after serverless timeout "resets".
+ * Priority 11: Vercel Deployment Foundation (§33)
+ * §33 QStash Queue Worker: The Pulse of the Sentient Agency.
+ * Decouples long-running agent tasks from Vercel's 10s-59s serverless timeouts.
+ * Every agent "thought" is micro-checkpointed and dispatched through this route.
  */
-export async function POST(req: NextRequest) {
+
+const receiver = new Receiver({
+  currentSigningKey: process.env.QSTASH_CURRENT_SIGNING_KEY!,
+  nextSigningKey: process.env.QSTASH_NEXT_SIGNING_KEY!,
+});
+
+export const POST = async (req: NextRequest) => {
+  // 1. Verify QStash Signature (§33 Secure Foundation)
+  const signature = req.headers.get('upstash-signature');
+  const body = await req.text();
+  
+  if (!signature) {
+     return NextResponse.json({ error: 'Unauthorized: Missing Signature' }, { status: 401 });
+  }
+
+  const isValid = await receiver.verify({
+    signature: signature!,
+    body,
+  });
+
+  if (!isValid) {
+    return NextResponse.json({ error: 'Unauthorized: Invalid QStash Signature' }, { status: 401 });
+  }
+
+  const payload = JSON.parse(body);
+  const { traceId, tenantId, agentType, taskPayload } = payload;
+
+  console.log(`[QStash] ⚡ Received agent task: ${agentType} (Trace: ${traceId})`);
+
   try {
-    const { trace_id } = await req.json();
+    // 2. Mark agent activity in Supabase Realtime (§3)
+    await supabaseAdmin
+      .from('agent_activities')
+      .insert({
+        trace_id: traceId,
+        tenant_id: tenantId,
+        agent_type: agentType,
+        status: 'running',
+        message: `Agent ${agentType} processing task...`
+      });
 
-    if (!trace_id) {
-      return NextResponse.json({ error: 'Missing trace_id' }, { status: 400 });
-    }
+    // 3. Dispatch to Agency Engine (§1, §35)
+    const engine = new AgencyEngine();
+    const result = await engine.processAgentTask(agentType, taskPayload, traceId);
 
-    const graph = new OrchestrationGraph();
-    const dispatcher = new SubAgentDispatcher();
+    // 4. Finalize activity
+    await supabaseAdmin
+      .from('agent_activities')
+      .update({ status: 'completed', message: `Task finished for ${agentType}.` })
+      .match({ trace_id: traceId, agent_type: agentType });
 
-    // 1. Resume graph state from Supabase checkpoint (§45 Resilience)
-    const state = await graph.resume(trace_id);
-    if (!state) {
-      return NextResponse.json({ error: 'Graph state not found' }, { status: 404 });
-    }
-
-    console.log(`[Queue] Resuming graph for trace ${trace_id} at node ${state.current_node}...`);
-
-    // 2. Execute the logic for the current node
-    // For this POC, we route to the Aggregator or next logical department
-    if (state.current_node === 'Aggregator') {
-       state.history.push({ node: 'Aggregator', output: 'Synthesized all sub-agent results.', timestamp: Date.now() });
-       state.current_node = 'Critic'; // Hand off to Priority 4 (§36)
-       state.status = 'active';
-       
-       await graph.nextStep(state);
-    }
-
-    return NextResponse.json({ success: true, resumed_node: state.current_node });
+    return NextResponse.json({ success: true, result });
   } catch (error: any) {
-    console.error('[Queue] Error resuming agent graph:', error);
+    console.error(`[QStash] 🚨 Agent ${agentType} failed (Trace: ${traceId}):`, error.message);
+    
+    // 5. Log failure for Observability & Self-Healing (§39, §45)
+    await supabaseAdmin
+      .from('agent_activities')
+      .update({ status: 'failed', message: `FAIL: ${error.message}` })
+      .match({ trace_id: traceId, agent_type: agentType });
+
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
-}
+};
