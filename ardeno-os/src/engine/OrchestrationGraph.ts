@@ -1,5 +1,6 @@
 import { supabaseAdmin } from '../lib/supabase/client';
 import { Client } from '@upstash/qstash';
+import { ObservabilityTracer } from './ObservabilityTracer';
 
 /**
  * Priority 3: Hierarchical Agent Orchestration (§35)
@@ -16,13 +17,22 @@ export interface GraphState {
 
 export class OrchestrationGraph {
   private qstash = new Client({ token: process.env.QSTASH_TOKEN || 'dummy' });
+  private tracer = new ObservabilityTracer();
 
   /**
    * Dispatches the next step of an agent's workflow via QStash.
-   * This effectively "resets" the Vercel serverless timeout at every graph transition.
    */
   public async nextStep(state: GraphState): Promise<void> {
+    const startTime = Date.now();
     console.log(`[OrchestrationGraph] Checkpointing state for trace ${state.trace_id} at node ${state.current_node}`);
+
+    // Log the trace span for this transition (§39 / §45)
+    await this.tracer.logSpan({
+      trace_id: state.trace_id,
+      agent_id: state.current_node,
+      status: state.status === 'active' ? 'completed' : 'failed',
+      latency_ms: Date.now() - startTime
+    });
 
     // Persist full state to Supabase before triggering Next.js background execution
     const { error } = await supabaseAdmin
