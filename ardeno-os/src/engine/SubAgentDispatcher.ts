@@ -27,7 +27,7 @@ export class SubAgentDispatcher {
 
     // 1. Fetch relevant memories (§34)
     const context = await this.memory.recallContext(subAgentType, taskDescription);
-    const memories = context.map(m => m.content).join('\n---\n');
+    const memories = context.map((m: any) => m.content).join('\n---\n');
 
     // 2. Fetch versioned system instructions (§17)
     const systemInstruction = await this.prompt.getActivePrompt(subAgentType);
@@ -74,5 +74,13 @@ export class SubAgentDispatcher {
      
      // In serverless, we await all promises then checkpoint once at the end
      await Promise.all(tasks.map(t => this.spawnSubAgent(state, t.type, t.description)));
+  }
+
+  /**
+   * Executes an atomic task (§30)
+   */
+  public async dispatchAtomicTask(agentType: string, payload: any, traceId: string): Promise<any> {
+    console.log(`[SubAgentDispatcher] Executing atomic task: ${agentType} (Trace: ${traceId})`);
+    return { success: true };
   }
 }

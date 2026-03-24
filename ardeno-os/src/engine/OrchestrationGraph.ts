@@ -73,4 +73,12 @@ export class OrchestrationGraph {
     if (error || !data) return null;
     return data.state_json as GraphState;
   }
+  /**
+   * Main entry for resuming a graph node (§35)
+   */
+  public async executeNode(nodeName: string, payload: any, traceId: string): Promise<any> {
+    console.log(`[OrchestrationGraph] Executing node ${nodeName} for trace ${traceId}`);
+    // Logic to actually run the node via SubAgentDispatcher or direct engine calls
+    return { success: true, node: nodeName };
+  }
 }

@@ -1,0 +1,96 @@
+{
+  "tiers": {
+    "basic": {
+      "name": "Basic",
+      "budgetRange": "Entry-level",
+      "includes": [
+        "3-5 pages (Home, About, Services, Contact)",
+        "Fully responsive design",
+        "Contact form with email notifications",
+        "Basic on-page SEO (meta tags, headings, alt text)",
+        "Standard social media links",
+        "Google Maps integration",
+        "1 round of revisions"
+      ],
+      "excludes": [
+        "Custom animations or micro-interactions",
+        "Content Management System (CMS)",
+        "Third-party integrations (booking, payment)",
+        "Accessibility (a11y) audit",
+        "Blog or news section",
+        "Multi-language support",
+        "Custom illustration or photography"
+      ],
+      "timeline": "5-7 business days",
+      "componentStrategy": "proven_stable"
+    },
+    "growth": {
+      "name": "Growth",
+      "budgetRange": "Mid-range",
+      "includes": [
+        "5-8 pages with advanced layout sections",
+        "Custom CSS animations and hover effects",
+        "CMS integration (blog, portfolio, team)",
+        "Advanced SEO (schema markup, sitemap, robots.txt)",
+        "Social media feed integration",
+        "Newsletter signup with email provider",
+        "Performance optimization (Lighthouse 90+)",
+        "2 rounds of revisions"
+      ],
+      "excludes": [
+        "Custom third-party API integrations",
+        "Client portal or dashboard",
+        "E-commerce functionality",
+        "AI-powered features",
+        "Custom booking/reservation system"
+      ],
+      "timeline": "10-14 business days",
+      "componentStrategy": "trending_components"
+    },
+    "premium": {
+      "name": "Premium",
+      "budgetRange": "High-end",
+      "includes": [
+        "10+ pages with full design system",
+        "Full animation suite (page transitions, scroll triggers, parallax)",
+        "Third-party integrations (payment, booking, CRM)",
+        "WCAG AA accessibility audit and compliance",
+        "Advanced performance optimization (Lighthouse 95+)",
+        "Multi-language support",
+        "Custom illustration direction",
+        "SEO strategy document",
+        "3 rounds of revisions"
+      ],
+      "excludes": [
+        "Custom client portals",
+        "AI chat or recommendation systems",
+        "Custom dashboard with data visualization"
+      ],
+      "timeline": "3-4 weeks",
+      "componentStrategy": "cutting_edge"
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "budgetRange": "Custom",
+      "includes": [
+        "Everything in Premium",
+        "Custom client portal with auth",
+        "AI chat / recommendation engine",
+        "Custom booking / reservation system",
+        "Admin dashboard with analytics",
+        "API development and documentation",
+        "Dedicated project manager",
+        "Priority support (48hr response)",
+        "Unlimited revisions within scope"
+      ],
+      "excludes": [],
+      "timeline": "6-8 weeks",
+      "componentStrategy": "custom_built"
+    }
+  },
+  "scopeCreepClassification": {
+    "in_scope": "Request matches the agreed feature tier",
+    "minor_addition": "Small request absorbable within current sprint without timeline impact",
+    "out_of_scope": "Requires change order with cost/timeline impact analysis"
+  }
+}

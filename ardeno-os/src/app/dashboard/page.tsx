@@ -1,4 +1,5 @@
 import React from "react";
+import SentientStream from "@/components/dashboard/SentientStream";
 
 /**
  * Priority 21+: Strategic UI Layer (§1)
@@ -31,7 +32,7 @@ export default function DashboardPage() {
       {/* Main Orchestration View §3 */}
       <div className="grid grid-cols-3 gap-8 h-[600px]">
         {/* Sentient Stream §3 */}
-        <section className="col-span-2 glass-panel p-8 flex flex-col h-full bg-[#0a0a0a]/50 border-white/5 shadow-2xl overflow-hidden relative">
+        <section className="col-span-2 glass-panel p-8 flex flex-col h-full bg-[#0a0a0a]/50 border-white/5 shadow-2xl relative">
           <div className="flex justify-between items-center mb-6">
              <h3 className="font-bold tracking-tight text-white/50 uppercase text-[10px]">Real-Time Agent Swarm §3</h3>
              <div className="flex gap-1">
@@ -42,15 +43,11 @@ export default function DashboardPage() {
           </div>
 
           {/* This is the SentientStream.tsx entry point (§3 MiroFish Port) */}
-          <div className="flex-1 space-y-6 overflow-hidden">
-             <AgentActivityItem agent="Commercial" task="Extraction phase complete" time="2s ago" status="success" />
-             <AgentActivityItem agent="Design Architect" task="Generating content-first UI spec (§15)" time="4s ago" status="running" />
-             <AgentActivityItem agent="Compliance" task="Scanning prompt for PII leak (§44)" time="8s ago" status="success" />
-             <AgentActivityItem agent="DevOps" task="Optimizing Vercel cold-start weights" time="12s ago" status="running" />
-             <AgentActivityItem agent="Red-Team" task="Attempting prompt injection bypass (§40)" time="1m ago" status="success" />
+          <div className="flex-1 overflow-y-auto custom-scrollbar">
+             <SentientStream />
           </div>
 
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent pointer-events-none"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent pointer-events-none rounded-2xl pointer-events-none"></div>
         </section>
 
         {/* System Logs §39 */}

@@ -1,0 +1,99 @@
+{
+  "providers": {
+    "gemini": {
+      "displayName": "Google Gemini",
+      "models": {
+        "reasoning": "gemini-2.5-pro",
+        "fast": "gemini-2.5-flash",
+        "vision": "gemini-2.5-pro",
+        "embedding": "text-embedding-004"
+      },
+      "bestFor": ["heavy_reasoning", "long_context", "multimodal", "vision", "critic_evaluation"],
+      "rpmPerKey": 15,
+      "rpdPerKey": 1500,
+      "resetWindow": "per-minute",
+      "keyCount": 50,
+      "priority": 1
+    },
+    "groq": {
+      "displayName": "Groq",
+      "models": {
+        "fast": "llama-3.3-70b-versatile",
+        "reasoning": "llama-3.3-70b-versatile"
+      },
+      "bestFor": ["real_time_stream", "quick_drafts", "batch_triage"],
+      "rpmPerKey": 30,
+      "rpdPerKey": 14400,
+      "resetWindow": "per-minute",
+      "keyCount": 10,
+      "priority": 2
+    },
+    "deepseek": {
+      "displayName": "DeepSeek",
+      "models": {
+        "reasoning": "deepseek-chat",
+        "analysis": "deepseek-chat"
+      },
+      "bestFor": ["deep_analysis", "research", "long_documents", "code_generation"],
+      "tokenBudgetPerKey": 5000000,
+      "resetWindow": "on-signup",
+      "keyCount": 10,
+      "priority": 3
+    },
+    "mistral": {
+      "displayName": "Mistral AI",
+      "models": {
+        "creative": "mistral-large-latest",
+        "fast": "mistral-small-latest"
+      },
+      "bestFor": ["creative_writing", "multilingual_content", "marketing_copy"],
+      "rpmPerKey": 5,
+      "resetWindow": "per-minute",
+      "keyCount": 10,
+      "priority": 4
+    },
+    "cerebras": {
+      "displayName": "Cerebras",
+      "models": {
+        "fast": "llama3.1-8b",
+        "bulk": "llama3.1-70b"
+      },
+      "bestFor": ["bulk_processing", "batch_operations", "summarization"],
+      "rpmPerKey": 30,
+      "resetWindow": "per-minute",
+      "keyCount": 10,
+      "priority": 5
+    },
+    "openrouter": {
+      "displayName": "OpenRouter (Fallback)",
+      "models": {
+        "fallback": "auto"
+      },
+      "bestFor": ["failover", "emergency_fallback"],
+      "keyCount": 1,
+      "priority": 99,
+      "isFallback": true
+    },
+    "huggingface": {
+      "displayName": "Hugging Face (Last Resort)",
+      "models": {
+        "fallback": "inference-api"
+      },
+      "bestFor": ["ultimate_fallback"],
+      "keyCount": 1,
+      "priority": 100,
+      "isFallback": true
+    }
+  },
+  "taskRouting": {
+    "reasoning": ["gemini", "deepseek", "groq"],
+    "fast": ["groq", "cerebras", "gemini"],
+    "vision": ["gemini"],
+    "creative": ["mistral", "gemini", "deepseek"],
+    "embedding": ["gemini"],
+    "critic_evaluation": ["gemini", "deepseek"],
+    "bulk_processing": ["cerebras", "groq"],
+    "code_generation": ["deepseek", "gemini"]
+  },
+  "fallbackChain": ["openrouter", "huggingface"]
+}
