@@ -19,7 +19,8 @@ export function middleware(request: NextRequest) {
   }
 
   // 2. Extract Tenant ID from headers or subdomains (§37)
-  const tenantId = request.headers.get('x-tenant-id');
+  // Logic: priority to 'x-tenant-id' header, then subdomain-based lookup
+  const tenantId = request.headers.get('x-tenant-id') || request.nextUrl.hostname.split('.')[0];
 
   // 3. Rate Limiting Placeholder (§33)
   // In production, use Upstash Redis: 
@@ -27,9 +28,9 @@ export function middleware(request: NextRequest) {
 
   // 4. API Shielding for /api/agents routes
   if (pathname.startsWith('/api/agents')) {
-     if (!tenantId) {
+     if (!tenantId || tenantId === 'localhost' || tenantId === 'www') {
        console.log(`[Middleware] Blocked unauthorized agent request to ${pathname}`);
-       // return NextResponse.json({ error: 'Unauthorized: Missing Tenant ID' }, { status: 401 });
+       return NextResponse.json({ error: 'Unauthorized: Valid Tenant ID required' }, { status: 401 });
      }
   }
 
