@@ -2,6 +2,7 @@ import { OrchestrationGraph, GraphState } from './OrchestrationGraph';
 import { KeyRotator } from './KeyRotator';
 import { MemoryManager } from './MemoryManager';
 import { CriticAgent } from './CriticAgent';
+import { ObservabilityTracer } from './ObservabilityTracer';
 
 /**
  * Priority 3: Hierarchical Agent Orchestration (§35)
@@ -12,12 +13,14 @@ export class SubAgentDispatcher {
   private rotator = new KeyRotator();
   private memory = new MemoryManager();
   private critic = new CriticAgent();
+  private tracer = new ObservabilityTracer();
 
   /**
-   * Spawns a sub-agent with automated Critic feedback loop.
-   * §36 Resilience: Auto-Regenerate if score < 85.
+   * Spawns a sub-agent with automated Critic feedback loop (§36)
+   * And trace logging (§39).
    */
   public async spawnSubAgent(state: GraphState, subAgentType: string, taskDescription: string, retryCount = 0): Promise<void> {
+    const startTime = Date.now();
     console.log(`[SubAgentDispatcher] Spawning a ${subAgentType} sub-agent (Retry: ${retryCount})`);
 
     const context = await this.memory.recallContext(subAgentType, taskDescription);
