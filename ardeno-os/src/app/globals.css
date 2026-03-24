@@ -3,19 +3,71 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #050505;
+  --foreground: #ffffff;
+  --card: #0a0a0a;
+  --accent: #2e2e2e;
+  --primary: #7c3aed; /* Vibrant Ardeno Violet */
+  --secondary: #3b82f6; /* Sentient Blue */
+  --glass: rgba(15, 15, 15, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  body {
+    @apply bg-[#050505] text-white selection:bg-primary/30 overflow-x-hidden antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+/* Ardeno Glassmorphism System §1 */
+.glass-panel {
+  @apply bg-glass backdrop-blur-xl border border-glass-border rounded-2xl shadow-2xl transition-all duration-300;
+}
+
+.glass-panel:hover {
+  @apply border-white/20 shadow-primary/10;
+}
+
+/* Sentient Pulse Animation §3 */
+@keyframes sentient-pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 10px var(--primary)); }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+
+.sentient-node {
+  animation: sentient-pulse 4s infinite ease-in-out;
+}
+
+/* Gradient Text §1 */
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-primary bg-[length:200%_auto] animate-gradient;
+}
+
+@keyframes gradient {
+  0% { bg-position: 0% center; }
+  100% { bg-position: 200% center; }
+}
+
+/* Performance Meter §1 */
+.performance-meter {
+  @apply h-1 w-full bg-accent rounded-full overflow-hidden;
+}
+
+.performance-fill {
+  @apply h-full bg-gradient-to-r from-primary to-secondary transition-all duration-500 ease-out;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-white/10 rounded-full hover:bg-white/20 transition-all;
 }
