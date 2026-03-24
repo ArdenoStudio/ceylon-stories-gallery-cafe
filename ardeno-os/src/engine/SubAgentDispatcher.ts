@@ -3,6 +3,7 @@ import { KeyRotator } from './KeyRotator';
 import { MemoryManager } from './MemoryManager';
 import { CriticAgent } from './CriticAgent';
 import { ObservabilityTracer } from './ObservabilityTracer';
+import { PromptManager } from './PromptManager';
 
 /**
  * Priority 3: Hierarchical Agent Orchestration (§35)
@@ -14,22 +15,28 @@ export class SubAgentDispatcher {
   private memory = new MemoryManager();
   private critic = new CriticAgent();
   private tracer = new ObservabilityTracer();
+  private prompt = new PromptManager();
 
   /**
    * Spawns a sub-agent with automated Critic feedback loop (§36)
-   * And trace logging (§39).
+   * And versioned prompt injection (§17).
    */
   public async spawnSubAgent(state: GraphState, subAgentType: string, taskDescription: string, retryCount = 0): Promise<void> {
     const startTime = Date.now();
     console.log(`[SubAgentDispatcher] Spawning a ${subAgentType} sub-agent (Retry: ${retryCount})`);
 
+    // 1. Fetch relevant memories (§34)
     const context = await this.memory.recallContext(subAgentType, taskDescription);
     const memories = context.map(m => m.content).join('\n---\n');
 
+    // 2. Fetch versioned system instructions (§17)
+    const systemInstruction = await this.prompt.getActivePrompt(subAgentType);
+
+    // 3. Execute reasoning node
     const response = await this.rotator.execute({
       taskType: 'reasoning',
       payload: {
-        system: `You are a specialized ${subAgentType} sub-agent. Memories:\n${memories}`,
+        system: `${systemInstruction}\n\nRELEVANT_MEMORIES:\n${memories}`,
         user: taskDescription
       }
     });
