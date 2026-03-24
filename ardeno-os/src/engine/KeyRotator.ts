@@ -1,7 +1,7 @@
 import { LLMKeyPool, APIKey, KeyProvider } from './LLMKeyPool';
 
 export interface RouteRequest {
-  taskType: 'reasoning' | 'speed' | 'embedding' | 'creative' | 'critic';
+  taskType: 'reasoning' | 'speed' | 'embedding' | 'creative' | 'critic' | 'vision';
   payload: any;
   priority?: 'high' | 'normal' | 'background';
 }
@@ -25,6 +25,7 @@ export class KeyRotator {
       case 'embedding': return 'gemini'; // Free embedding endpoint on Gemini
       case 'creative': return 'mistral';
       case 'critic': return 'deepseek';
+      case 'vision': return 'gemini'; // Route Vision to Gemini Flash nodes
       default: return 'groq';
     }
   }
