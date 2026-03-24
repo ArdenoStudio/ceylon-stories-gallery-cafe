@@ -3,28 +3,8 @@
   "regions": ["syd1"],
   "crons": [
     {
-      "path": "/api/cron/key-health",
-      "schedule": "0 * * * *"
-    },
-    {
-      "path": "/api/cron/market-scan",
+      "path": "/api/cron/agency-daily",
       "schedule": "0 0 * * *"
-    },
-    {
-      "path": "/api/cron/quota-guard",
-      "schedule": "0 */12 * * *"
-    },
-    {
-      "path": "/api/cron/anomaly-detect",
-      "schedule": "0 0 * * *"
-    },
-    {
-      "path": "/api/cron/forget-memories",
-      "schedule": "0 1 * * *"
-    },
-    {
-      "path": "/api/cron/rls-audit",
-      "schedule": "0 2 * * *"
     }
   ]
 }
