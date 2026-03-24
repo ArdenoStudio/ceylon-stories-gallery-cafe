@@ -1,6 +1,5 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: '**.supabase.co' },
@@ -10,10 +9,9 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     serverActions: {
-      bodySizeLimit: '10mb' // To handle large trace/log uploads §43
+      bodySizeLimit: '10mb'
     }
   },
-  // Enable production-grade observability (§39)
   logging: {
     fetches: {
       fullUrl: true,
