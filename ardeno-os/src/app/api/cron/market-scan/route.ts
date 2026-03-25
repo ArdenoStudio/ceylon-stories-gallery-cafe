@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { SmartMarketScanner } from '../../../../engine/SmartMarketScanner';
-import { supabaseAdmin } from '../../../../lib/supabase/client';
+import { SmartMarketScanner } from '@/engine/SmartMarketScanner';
+import { supabaseAdmin } from '@/lib/supabase/client';
 
 /**
  * Priority 15: Smart Market-Aware UI Component Intelligence (§32)

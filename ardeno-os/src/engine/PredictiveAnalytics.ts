@@ -20,16 +20,36 @@ export class PredictiveAnalytics {
   public async forecastDemoSuccess(features: PredictionFeatures): Promise<{ probability_0_100: number, confidence: number }> {
     console.log('[PredictiveAn] Running demo success regression...');
 
-    // In production, load a trained model from Supabase or HuggingFace
+    // Actual logistic regression approximation
+    // Weights (hypothetical trained model weights):
+    // w_meanScore: 0.08, w_complexity: -0.15, w_latency: -0.002, w_tokens: -0.0001
+    // Bias: -3.0
+
     const meanScore = features.previous_scores.length > 0
       ? features.previous_scores.reduce((a,b) => a+b, 0) / features.previous_scores.length
       : 80;
 
-    const prob = (meanScore * 0.7) + ( (1 - (features.complexity / 2)) * 30 );
+    const z = -3.0 
+       + (meanScore * 0.08) 
+       + (features.complexity * -0.15) 
+       + (features.latency_ms * -0.002) 
+       + (features.input_tokens * -0.0001);
+
+    // Sigmoid function for probability
+    const prob = 1 / (1 + Math.exp(-z));
+
+    const finalProb = Math.min(100, Math.max(0, prob * 100));
+
+    // Calculate a confidence interval based on variance in the previous_scores
+    const variance = features.previous_scores.length > 1
+      ? features.previous_scores.reduce((a, b) => a + Math.pow(b - meanScore, 2), 0) / features.previous_scores.length
+      : 0;
+
+    const confidence = Math.max(0.4, 0.95 - (variance * 0.005));
 
     return {
-      probability_0_100: Math.min(100, Math.max(0, prob)),
-      confidence: 0.85
+      probability_0_100: parseFloat(finalProb.toFixed(1)),
+      confidence: parseFloat(confidence.toFixed(2))
     };
   }
 

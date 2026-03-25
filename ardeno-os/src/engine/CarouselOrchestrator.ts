@@ -1,4 +1,6 @@
 import { KeyRotator } from './KeyRotator';
+import { HeadlessExporter } from './HeadlessExporter';
+import { supabaseAdmin } from '../lib/supabase/client';
 
 export interface CarouselSlide {
   title: string;
@@ -43,7 +45,21 @@ export class CarouselOrchestrator {
    */
   public async renderSlide(slide: CarouselSlide): Promise<string> {
      console.log(`[Carousel] Rendering slide: ${slide.title}...`);
-     // Vision / Image processing logic here...
-     return `https://cdn.ardeno.os/render/${Date.now()}.png`;
+     
+     // 1. Generate the slide UUID and save its config to DB so the render route can read it
+     const slideId = `slide_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`;
+     await supabaseAdmin.from('carousel_slides').insert({
+       id: slideId,
+       title: slide.title,
+       description: slide.description,
+       style: slide.style,
+       background_image_prompt: slide.image_prompt
+     });
+
+     // 2. Export via Headless browser logic
+     const exporter = new HeadlessExporter();
+     const url = await exporter.exportSlide(slideId);
+     
+     return url;
   }
 }

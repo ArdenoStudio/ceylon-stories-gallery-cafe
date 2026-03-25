@@ -1,21 +1,25 @@
-"use client";
-
 import React from "react";
+import { supabaseAdmin } from "@/lib/supabase/client";
 
 /**
  * Priority 10: Smart Market-Aware UI Component Intelligence (§32)
  * §32 Component Market Index Browser: Live explorer for all discovered
  * UI components with trend scores, source attribution, and usage stats.
  */
-export default function ComponentsPage() {
-  const mockComponents = [
-    { name: 'Apple Cards Carousel', source: '21st.dev', score: 91, category: 'Hero', license: 'MIT', size: '8.2KB', status: 'adopt' },
-    { name: 'Glassmorphism Pricing Table', source: 'HyperUI', score: 87, category: 'Pricing', license: 'MIT', size: '4.1KB', status: 'adopt' },
-    { name: 'Animated Beam', source: 'React Bits', score: 84, category: 'Decoration', license: 'MIT', size: '2.3KB', status: 'adopt' },
-    { name: 'Data Chart Grid', source: 'Tremor', score: 79, category: 'Dashboard', license: 'Apache-2.0', size: '12.4KB', status: 'trial' },
-    { name: 'Minimal FAQ Accordion', source: 'shadcn/ui', score: 76, category: 'FAQ', license: 'MIT', size: '3.1KB', status: 'trial' },
-    { name: 'Bootstrap Card Grid', source: 'Bootstrap', score: 38, category: 'Grid', license: 'MIT', size: '18.7KB', status: 'archived' },
+export default async function ComponentsPage() {
+  const { data: dbComponents, error } = await supabaseAdmin
+    .from('component_market_index')
+    .select('*')
+    .order('trend_score', { ascending: false })
+    .limit(24);
+
+  const mockFallback = [
+    { component_name: 'Apple Cards Carousel', source_library: '21st.dev', trend_score: 91, description: 'Hero carousel', repo_url: '#' },
+    { component_name: 'Glassmorphism Pricing Table', source_library: 'HyperUI', trend_score: 87, description: 'Pricing section', repo_url: '#' },
+    { component_name: 'Animated Beam', source_library: 'React Bits', trend_score: 84, description: 'Decoration element', repo_url: '#' },
   ];
+
+  const componentsToRender = dbComponents && dbComponents.length > 0 ? dbComponents : mockFallback;
 
   return (
     <div className="space-y-10">
@@ -36,24 +40,27 @@ export default function ComponentsPage() {
 
       {/* Component Grid */}
       <div className="grid grid-cols-3 gap-5">
-        {mockComponents.map((comp, i) => (
-          <div key={i} className={`glass-panel p-6 bg-white/[0.02] border ${comp.status === 'adopt' ? 'border-green-500/10' : comp.status === 'archived' ? 'border-red-500/10 opacity-50' : 'border-white/5'} hover:border-primary/20 transition-all group`}>
-            <div className="flex justify-between items-start">
-              <div>
-                <h4 className="font-bold text-sm">{comp.name}</h4>
-                <p className="text-[10px] text-white/30 mt-0.5">{comp.source} · {comp.category}</p>
+        {componentsToRender.map((comp, i) => {
+          const score = comp.trend_score || 0;
+          const status = score >= 80 ? 'adopt' : score >= 50 ? 'trial' : 'archived';
+          return (
+            <div key={i} className={`glass-panel p-6 bg-white/[0.02] border ${status === 'adopt' ? 'border-green-500/10' : status === 'archived' ? 'border-red-500/10 opacity-50' : 'border-white/5'} hover:border-primary/20 transition-all group`}>
+              <div className="flex justify-between items-start">
+                <div>
+                  <h4 className="font-bold text-sm truncate max-w-[180px]" title={comp.component_name}>{comp.component_name}</h4>
+                  <p className="text-[10px] text-white/30 mt-0.5 truncate max-w-[180px]">{comp.source_library} · {comp.description}</p>
+                </div>
+                <div className={`text-lg font-black ${score >= 80 ? 'text-green-400' : score >= 50 ? 'text-yellow-400' : 'text-red-400'}`}>
+                  {Math.round(score)}
+                </div>
               </div>
-              <div className={`text-lg font-black ${comp.score >= 80 ? 'text-green-400' : comp.score >= 50 ? 'text-yellow-400' : 'text-red-400'}`}>
-                {comp.score}
+              <div className="mt-4 flex items-center justify-between text-[10px] text-white/20 font-mono">
+                <a href={comp.repo_url} target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors hover:underline">View Source Repo ↗</a>
+                <span className={`uppercase font-black tracking-widest ${status === 'adopt' ? 'text-green-500' : status === 'archived' ? 'text-red-500' : 'text-yellow-500'}`}>{status}</span>
               </div>
             </div>
-            <div className="mt-4 flex items-center justify-between text-[10px] text-white/20 font-mono">
-              <span>{comp.license}</span>
-              <span>{comp.size}</span>
-              <span className={`uppercase font-black tracking-widest ${comp.status === 'adopt' ? 'text-green-500' : comp.status === 'archived' ? 'text-red-500' : 'text-yellow-500'}`}>{comp.status}</span>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Scoring Dimensions */}

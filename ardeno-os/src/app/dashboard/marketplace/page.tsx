@@ -1,17 +1,44 @@
 import React from "react";
+import { supabaseAdmin } from "@/lib/supabase/client";
 
 /**
  * Priority 21+: Strategic UI Layer (§1)
  * §41 Agent & Skill Marketplace UI: B2B Skill Publishing and Procurement.
  * Displays available Section 41 listings for one-click installation into the OS.
  */
-export default function MarketplaceDashboard() {
-  const listings = [
+export default async function MarketplaceDashboard() {
+  const { data: dbListings } = await supabaseAdmin
+    .from('marketplace_listings')
+    .select(`
+      id,
+      price_cent,
+      is_verified,
+      skills_registry (
+        skill_name,
+        department,
+        description
+      )
+    `)
+    .limit(20);
+
+  const fallbackListings = [
     { title: 'Real Estate Sales Pro', type: 'Graph', provider: 'Ardeno Core', price: '$499', rating: 4.9, tags: ['CRM', 'Sales', 'Real Estate'] },
     { title: 'Sentiment Audit Bot', type: 'Skill', provider: 'MiroFish Labs', price: 'Free', rating: 4.7, tags: ['NLP', 'Compliant', 'Brand'] },
     { title: 'Vercel Deployment Shield', type: 'Resilience', provider: 'Ardeno Core', price: '$1,200', rating: 5.0, tags: ['DevOps', 'Hardening'] },
     { title: 'Lead Scraper Pro', type: 'Browser', provider: 'Sentient Swarm', price: '$150/mo', rating: 4.8, tags: ['Automation', 'Leads'] },
   ];
+
+  const listings = dbListings && dbListings.length > 0 
+    ? dbListings.map(l => ({
+        id: l.id,
+        title: (l.skills_registry as any)?.skill_name || 'Unknown Skill',
+        type: (l.skills_registry as any)?.department || 'Skill',
+        provider: 'Community Tenant',
+        price: l.price_cent === 0 ? 'Free' : `$${(l.price_cent / 100).toFixed(2)}`,
+        rating: 5.0,
+        tags: [l.is_verified ? 'Verified' : 'Community', 'Installable']
+      }))
+    : fallbackListings;
 
   return (
     <div className="space-y-12 max-w-6xl mx-auto">
@@ -36,8 +63,8 @@ export default function MarketplaceDashboard() {
 
       {/* Marketplace Grid §41 */}
       <div className="grid grid-cols-2 gap-8">
-        {listings.map(l => (
-           <div key={l.title} className="glass-panel p-10 bg-[#0a0a0a]/60 hover:bg-[#111] transition-all group flex flex-col justify-between">
+         {listings.map((l: any, i) => (
+           <div key={l.id || i} className="glass-panel p-10 bg-[#0a0a0a]/60 hover:bg-[#111] transition-all group flex flex-col justify-between">
               <div>
                  <div className="flex justify-between items-start mb-6">
                     <div>
@@ -48,8 +75,8 @@ export default function MarketplaceDashboard() {
                  </div>
 
                  <div className="flex gap-2 mb-6">
-                    {l.tags.map(t => (
-                       <span key={t} className="px-2 py-0.5 bg-white/5 rounded text-[9px] uppercase font-bold text-white/40 tracking-tighter">{t}</span>
+                    {l.tags.map((t: string) => (
+                       <span key={t} className={`px-2 py-0.5 rounded text-[9px] uppercase font-bold tracking-tighter ${t === 'Verified' ? 'bg-primary/20 text-primary' : 'bg-white/5 text-white/40'}`}>{t}</span>
                     ))}
                  </div>
               </div>

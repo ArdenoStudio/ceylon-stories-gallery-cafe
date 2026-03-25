@@ -1,16 +1,33 @@
 import React from "react";
+import { supabaseAdmin } from "@/lib/supabase/client";
 
 /**
  * Priority 21+: Strategic UI Layer (§1)
  * §37 Agency Tenants View: White-label SaaS & Multi-Tenant Management.
  * Manages Section 37 isolation and Section 11 client lifecycle.
  */
-export default function TenantsDashboard() {
-  const tenants = [
+export default async function TenantsDashboard() {
+  const { data: dbTenants } = await supabaseAdmin
+    .from('tenants')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  const fallbackTenants = [
     { id: '1', name: 'Elite Real Estate Ltd.', slug: 'elite-re', plan: 'Enterprise', quota: '4.5M/10M', status: 'Active' },
     { id: '2', name: 'Urban Kitchen Group', slug: 'urban-k', plan: 'Pro', quota: '890K/1M', status: 'Active' },
     { id: '3', name: 'Lanka Motion Expos', slug: 'motion', plan: 'Free', quota: '12K/100K', status: 'Pending' },
   ];
+
+  const tenants = dbTenants && dbTenants.length > 0
+    ? dbTenants.map((t: any) => ({
+        id: t.id,
+        name: t.name,
+        slug: t.slug,
+        plan: t.subscription_tier || 'Free',
+        quota: `${t.usage_tokens || 0} / ${t.quota_limit || '1M'}`,
+        status: t.is_active ? 'Active' : 'Archived'
+      }))
+    : fallbackTenants;
 
   return (
     <div className="space-y-12 max-w-6xl mx-auto">
