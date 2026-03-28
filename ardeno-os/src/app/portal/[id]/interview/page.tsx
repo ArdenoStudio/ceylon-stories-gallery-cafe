@@ -1,35 +1,34 @@
 "use client";
 
 import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-/**
- * Priority 14: Requirements & Budget Intelligence (§31)
- * §31 Multi-Turn Client Interviewer: Zero-Misunderstanding Onboarding.
- * Interactive client-facing interface that extract functional/visual needs 
- * and maps them to Section 31 budget-tiers.
- */
+const gentleSpring = { type: "spring", stiffness: 300, damping: 30 } as const;
+
+const QUESTIONS = [
+  { key: "industry",  q: "What industry does your business operate in?",             placeholder: "e.g., Hospitality, Real Estate, Medical..." },
+  { key: "goals",     q: "What are the primary goals for this project?",              placeholder: "e.g., Lead generation, Brand awareness, Sales..." },
+  { key: "visuals",   q: "Do you have visual preferences or reference sites?",        placeholder: "e.g., Minimal, Dark mode, Clean, Lush..." },
+  { key: "budget",    q: "What is your estimated budget range?",                      placeholder: "e.g., $1,000 – $5,000" },
+];
+
 export default function InterviewerPage({ params }: { params: { id: string } }) {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [answers, setAnswers] = useState<any>({});
+  const [answers, setAnswers] = useState<Record<string, string>>({});
   const [results, setResults] = useState<any>(null);
 
-  const questions = [
-    { key: "industry", q: "What industry does your business operate in?", placeholder: "e.g., Hospitality, Real Estate, Medical..." },
-    { key: "goals", q: "What are the primary goals for this project?", placeholder: "e.g., Lead generation, Brand awareness, Sales..." },
-    { key: "visuals", q: "Do you have any specific visual preferences or reference sites?", placeholder: "e.g., Minimal, Dark mode, Clean, Lush..." },
-    { key: "budget", q: "What is your estimated budget range?", placeholder: "e.g., $1,000 - $5,000" },
-  ];
+  const current = QUESTIONS[step - 1];
+  const progressPct = (step / QUESTIONS.length) * 100;
 
   const handleNext = async () => {
-    if (step < questions.length) {
+    if (step < QUESTIONS.length) {
       setStep(step + 1);
     } else {
-      // 1. Submit to RequirementAnalyzer API (§31)
       setLoading(true);
       const res = await fetch(`/api/requirements/${params.id}/analyze`, {
-        method: 'POST',
-        body: JSON.stringify(answers)
+        method: "POST",
+        body: JSON.stringify(answers),
       });
       const data = await res.json();
       setResults(data);
@@ -38,62 +37,146 @@ export default function InterviewerPage({ params }: { params: { id: string } }) 
   };
 
   if (results) {
-     return (
-        <div className="max-w-2xl mx-auto p-12 glass-panel bg-primary/5 animate-in fade-in zoom-in duration-500">
-           <h2 className="text-2xl font-bold mb-4">Requirement Profile Complete §31</h2>
-           <div className="space-y-6">
-              <div className="p-4 bg-white/5 rounded-xl border border-white/5">
-                 <p className="text-[10px] uppercase font-black text-white/30 tracking-widest">Confidence Score</p>
-                 <h4 className="text-3xl font-black text-primary italic">96.4%</h4>
-              </div>
-              <div>
-                 <p className="text-sm text-white/60 mb-8 leading-relaxed">
-                   Based on your answers, our **Strategy Agents** have mapped your requirements to the **Growth Tier (§31)**. 
-                   Generating your custom "What You Get / What You Don't Get" matrix now...
-                 </p>
-              </div>
-              <button className="bg-primary px-8 py-3 rounded-xl font-bold shadow-lg shadow-primary/20 hover:scale-[1.05] transition-transform">Proceed to Dashboard</button>
-           </div>
-        </div>
-     );
+    return (
+      <div className="min-h-screen flex items-center justify-center p-6" style={{ background: "#000" }}>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={gentleSpring}
+          className="max-w-lg w-full rounded-apple-xl p-8 text-center space-y-6"
+          style={{
+            background: "rgba(22,22,24,0.85)",
+            border: "0.5px solid rgba(255,255,255,0.10)",
+            backdropFilter: "blur(40px)",
+          }}
+        >
+          <div
+            className="w-14 h-14 mx-auto rounded-apple-lg flex items-center justify-center"
+            style={{ background: "rgba(48,209,88,0.12)", border: "0.5px solid rgba(48,209,88,0.20)" }}
+          >
+            <span style={{ fontSize: "22px", color: "#30d158" }}>✓</span>
+          </div>
+          <div>
+            <h2 className="font-bold text-white" style={{ fontSize: "22px", letterSpacing: "-0.02em" }}>
+              Requirement Profile Complete
+            </h2>
+            <p className="text-white/40 mt-2" style={{ fontSize: "13px" }}>
+              Strategy Agents have mapped your requirements to the Growth Tier. Generating your custom matrix now.
+            </p>
+          </div>
+          <div
+            className="rounded-apple p-4 text-left"
+            style={{ background: "rgba(255,255,255,0.04)", border: "0.5px solid rgba(255,255,255,0.08)" }}
+          >
+            <p className="type-caption text-white/30 mb-1">Confidence Score</p>
+            <p className="font-black" style={{ fontSize: "28px", color: "#ff4d30", letterSpacing: "-0.02em" }}>96.4%</p>
+          </div>
+          <button className="btn-accent px-8 py-3 w-full">Proceed to Dashboard</button>
+        </motion.div>
+      </div>
+    );
   }
 
   return (
-    <div className="max-w-2xl mx-auto py-24 px-6 space-y-12">
-      <header className="text-center space-y-2">
-        <h1 className="text-4xl font-extrabold tracking-tight">Project Discovery Phase §31</h1>
-        <p className="text-white/40 font-medium tracking-tight italic">Multi-Turn Sentient Requirement Extraction</p>
-      </header>
+    <div
+      className="min-h-screen flex flex-col items-center justify-center p-6"
+      style={{
+        background:
+          "radial-gradient(ellipse 70% 40% at 50% -5%, rgba(255,77,48,0.06) 0%, transparent 55%), #000",
+      }}
+    >
+      {/* Progress bar — full width top */}
+      <div className="fixed top-0 inset-x-0 z-50" style={{ height: "2px", background: "rgba(255,255,255,0.05)" }}>
+        <motion.div
+          className="h-full"
+          style={{ background: "#ff4d30" }}
+          animate={{ width: `${progressPct}%` }}
+          transition={gentleSpring}
+        />
+      </div>
 
-      <div className="glass-panel p-12 bg-[#0a0a0a]/50 relative overflow-hidden group">
-         <div className="absolute top-0 right-0 p-4 font-mono text-[10px] text-white/20">AGENT_CONFIDENCE: 44%</div>
-         
-         <div className="space-y-8 animate-in slide-in-from-right-8 duration-500">
+      <div className="w-full max-w-xl space-y-8">
+        {/* Header */}
+        <div className="text-center space-y-2">
+          <span
+            className="inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest"
+            style={{ background: "rgba(255,77,48,0.10)", color: "#ff4d30", border: "0.5px solid rgba(255,77,48,0.20)" }}
+          >
+            Project Discovery
+          </span>
+          <h1 className="font-bold text-white" style={{ fontSize: "28px", letterSpacing: "-0.02em" }}>
+            Multi-Turn Requirement Extraction
+          </h1>
+        </div>
+
+        {/* Card */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={step}
+            initial={{ opacity: 0, x: 16 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -16 }}
+            transition={gentleSpring}
+            className="rounded-apple-xl p-7 space-y-6"
+            style={{
+              background: "rgba(22,22,24,0.80)",
+              border: "0.5px solid rgba(255,255,255,0.09)",
+              backdropFilter: "blur(30px)",
+            }}
+          >
             <div>
-               <p className="text-[10px] uppercase font-bold text-primary tracking-widest mb-2 italic">Question {step} OF 4</p>
-               <h3 className="text-2xl font-bold leading-tight">{questions[step-1].q}</h3>
+              <p className="type-caption mb-2" style={{ color: "#ff4d30" }}>
+                Question {step} of {QUESTIONS.length}
+              </p>
+              <h3 className="font-bold text-white" style={{ fontSize: "20px", letterSpacing: "-0.01em" }}>
+                {current.q}
+              </h3>
             </div>
 
-            <textarea 
-               value={answers[questions[step-1].key] || ''}
-               onChange={(e) => setAnswers({...answers, [questions[step-1].key]: e.target.value})}
-               className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all min-h-[150px] placeholder:text-white/10"
-               placeholder={questions[step-1].placeholder}
+            <textarea
+              value={answers[current.key] || ""}
+              onChange={(e) => setAnswers({ ...answers, [current.key]: e.target.value })}
+              placeholder={current.placeholder}
+              rows={4}
+              className="w-full rounded-apple-lg p-4 text-white/80 placeholder:text-white/20 resize-none outline-none transition-all"
+              style={{
+                background: "rgba(255,255,255,0.04)",
+                border: "0.5px solid rgba(255,255,255,0.08)",
+                fontSize: "14px",
+              }}
+              onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(255,77,48,0.40)"; }}
+              onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)"; }}
             />
 
-            <div className="flex justify-between items-center pt-8">
-               <div className="w-1/3 h-1.5 bg-white/5 rounded-full overflow-hidden">
-                  <div className="h-full bg-primary transition-all duration-1000" style={{ width: `${(step/4)*100}%` }}></div>
-               </div>
-               <button 
-                  onClick={handleNext}
-                  disabled={loading}
-                  className="bg-white text-black px-12 py-3.5 rounded-2xl font-bold hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50"
-               >
-                  {loading ? 'Analyzing...' : step === 4 ? 'Generate Matrix (§31)' : 'Next Prompt'}
-               </button>
+            <div className="flex items-center justify-between">
+              {/* Step dots */}
+              <div className="flex gap-1.5">
+                {QUESTIONS.map((_, i) => (
+                  <span
+                    key={i}
+                    className="rounded-full transition-all"
+                    style={{
+                      width: i + 1 === step ? "16px" : "6px",
+                      height: "6px",
+                      background: i + 1 <= step ? "#ff4d30" : "rgba(255,255,255,0.15)",
+                    }}
+                  />
+                ))}
+              </div>
+
+              <motion.button
+                onClick={handleNext}
+                disabled={loading}
+                whileHover={{ y: -1 }}
+                whileTap={{ scale: 0.97 }}
+                transition={gentleSpring}
+                className="btn-accent px-7 py-3 disabled:opacity-50"
+              >
+                {loading ? "Analyzing..." : step === QUESTIONS.length ? "Generate Matrix" : "Next"}
+              </motion.button>
             </div>
-         </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
     </div>
   );

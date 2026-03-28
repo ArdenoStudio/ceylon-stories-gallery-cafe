@@ -1,12 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Twitter } from 'lucide-react';
+import ArdenoProductionCredit from '../ArdenoProductionCredit';
 
 const Footer: React.FC = () => {
   return (
     <footer className="bg-brand-black border-t border-white/10 pt-12 pb-24 md:pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+          {/* ... existing columns ... */}
           <div className="space-y-4">
             <h3 className="text-2xl font-serif font-bold text-brand-gold">URBAN KITCHEN’S</h3>
             <p className="text-gray-400 text-sm">
@@ -47,14 +49,15 @@ const Footer: React.FC = () => {
               </a>
             </div>
             <p className="mt-4 text-xs text-gray-600">
-              © {new Date().getFullYear()} Urban Kitchen Demo. All rights reserved.<br/>
-              This is a concept website.
+              © {new Date().getFullYear()} Urban Kitchen Demo. All rights reserved.
             </p>
           </div>
         </div>
+        
+        <ArdenoProductionCredit color="#D4AF37" />
       </div>
     </footer>
   );
 };
 
-export default Footer;
+export default Footer;

@@ -4,6 +4,7 @@ import { MemoryManager } from './MemoryManager';
 import { CriticAgent } from './CriticAgent';
 import { ObservabilityTracer } from './ObservabilityTracer';
 import { PromptManager } from './PromptManager';
+import { DiscordDispatcher } from './DiscordDispatcher';
 
 /**
  * Priority 3: Hierarchical Agent Orchestration (§35)
@@ -16,6 +17,7 @@ export class SubAgentDispatcher {
   private critic = new CriticAgent();
   private tracer = new ObservabilityTracer();
   private prompt = new PromptManager();
+  private discord = new DiscordDispatcher();
 
   /**
    * Spawns a sub-agent with automated Critic feedback loop (§36)
@@ -52,6 +54,7 @@ export class SubAgentDispatcher {
     if (!evalResult.passed) {
        console.error(`[SubAgentDispatcher] 🚨 ${subAgentType} reached max retries. Escalating to human queue.`);
        state.status = 'failed';
+       await this.critic.fireEscalation(subAgentType, state.trace_id);
     }
 
     state.history.push({
@@ -71,7 +74,12 @@ export class SubAgentDispatcher {
    */
   public async executeParallel(state: GraphState, tasks: { type: string, description: string }[]): Promise<void> {
      console.log(`[SubAgentDispatcher] Executing ${tasks.length} sub-agents in parallel...`);
-     
+
+     // [Graph] Alert: Spawning N sub-agents for this phase (§35)
+     await this.discord.sendAlert(
+       `[Graph] Spawning ${tasks.length} sub-agents for phase ${state.current_node}: ${tasks.map(t => t.type).join(', ')}...`
+     );
+
      // In serverless, we await all promises then checkpoint once at the end
      await Promise.all(tasks.map(t => this.spawnSubAgent(state, t.type, t.description)));
   }

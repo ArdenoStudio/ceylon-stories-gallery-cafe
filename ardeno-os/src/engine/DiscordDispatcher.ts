@@ -42,4 +42,17 @@ export class DiscordDispatcher {
 
     return res.status === 204;
   }
+
+  /**
+   * Sends a plain informational alert to the agency Discord channel.
+   */
+  public async sendAlert(message: string): Promise<void> {
+    if (!this.webhookUrl) return;
+
+    await fetch(this.webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content: message })
+    });
+  }
 }

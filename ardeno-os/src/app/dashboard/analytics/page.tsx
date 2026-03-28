@@ -1,102 +1,149 @@
 import React from "react";
 import { supabaseAdmin } from "@/lib/supabase/client";
 
-/**
- * Priority 16+: Analytics & Reporting Engine (§19)
- * §19 Agency Health Dashboard: Utilization rates, sentiment tracking,
- * conversion attribution, and internal load balancing metrics.
- */
 export default async function AnalyticsPage() {
-
-  // Fetch actual predictions and trace metrics
   const { data: predictions } = await supabaseAdmin
-    .from('predictions')
-    .select('*')
-    .order('created_at', { ascending: false })
+    .from("predictions")
+    .select("*")
+    .order("created_at", { ascending: false })
     .limit(10);
 
   const { count: activeProjects } = await supabaseAdmin
-    .from('agent_traces')
-    .select('id', { count: 'exact', head: true })
-    .eq('task_type', 'Ardeno Studio Client Demo');
+    .from("agent_traces")
+    .select("id", { count: "exact", head: true })
+    .eq("task_type", "Ardeno Studio Client Demo");
 
   const { count: totalTraces } = await supabaseAdmin
-    .from('agent_traces')
-    .select('id', { count: 'exact', head: true });
+    .from("agent_traces")
+    .select("id", { count: "exact", head: true });
 
-  // Calculate live average ROI confidence
-  const avgROI = predictions && predictions.length > 0 
-    ? (predictions.reduce((acc, p) => acc + (p.confidence_score || 0), 0) / predictions.length * 100).toFixed(1)
-    : '94.0';
+  const avgROI =
+    predictions && predictions.length > 0
+      ? (predictions.reduce((acc, p) => acc + (p.confidence_score || 0), 0) / predictions.length * 100).toFixed(1)
+      : "94.0";
+
+  const kpis = [
+    { label: "Forecasted ROI",    value: `${avgROI}%`,                        trend: "Active",  color: "#30d158" },
+    { label: "Deployed Demos",    value: (activeProjects || 0).toString(),    trend: "Live",    color: "#ff4d30" },
+    { label: "Pipeline Activity", value: (totalTraces || 0).toString(),       trend: "Traces",  color: "#30d158" },
+    { label: "Client Sentiment",  value: "Positive",                          trend: "Verified", color: "rgba(255,255,255,0.60)" },
+  ];
+
+  const funnelSteps = [
+    { stage: "Leads Captured",           count: 42, pct: 100 },
+    { stage: "Requirements Extracted",   count: 28, pct: 67 },
+    { stage: "Demos Generated",          count: 18, pct: 43 },
+    { stage: "Proposals Sent",           count: 12, pct: 29 },
+    { stage: "Contracts Signed",         count: 7,  pct: 17 },
+  ];
+
+  const departments = [
+    { dept: "Commercial",   load: 78 },
+    { dept: "Design",       load: 92 },
+    { dept: "Development",  load: 85 },
+    { dept: "Marketing",    load: 45 },
+    { dept: "QA",           load: 62 },
+    { dept: "Strategy",     load: 38 },
+  ];
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-8">
       <header>
-        <h2 className="text-3xl font-bold tracking-tight">Agency Analytics §19</h2>
-        <p className="text-white/40 mt-1">Revenue Intelligence · Conversion Attribution · Sentiment</p>
+        <h2 className="font-bold text-white" style={{ fontSize: "28px", letterSpacing: "-0.02em" }}>
+          Agency Analytics
+        </h2>
+        <p className="text-white/35 mt-1" style={{ fontSize: "13px" }}>
+          Revenue Intelligence · Conversion Attribution · Sentiment
+        </p>
       </header>
 
-      {/* Revenue KPIs */}
-      <div className="grid grid-cols-4 gap-5">
-        {[
-          { label: 'Forecasted ROI', value: `${avgROI}%`, trend: 'Active', color: 'text-green-400' },
-          { label: 'Deployed Demos', value: (activeProjects || 0).toString(), trend: 'Live', color: 'text-primary' },
-          { label: 'Pipeline Activity', value: (totalTraces || 0).toString(), trend: 'Traces', color: 'text-green-400' },
-          { label: 'Client Sentiment', value: 'Positive', trend: 'Verified', color: 'text-secondary' },
-        ].map((kpi, i) => (
-          <div key={i} className="glass-panel p-6 bg-white/[0.02]">
-            <p className="text-[10px] text-white/30 font-bold uppercase tracking-widest">{kpi.label}</p>
-            <p className="text-2xl font-black mt-2">{kpi.value}</p>
-            <p className={`text-[11px] font-bold mt-1 ${kpi.color}`}>{kpi.trend}</p>
+      {/* KPI Row */}
+      <div className="grid grid-cols-4 gap-4">
+        {kpis.map((k, i) => (
+          <div
+            key={i}
+            className="rounded-apple-lg p-5 transition-all hover:-translate-y-0.5"
+            style={{
+              background: "rgba(22,22,24,0.70)",
+              border: "0.5px solid rgba(255,255,255,0.07)",
+              backdropFilter: "blur(20px)",
+            }}
+          >
+            <p className="type-caption text-white/25 mb-2">{k.label}</p>
+            <p className="font-bold text-white" style={{ fontSize: "24px", letterSpacing: "-0.02em" }}>
+              {k.value}
+            </p>
+            <p className="type-caption mt-1.5 font-bold" style={{ color: k.color }}>
+              {k.trend}
+            </p>
           </div>
         ))}
       </div>
 
       {/* Conversion Funnel */}
-      <section className="glass-panel p-8 bg-black/30">
-        <h3 className="text-[10px] uppercase font-bold text-white/40 tracking-widest mb-6">Conversion Funnel §19</h3>
-        <div className="space-y-4">
-          {[
-            { stage: 'Leads Captured', count: 42, pct: 100 },
-            { stage: 'Requirements Extracted (§31)', count: 28, pct: 67 },
-            { stage: 'Demos Generated (§10)', count: 18, pct: 43 },
-            { stage: 'Proposals Sent (§11)', count: 12, pct: 29 },
-            { stage: 'Contracts Signed', count: 7, pct: 17 },
-          ].map((step, i) => (
+      <section
+        className="rounded-apple-lg p-6"
+        style={{
+          background: "rgba(22,22,24,0.65)",
+          border: "0.5px solid rgba(255,255,255,0.07)",
+          backdropFilter: "blur(20px)",
+        }}
+      >
+        <p className="type-caption text-white/30 mb-5">Conversion Funnel</p>
+        <div className="space-y-3.5">
+          {funnelSteps.map((step, i) => (
             <div key={i} className="flex items-center gap-4">
-              <div className="w-48 text-sm text-white/60">{step.stage}</div>
-              <div className="flex-1 h-6 bg-white/5 rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-primary/60 to-primary/20 rounded-full transition-all duration-1000" style={{ width: `${step.pct}%` }}></div>
+              <div className="text-white/50" style={{ fontSize: "12px", width: "180px", flexShrink: 0 }}>
+                {step.stage}
               </div>
-              <div className="w-16 text-right text-sm font-bold font-mono">{step.count}</div>
+              <div
+                className="flex-1 overflow-hidden rounded-full"
+                style={{ height: "4px", background: "rgba(255,255,255,0.05)" }}
+              >
+                <div
+                  className="h-full rounded-full transition-all duration-700"
+                  style={{ width: `${step.pct}%`, background: "linear-gradient(90deg, #ff4d30 0%, rgba(255,77,48,0.30) 100%)" }}
+                />
+              </div>
+              <span className="font-mono font-bold text-white/60" style={{ fontSize: "12px", width: "28px", textAlign: "right" }}>
+                {step.count}
+              </span>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Department Load */}
-      <section className="glass-panel p-8 bg-black/30">
-        <h3 className="text-[10px] uppercase font-bold text-white/40 tracking-widest mb-6">Department Utilization §19</h3>
-        <div className="grid grid-cols-3 gap-4">
-          {[
-            { dept: 'Commercial', load: 78, tasks: 34 },
-            { dept: 'Design', load: 92, tasks: 21 },
-            { dept: 'Development', load: 85, tasks: 47 },
-            { dept: 'Marketing', load: 45, tasks: 12 },
-            { dept: 'QA', load: 62, tasks: 19 },
-            { dept: 'Strategy', load: 38, tasks: 8 },
-          ].map((d, i) => (
-            <div key={i} className="p-4 rounded-xl bg-white/[0.02] border border-white/5">
-              <div className="flex justify-between items-center">
-                <p className="text-sm font-bold">{d.dept}</p>
-                <p className={`text-[10px] font-black ${d.load > 80 ? 'text-red-400' : d.load > 60 ? 'text-yellow-400' : 'text-green-400'}`}>{d.load}%</p>
+      {/* Department Utilization */}
+      <section
+        className="rounded-apple-lg p-6"
+        style={{
+          background: "rgba(22,22,24,0.65)",
+          border: "0.5px solid rgba(255,255,255,0.07)",
+          backdropFilter: "blur(20px)",
+        }}
+      >
+        <p className="type-caption text-white/30 mb-5">Department Utilization</p>
+        <div className="grid grid-cols-3 gap-3">
+          {departments.map((d, i) => {
+            const color = d.load > 80 ? "#ff453a" : d.load > 60 ? "#ffd60a" : "#30d158";
+            return (
+              <div
+                key={i}
+                className="rounded-apple p-3.5"
+                style={{ background: "rgba(255,255,255,0.03)", border: "0.5px solid rgba(255,255,255,0.06)" }}
+              >
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-white/70" style={{ fontSize: "12px", fontWeight: 600 }}>
+                    {d.dept}
+                  </span>
+                  <span className="font-black" style={{ fontSize: "11px", color }}>{d.load}%</span>
+                </div>
+                <div className="progress-track">
+                  <div className="progress-fill" style={{ width: `${d.load}%`, background: color }} />
+                </div>
               </div>
-              <div className="mt-2 h-1.5 bg-white/5 rounded-full overflow-hidden">
-                <div className={`h-full rounded-full ${d.load > 80 ? 'bg-red-500/60' : d.load > 60 ? 'bg-yellow-500/60' : 'bg-green-500/60'}`} style={{ width: `${d.load}%` }}></div>
-              </div>
-              <p className="text-[10px] text-white/20 mt-1 font-mono">{d.tasks} tasks this week</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
     </div>
