@@ -1,62 +1,130 @@
-export default function Home() {
+"use client";
+
+import React from "react";
+import { motion } from "framer-motion";
+import Link from "next/link";
+
+const gentleSpring = { type: "spring", stiffness: 300, damping: 30 } as const;
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.07, delayChildren: 0.1 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 14, filter: "blur(4px)" },
+  show: { opacity: 1, y: 0, filter: "blur(0px)", transition: gentleSpring },
+};
+
+const stats = [
+  { label: "Agency Status",    value: "ACTIVE",   color: "text-[#30d158]" },
+  { label: "Neural Pool",      value: "150 Keys", color: "text-white" },
+  { label: "Real-time Stream", value: "LIVE",     color: "text-[#ff4d30]" },
+  { label: "Memory Bank",      value: "Synced",   color: "text-white/70" },
+];
+
+export default function HomePage() {
   return (
-    <div className="min-h-screen bg-[#050510] flex flex-col items-center justify-center p-4 selection:bg-indigo-500/30">
-      {/* Background Glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_#1a1a40_0%,_transparent_50%)] pointer-events-none" />
-      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-indigo-500/20 to-transparent" />
+    <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
+      {/* Background nebula */}
+      <div className="pointer-events-none fixed inset-0 z-0">
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255,77,48,0.09) 0%, transparent 60%), " +
+              "radial-gradient(ellipse 60% 40% at 80% 80%, rgba(255,100,50,0.05) 0%, transparent 50%), " +
+              "radial-gradient(ellipse 50% 60% at 10% 90%, rgba(255,60,30,0.04) 0%, transparent 50%), " +
+              "#000000",
+          }}
+        />
+        {/* Hairline bottom separator */}
+        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
+      </div>
 
-      <main className="relative z-10 max-w-4xl w-full text-center space-y-12 animate-in fade-in duration-1000">
-        {/* Logo Section */}
-        <div className="space-y-4">
-          <div className="inline-block p-1 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl shadow-[0_0_40px_rgba(79,70,229,0.3)]">
-            <div className="bg-[#050510] px-8 py-3 rounded-xl hover:bg-black/50 transition-colors">
-              <h1 className="text-4xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
-                ARDENO <span className="text-indigo-500 italic">OS</span>
-              </h1>
-            </div>
-          </div>
-          <p className="text-gray-400 text-lg font-medium tracking-tight">
-            Sentient Agency Operating System
+      <motion.main
+        className="relative z-10 flex flex-col items-center max-w-3xl w-full text-center px-6 gap-14"
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+      >
+        {/* Badge */}
+        <motion.div variants={itemVariants}>
+          <span
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-bold tracking-widest uppercase"
+            style={{
+              background: "rgba(255,77,48,0.10)",
+              border: "0.5px solid rgba(255,77,48,0.25)",
+              color: "#ff4d30",
+            }}
+          >
+            <span className="status-dot active" />
+            Ardeno OS — v4.4
+          </span>
+        </motion.div>
+
+        {/* Hero */}
+        <motion.div variants={itemVariants} className="space-y-4">
+          <h1
+            className="type-display text-white"
+            style={{ fontSize: "clamp(44px, 8vw, 72px)" }}
+          >
+            ARDENO{" "}
+            <span className="text-accent-gradient">OS</span>
+          </h1>
+          <p
+            className="text-white/40 font-medium"
+            style={{ fontSize: "17px", letterSpacing: "-0.01em" }}
+          >
+            Sentient Agency Operating System — Zero-cost AI infrastructure for modern agencies
           </p>
-        </div>
+        </motion.div>
 
-        {/* Status Indicators */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-4 translate-y-2 opacity-90">
-          {[
-            { label: 'Agency Status', value: 'ACTIVE', color: 'text-emerald-400' },
-            { label: 'Neural Pool', value: '150 Keys', color: 'text-indigo-400' },
-            { label: 'Real-time Stream', value: 'LIVE', color: 'text-sky-400' },
-            { label: 'Memory Bank', value: 'Synced', color: 'text-purple-400' },
-          ].map((item, i) => (
-            <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-4 backdrop-blur-md">
-              <p className="text-[10px] uppercase tracking-widest text-gray-500 mb-1">{item.label}</p>
-              <p className={`font-bold tracking-tight ${item.color}`}>{item.value}</p>
-            </div>
+        {/* Stats */}
+        <motion.div
+          variants={itemVariants}
+          className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full"
+        >
+          {stats.map((s, i) => (
+            <motion.div
+              key={i}
+              className="glass-thin rounded-apple-lg p-4 text-left"
+              whileHover={{ y: -2, transition: gentleSpring }}
+            >
+              <p className="type-caption text-white/30 mb-1.5">{s.label}</p>
+              <p className={`text-sm font-bold tracking-tight ${s.color}`}>{s.value}</p>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
-        {/* CTA Section */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <a
-            href="/dashboard"
-            className="w-full sm:w-auto px-8 py-4 bg-white text-black font-bold rounded-xl hover:bg-gray-200 transition-all shadow-[0_0_30px_rgba(255,255,255,0.2)]"
-          >
-            Launch Core Dashboard
-          </a>
-          <a
-            href="https://github.com/Cookie-Cat21/Ardeno-OS-Sentient-Agency"
-            target="_blank"
-            className="w-full sm:w-auto px-8 py-4 bg-white/5 border border-white/10 text-white font-bold rounded-xl hover:bg-white/10 transition-all backdrop-blur-md"
-          >
-            View Infrastructure
-          </a>
-        </div>
+        {/* CTA */}
+        <motion.div
+          variants={itemVariants}
+          className="flex flex-col sm:flex-row gap-3 items-center"
+        >
+          <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.97 }} transition={gentleSpring}>
+            <Link href="/dashboard" className="btn-accent inline-block px-8 py-3.5 text-sm">
+              Launch Dashboard
+            </Link>
+          </motion.div>
+          <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.97 }} transition={gentleSpring}>
+            <Link href="/portal/onboarding" className="btn-glass inline-block px-8 py-3.5 text-sm">
+              Start Onboarding
+            </Link>
+          </motion.div>
+        </motion.div>
 
-        {/* Footer Meta */}
-        <p className="text-gray-600 text-sm">
-          Node-22 Edge Runtime • Built for Ardeno Studio © 2026
-        </p>
-      </main>
+        {/* Footer */}
+        <motion.p
+          variants={itemVariants}
+          className="type-caption text-white/18"
+        >
+          MiroFish x Sentient Agency — Node 22 Edge Runtime — Built for Ardeno Studio © 2026
+        </motion.p>
+      </motion.main>
     </div>
   );
 }

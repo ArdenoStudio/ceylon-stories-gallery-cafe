@@ -1,19 +1,31 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { supabaseClient } from "@/lib/supabase/client";
 
-/**
- * Priority 11: Strategic UI Layer (§1)
- * §3 Sentient Stream UI: Subscribes to Supabase Real-Time for live agency activity.
- * Visualizes the 512 agents working in a continuous glassmorphic stream.
- */
+const gentleSpring = { type: "spring", stiffness: 300, damping: 30 } as const;
+
+const STATUS_COLORS: Record<string, string> = {
+  running:   "#ff4d30",
+  success:   "#30d158",
+  completed: "#30d158",
+  failed:    "#ff453a",
+};
+
+const AGENT_COLORS: Record<string, string> = {
+  c: "#ff4d30",
+  d: "#30d158",
+  s: "#ffd60a",
+  m: "rgba(255,255,255,0.40)",
+  a: "#ff7050",
+};
+
 export default function SentientStream() {
   const [activities, setActivities] = useState<any[]>([]);
 
   useEffect(() => {
-    // 1. Initial Fetch §3
-    const fetchActivities = async () => {
+    const fetch = async () => {
       const { data } = await supabaseClient
         .from("agent_activities")
         .select("*")
@@ -21,10 +33,8 @@ export default function SentientStream() {
         .limit(20);
       if (data) setActivities(data);
     };
+    fetch();
 
-    fetchActivities();
-
-    // 2. Real-Time Subscription §3
     const channel = supabaseClient
       .channel("sentient_stream")
       .on(
@@ -36,50 +46,87 @@ export default function SentientStream() {
       )
       .subscribe();
 
-    return () => {
-      supabaseClient.removeChannel(channel);
-    };
+    return () => { supabaseClient.removeChannel(channel); };
   }, []);
 
-  return (
-    <div className="space-y-6 flex-1 overflow-hidden relative">
-      {activities.length === 0 && (
-        <div className="text-white/20 italic text-xs p-4 border border-white/5 rounded-xl">
-           Waiting for Sentient Pulse... (§3)
-        </div>
-      )}
-      
-      <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000">
-        {activities.map((act) => (
-          <AgentActivityItem 
-            key={act.id} 
-            agent={act.agent_type} 
-            task={act.message} 
-            time={new Date(act.created_at).toLocaleTimeString()} 
-            status={act.status} 
-          />
-        ))}
+  if (activities.length === 0) {
+    return (
+      <div className="flex items-center gap-3 p-3 rounded-apple" style={{ background: "rgba(255,255,255,0.03)" }}>
+        <span className="status-dot inactive" />
+        <p className="text-white/20 italic" style={{ fontSize: "11px" }}>
+          Waiting for Sentient Pulse...
+        </p>
       </div>
+    );
+  }
+
+  return (
+    <div className="space-y-1">
+      <AnimatePresence initial={false}>
+        {activities.map((act) => (
+          <ActivityItem key={act.id} activity={act} />
+        ))}
+      </AnimatePresence>
     </div>
   );
 }
 
-function AgentActivityItem({ agent, task, time, status }: { agent: string; task: string; time: string; status: 'success' | 'running' | 'completed' | 'failed' }) {
+function ActivityItem({ activity: act }: { activity: any }) {
+  const statusColor = STATUS_COLORS[act.status] || "rgba(255,255,255,0.30)";
+  const agentKey = (act.agent_type || "a")[0].toLowerCase();
+  const avatarColor = AGENT_COLORS[agentKey] || AGENT_COLORS.a;
+
   return (
-    <div className="flex items-center justify-between p-4 rounded-xl hover:bg-white/5 border border-white/0 hover:border-white/5 transition-all group mb-4">
-       <div className="flex items-center gap-4">
-          <div className={`w-8 h-8 rounded-lg ${status === 'running' ? 'bg-primary/20 animate-pulse border border-primary/20' : status === 'failed' ? 'bg-red-500/20 border border-red-500/20' : 'bg-white/5 group-hover:bg-primary/20'} flex items-center justify-center transition-colors shadow-inner`}>
-             <span className="text-[10px] font-black uppercase text-white/50">{agent[0]}</span>
-          </div>
-          <div className="max-w-[300px]">
-             <h5 className="font-bold text-sm tracking-tight capitalize">{agent} Agent</h5>
-             <p className="text-[11px] text-white/40 truncate">{task}</p>
-          </div>
-       </div>
-       <div className="text-right">
-          <p className="text-[10px] text-white/20 font-mono italic">{time}</p>
-          <span className={`text-[8px] font-black uppercase tracking-widest ${status === 'completed' ? 'text-green-500' : status === 'failed' ? 'text-red-500 font-bold' : 'text-primary'}`}>{status}</span>
-       </div>
-    </div>
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: -8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, x: 8 }}
+      transition={gentleSpring}
+      className="flex items-center justify-between px-3 py-2.5 rounded-apple group transition-all"
+      style={{ border: "0.5px solid transparent" }}
+      whileHover={{
+        background: "rgba(255,255,255,0.03)",
+        borderColor: "rgba(255,255,255,0.05)",
+        transition: gentleSpring,
+      }}
+    >
+      <div className="flex items-center gap-3">
+        {/* Avatar */}
+        <div
+          className="flex items-center justify-center rounded-apple shrink-0"
+          style={{
+            width: "30px",
+            height: "30px",
+            background: `${avatarColor}18`,
+            border: `0.5px solid ${avatarColor}30`,
+          }}
+        >
+          <span style={{ fontSize: "9px", fontWeight: 900, color: avatarColor, textTransform: "uppercase" }}>
+            {(act.agent_type || "A")[0]}
+          </span>
+        </div>
+
+        {/* Info */}
+        <div style={{ maxWidth: "280px" }}>
+          <p className="font-semibold text-white/80 capitalize" style={{ fontSize: "12px", letterSpacing: "-0.01em" }}>
+            {act.agent_type} Agent
+          </p>
+          <p className="text-white/30 truncate" style={{ fontSize: "11px" }}>
+            {act.message}
+          </p>
+        </div>
+      </div>
+
+      {/* Right */}
+      <div className="text-right shrink-0 pl-2">
+        <p className="font-mono text-white/20" style={{ fontSize: "10px" }}>
+          {new Date(act.created_at).toLocaleTimeString()}
+        </p>
+        <p className="font-black uppercase" style={{ fontSize: "8px", letterSpacing: "0.05em", color: statusColor }}>
+          {act.status}
+        </p>
+      </div>
+    </motion.div>
   );
 }

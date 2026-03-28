@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-const ArdenoProductionCredit: React.FC<{ color?: string }> = ({ color = "#F7E7CE" }) => {
+const ArdenoProductionCredit: React.FC<{ color?: string }> = ({ color = "#D4AF37" }) => {
   const [isAutoShining, setIsAutoShining] = useState(false);
   const [hasPlayedOnce, setHasPlayedOnce] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -30,7 +30,7 @@ const ArdenoProductionCredit: React.FC<{ color?: string }> = ({ color = "#F7E7CE
   return (
     <div 
       ref={containerRef}
-      className="w-full flex flex-col items-center justify-center pt-2 pb-16 bg-transparent pointer-events-auto mt-20"
+      className="w-full flex flex-col items-center justify-center pt-2 pb-8 bg-transparent pointer-events-auto"
     >
       <style>{`
         @keyframes shine {
@@ -62,7 +62,7 @@ const ArdenoProductionCredit: React.FC<{ color?: string }> = ({ color = "#F7E7CE
       `}</style>
       <div 
         className="flex flex-col items-center gap-4 group cursor-pointer" 
-        onClick={() => window.open('https://ardenostudio.com', '_blank')}
+        onClick={() => window.open('https://ardeno-studio-website.vercel.app/', '_blank')}
       >
         <div className="relative">
           <div className="absolute inset-0 blur-3xl bg-white/5 group-hover:bg-white/10 transition-all duration-1000 rounded-full scale-150" />
@@ -86,7 +86,7 @@ const ArdenoProductionCredit: React.FC<{ color?: string }> = ({ color = "#F7E7CE
           </span>
           <span 
             className={`shine-text font-medium tracking-[0.15em] text-base italic transition-all duration-700 ${isAutoShining ? 'auto-shine' : ''}`}
-            style={{ fontFamily: "serif" }}
+            style={{ fontFamily: "'Fraunces', serif" }}
           >
             Based in LK
           </span>
@@ -97,3 +97,4 @@ const ArdenoProductionCredit: React.FC<{ color?: string }> = ({ color = "#F7E7CE
 };
 
 export default ArdenoProductionCredit;
+

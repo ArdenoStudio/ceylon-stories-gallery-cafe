@@ -1,6 +1,7 @@
 import { supabaseAdmin } from '../lib/supabase/client';
 import { EmbeddingCache } from '../lib/cache/EmbeddingCache';
 import { KeyRotator } from './KeyRotator';
+import { DiscordDispatcher } from './DiscordDispatcher';
 
 export interface AgentMemory {
   id?: string;
@@ -14,6 +15,7 @@ export interface AgentMemory {
 export class MemoryManager {
   private cache = new EmbeddingCache();
   private rotator = new KeyRotator();
+  private discord = new DiscordDispatcher();
 
   /**
    * Embeds and stores a new long-term semantic memory.
@@ -78,7 +80,18 @@ export class MemoryManager {
       return [];
     }
 
-    return data as AgentMemory[];
+    const memories = data as AgentMemory[];
+
+    // [Memory] Alert: Fire Discord alert when a high-relevance memory is recalled (§34)
+    const highRelevanceHit = memories.find((m: any) => (m.similarity ?? m.relevance_score ?? 0) > 0.9);
+    if (highRelevanceHit) {
+      const summary = highRelevanceHit.content.slice(0, 120) + (highRelevanceHit.content.length > 120 ? '...' : '');
+      await this.discord.sendAlert(
+        `[Memory] Recalled past project requirement to prevent repeating mistake: "${summary}"`
+      );
+    }
+
+    return memories;
   }
 
   /**
