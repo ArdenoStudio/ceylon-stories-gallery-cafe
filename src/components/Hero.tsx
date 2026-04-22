@@ -1,6 +1,6 @@
 'use client';
 
-import { HeroSection } from '@/components/ui/hero-section-2';
+import { HeroSection } from './ui/hero-section-2';
 
 export default function Hero() {
   return (
