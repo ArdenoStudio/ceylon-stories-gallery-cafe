@@ -1,3 +1,4 @@
+import React from 'react';
 import { Motif, type MotifName } from './Motif';
 import { cn } from '@/src/lib/utils';
 
@@ -6,6 +7,7 @@ interface Props {
   position?: 'tl' | 'tr' | 'bl' | 'br';
   size?: number;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 const positionClass = {
@@ -15,12 +17,12 @@ const positionClass = {
   br: 'bottom-6 right-6 scale-x-[-1] scale-y-[-1]',
 } as const;
 
-export function MotifCorner({ motif = 'fern-frond', position = 'tr', size = 96, className }: Props) {
+export function MotifCorner({ motif = 'fern-frond', position = 'tr', size = 96, className, style }: Props) {
   return (
     <Motif
       name={motif}
       aria-hidden
-      style={{ width: size, height: size }}
+      style={{ width: size, height: size, ...style }}
       className={cn(
         'pointer-events-none absolute select-none',
         positionClass[position],
