@@ -1,4 +1,7 @@
+'use client';
+
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { motion } from 'motion/react';
 import CurvedMenuHeader from './ui/curved-menu';
 
@@ -32,12 +35,12 @@ export default function Navigation() {
         
         {/* Centre: Wordmark */}
         <div className="flex-1 flex justify-center pointer-events-auto mt-1">
-          <a 
-            href="#" 
+          <Link
+            href="/"
             className="font-display font-normal text-mahogany text-[18px] tracking-wide select-none outline-none"
           >
             CEYLON STORIES
-          </a>
+          </Link>
         </div>
         
         {/* Far right: Empty Spacer for the Curved Menu Button */}

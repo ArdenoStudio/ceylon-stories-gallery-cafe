@@ -1,6 +1,9 @@
+'use client';
+
 import React, { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 import { motion, useMotionValue, AnimatePresence } from "motion/react";
-import { Instagram, MapPin, Mail, Navigation as NavigationIcon, BookOpen } from "lucide-react";
+import { Instagram, MapPin, Mail, BookOpen } from "lucide-react";
 
 interface iNavItem {
 	heading: string;
@@ -34,14 +37,14 @@ const MENU_SLIDE_ANIMATION = {
 };
 
 const defaultNavItems: iNavItem[] = [
-	{ heading: "Home", href: "#", subheading: "Cinematic hero, brand story" },
-	{ heading: "Our Story", href: "#story", subheading: "Founders, vision & history" },
-	{ heading: "Menu", href: "#menu", subheading: "Food, beverages, Dilmah tea" },
-	{ heading: "The Gallery", href: "#gallery", subheading: "Monthly rotating artist feature" },
-	{ heading: "Experience", href: "#experience", subheading: "Tea tastings, shisha lounge" },
-	{ heading: "Stories", href: "#stories", subheading: "Editorial blog & heritage" },
-	{ heading: "Visit Us", href: "#visit", subheading: "Location, hours & reservations" },
-	{ heading: "Contact", href: "#contact", subheading: "Inquiry form & social links" },
+	{ heading: "Home", href: "/", subheading: "Cinematic hero, brand story" },
+	{ heading: "Our Story", href: "/our-story", subheading: "Founders, vision & history" },
+	{ heading: "Menu", href: "/menu", subheading: "Food, beverages, Dilmah tea" },
+	{ heading: "The Gallery", href: "/gallery", subheading: "Monthly rotating artist feature" },
+	{ heading: "Experience", href: "/experience", subheading: "Tea tastings, shisha lounge" },
+	{ heading: "Stories", href: "/stories", subheading: "Editorial blog & heritage" },
+	{ heading: "Visit Us", href: "/visit", subheading: "Location, hours & reservations" },
+	{ heading: "Contact", href: "/contact", subheading: "Inquiry form & social links" },
 ];
 
 const CustomFooter: React.FC = () => {
@@ -94,7 +97,7 @@ const NavLink: React.FC<iNavLinkProps> = ({
 			whileHover="whileHover"
 			className="group relative flex items-center justify-between border-b border-mahogany/20 py-4 transition-colors duration-500 md:py-6 uppercase"
 		>
-			<a ref={ref} onMouseMove={handleMouseMove} href={href} className="w-full">
+			<Link ref={ref} onMouseMove={handleMouseMove} href={href} className="w-full">
 				<div className="relative flex flex-col md:flex-row md:items-center gap-2 md:gap-6">
 					<span className="text-mahogany/50 transition-colors duration-500 text-sm md:text-xl font-editorial tracking-[0.2em]">
 						0{index}.
@@ -130,7 +133,7 @@ const NavLink: React.FC<iNavLinkProps> = ({
 						</motion.span>
 					</div>
 				</div>
-			</a>
+			</Link>
 		</motion.div>
 	);
 };

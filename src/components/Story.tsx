@@ -1,4 +1,7 @@
+'use client';
+
 import { useRef } from 'react';
+import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'motion/react';
 
 export default function Story() {
@@ -46,14 +49,14 @@ export default function Story() {
             </div>
             
             <div className="mt-16">
-              <a href="#story" className="text-link-arrow text-cream-page group flex items-center gap-2">
+              <Link href="/our-story" className="text-link-arrow text-cream-page group flex items-center gap-2">
                 <span className="w-10 h-10 rounded-full border border-gold-leaf/30 flex items-center justify-center group-hover:bg-gold-leaf/10 transition-colors">
                   <span className="arrow text-gold-leaf text-lg">→</span>
                 </span>
                 <span className="font-editorial uppercase text-[10px] tracking-[0.2em] relative ml-2">
                   READ THE FULL STORY
                 </span>
-              </a>
+              </Link>
             </div>
           </motion.div>
         </div>

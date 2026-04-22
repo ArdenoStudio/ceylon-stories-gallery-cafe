@@ -1,6 +1,10 @@
+'use client';
+
+import Link from 'next/link';
 import { motion } from 'motion/react';
 
-export default function Hero({ isLoaded }: { isLoaded: boolean }) {
+export default function Hero() {
+  const isLoaded = true;
   return (
     <section className="relative w-full min-h-[100svh] flex flex-col md:flex-row bg-cream-page overflow-hidden">
       
@@ -75,12 +79,12 @@ export default function Hero({ isLoaded }: { isLoaded: boolean }) {
             animate={isLoaded ? { opacity: 1 } : { opacity: 0 }}
             transition={{ delay: 1.3, duration: 1 }}
           >
-            <a href="#collection" className="text-link-arrow">
+            <Link href="/gallery" className="text-link-arrow">
               <span className="font-editorial text-[11px] tracking-[0.18em] uppercase hover-underline text-clay-deep">
                 READ THE WALL TEXT
               </span>
               <span className="arrow text-clay-deep">→</span>
-            </a>
+            </Link>
           </motion.div>
         </div>
 
