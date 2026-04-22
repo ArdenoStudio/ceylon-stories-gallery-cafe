@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Clock, X } from 'lucide-react';
+import { Clock, Leaf, X } from 'lucide-react';
 import { cn } from '@/src/lib/utils';
 
 export interface MenuItemDetail {
@@ -45,35 +45,41 @@ export function MenuItemModal({ item, onClose }: MenuItemModalProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.25 }}
+          transition={{ duration: 0.2 }}
         >
           {/* Backdrop */}
-          <motion.div
-            className="absolute inset-0 bg-mahogany/70 backdrop-blur-sm"
+          <div
+            className="absolute inset-0 bg-mahogany/75 backdrop-blur-md"
             onClick={onClose}
           />
 
-          {/* Panel */}
+          {/* Panel — mobile: bottom sheet, desktop: side-by-side */}
           <motion.div
-            className="relative z-10 w-full sm:max-w-lg bg-cream-page rounded-t-2xl sm:rounded-xl overflow-hidden shadow-2xl"
-            initial={{ opacity: 0, y: 40, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 40, scale: 0.97 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+            className="relative z-10 w-full sm:max-w-2xl bg-cream-page rounded-t-3xl sm:rounded-2xl overflow-hidden flex flex-col sm:flex-row"
+            style={{ boxShadow: '0 32px 80px rgba(42, 24, 16, 0.35)' }}
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 60 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
           >
-            {/* Image */}
-            <div className="relative h-64 sm:h-72 overflow-hidden">
+            {/* Mobile drag handle */}
+            <div className="sm:hidden absolute top-3 left-1/2 -translate-x-1/2 w-10 h-1 rounded-full bg-mahogany/20 z-20" />
+
+            {/* ── IMAGE PANEL ────────────────────────────── */}
+            <div className="relative h-60 sm:h-auto sm:w-[42%] flex-shrink-0 overflow-hidden">
               <img
                 src={item.imageUrl}
                 alt={item.name}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-mahogany/80 via-mahogany/20 to-transparent" />
+
+              {/* Gradient: strong on mobile (bottom title overlay), subtle on desktop */}
+              <div className="absolute inset-0 bg-gradient-to-t from-mahogany/85 via-mahogany/25 to-transparent sm:bg-gradient-to-r sm:from-transparent sm:to-mahogany/30" />
 
               {/* Tag */}
               {item.tag && (
-                <div className="absolute top-4 left-4">
-                  <span className="font-editorial text-[8px] tracking-[0.25em] uppercase text-cream-page border border-cream-page/40 px-2 py-0.5 bg-mahogany/60 backdrop-blur-sm">
+                <div className="absolute top-5 left-4 sm:top-4">
+                  <span className="font-editorial text-[7.5px] tracking-[0.25em] uppercase text-cream-page border border-cream-page/35 px-2.5 py-1 bg-mahogany/55 backdrop-blur-sm">
                     {item.tag}
                   </span>
                 </div>
@@ -81,11 +87,11 @@ export function MenuItemModal({ item, onClose }: MenuItemModalProps) {
 
               {/* Veg indicator */}
               <div
-                className="absolute top-4 right-14"
+                className="absolute top-5 right-12 sm:top-4 sm:right-4"
                 aria-label={item.isVegetarian ? 'Vegetarian' : 'Non-Vegetarian'}
               >
                 <div className={cn(
-                  'w-5 h-5 border flex items-center justify-center rounded-sm bg-cream-page',
+                  'w-5 h-5 border flex items-center justify-center rounded-sm bg-cream-page/95',
                   item.isVegetarian ? 'border-green-600' : 'border-red-600'
                 )}>
                   <div className={cn(
@@ -95,60 +101,88 @@ export function MenuItemModal({ item, onClose }: MenuItemModalProps) {
                 </div>
               </div>
 
-              {/* Close */}
-              <button
-                onClick={onClose}
-                className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full bg-mahogany/60 backdrop-blur-sm text-cream-page hover:bg-mahogany transition-colors"
-                aria-label="Close"
-              >
-                <X className="w-4 h-4" />
-              </button>
-
-              {/* Category + name overlaid on image */}
-              <div className="absolute bottom-4 left-4 right-4">
-                <p className="font-editorial text-[9px] tracking-[0.25em] uppercase text-gold-leaf mb-1">
+              {/* Title overlay — visible on mobile only */}
+              <div className="sm:hidden absolute bottom-5 left-5 right-5">
+                <p className="font-editorial text-[8px] tracking-[0.28em] uppercase text-gold-leaf mb-1.5 flex items-center gap-2">
+                  <span className="w-4 h-[1px] bg-gold-leaf/60" />
                   {item.category}
                 </p>
-                <h2 className="font-display font-light text-cream-page text-[clamp(26px,5vw,36px)] leading-[1.0]">
+                <h2 className="font-display font-light text-cream-page text-[28px] leading-[1.0] tracking-[-0.01em]">
                   {item.name}
                 </h2>
               </div>
             </div>
 
-            {/* Body */}
-            <div className="p-6">
-              {/* Pricing */}
-              <div className="flex items-baseline gap-3 mb-4">
-                <span className="font-display text-2xl font-light text-mahogany">Rs. {item.price}</span>
-                {savings > 0 && (
-                  <>
-                    <span className="font-body text-sm line-through text-mahogany/40">Rs. {item.originalPrice}</span>
-                    <span className="font-editorial text-[9px] tracking-[0.1em] uppercase text-green-600">
-                      Save Rs. {savings}
-                    </span>
-                  </>
-                )}
-              </div>
+            {/* ── CONTENT PANEL ──────────────────────────── */}
+            <div className="flex flex-col flex-1 overflow-y-auto max-h-[60vh] sm:max-h-[580px]">
 
-              {/* Description */}
-              <p className="font-body text-sm text-mahogany/70 leading-[1.8] mb-5">
-                {item.description}
-              </p>
+              {/* Close button */}
+              <button
+                onClick={onClose}
+                className="absolute top-4 right-4 sm:top-5 sm:right-5 w-8 h-8 flex items-center justify-center rounded-full bg-mahogany/8 hover:bg-mahogany/12 text-mahogany/50 hover:text-mahogany transition-all z-20"
+                aria-label="Close"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
 
-              {/* Meta row */}
-              <div className="flex items-center gap-6 pt-4 border-t border-mahogany/10">
-                <div>
-                  <p className="font-editorial text-[8px] tracking-[0.2em] uppercase text-mahogany/40 mb-0.5">Quantity</p>
-                  <p className="font-editorial text-[10px] tracking-[0.15em] uppercase text-mahogany">{item.quantity}</p>
+              <div className="p-6 sm:p-8 flex flex-col gap-5 flex-1">
+
+                {/* Title — visible on desktop only */}
+                <div className="hidden sm:block">
+                  <p className="font-editorial text-[8px] tracking-[0.28em] uppercase text-gold-leaf mb-2.5 flex items-center gap-2">
+                    <span className="w-4 h-[1px] bg-gold-leaf/60" />
+                    {item.category}
+                  </p>
+                  <h2 className="font-display font-light text-mahogany text-[clamp(28px,3.5vw,38px)] leading-[1.0] tracking-[-0.02em]">
+                    {item.name}
+                  </h2>
                 </div>
-                <div className="w-px h-8 bg-mahogany/10" />
-                <div className="flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-mahogany/40" />
-                  <div>
-                    <p className="font-editorial text-[8px] tracking-[0.2em] uppercase text-mahogany/40 mb-0.5">Prep time</p>
-                    <p className="font-editorial text-[10px] tracking-[0.15em] uppercase text-mahogany">{item.prepTimeInMinutes} mins</p>
+
+                {/* Price block */}
+                <div>
+                  <div className="flex items-baseline gap-2.5 flex-wrap">
+                    <span className="font-display font-light text-mahogany text-[32px] sm:text-[36px] leading-none tracking-[-0.02em]">
+                      Rs.&nbsp;{item.price.toLocaleString()}
+                    </span>
+                    {savings > 0 && (
+                      <span className="font-body text-sm line-through text-mahogany/35">
+                        Rs.&nbsp;{item.originalPrice.toLocaleString()}
+                      </span>
+                    )}
+                  </div>
+                  {savings > 0 && (
+                    <p className="font-editorial text-[9px] tracking-[0.18em] uppercase text-green-700 mt-1">
+                      You save Rs.&nbsp;{savings.toLocaleString()}
+                    </p>
+                  )}
+                </div>
+
+                {/* Divider */}
+                <div className="w-full h-[1px] bg-gradient-to-r from-gold-leaf/30 via-mahogany/10 to-transparent" />
+
+                {/* Description */}
+                <p className="font-body text-[13.5px] text-mahogany/65 leading-[1.85]">
+                  {item.description}
+                </p>
+
+                {/* Meta pills */}
+                <div className="mt-auto pt-2 flex items-center gap-3 flex-wrap">
+                  <div className="flex items-center gap-2 px-3 py-2 rounded-md bg-mahogany/5 border border-mahogany/8">
+                    <Leaf className="w-3 h-3 text-mahogany/40" />
+                    <div>
+                      <p className="font-editorial text-[7.5px] tracking-[0.2em] uppercase text-mahogany/40 leading-none mb-0.5">Quantity</p>
+                      <p className="font-editorial text-[9.5px] tracking-[0.12em] uppercase text-mahogany leading-none">{item.quantity}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 px-3 py-2 rounded-md bg-mahogany/5 border border-mahogany/8">
+                    <Clock className="w-3 h-3 text-mahogany/40" />
+                    <div>
+                      <p className="font-editorial text-[7.5px] tracking-[0.2em] uppercase text-mahogany/40 leading-none mb-0.5">Prep Time</p>
+                      <p className="font-editorial text-[9.5px] tracking-[0.12em] uppercase text-mahogany leading-none">{item.prepTimeInMinutes} mins</p>
+                    </div>
                   </div>
                 </div>
+
               </div>
             </div>
           </motion.div>
