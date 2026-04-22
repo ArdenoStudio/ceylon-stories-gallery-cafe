@@ -4,105 +4,138 @@ import Link from 'next/link';
 import { motion } from 'motion/react';
 
 export default function Hero() {
-  const isLoaded = true;
   return (
-    <section className="relative w-full min-h-[100svh] flex flex-col md:flex-row bg-cream-page overflow-hidden">
-      
-      {/* Left Column - Photography (38%) */}
-      <div className="w-full h-[55vh] md:h-auto md:w-[38%] relative border-b md:border-b-0 md:border-r border-mahogany/20">
-        <motion.div
-          className="w-full h-full relative overflow-hidden"
-          initial={{ opacity: 0 }}
-          animate={isLoaded ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <motion.img 
-            src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?q=80&w=1200&auto=format&fit=crop" 
-            alt="Sri Lankan heritage dark moody architectural detail"
-            referrerPolicy="no-referrer"
-            className="w-full h-full object-cover grayscale-[0.2] sepia-[0.3]"
-            initial={{ scale: 1.05 }}
-            animate={isLoaded ? { scale: 1 } : { scale: 1.05 }}
-            transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
-          />
-          {/* Inner shadow for object-presence */}
-          <div className="absolute inset-0 shadow-[inset_0_0_100px_rgba(42,24,16,0.6)] pointer-events-none" />
-          <div className="absolute inset-0 bg-mahogany/30 mix-blend-multiply pointer-events-none" />
-        </motion.div>
-      </div>
+    <section className="relative w-full h-[100dvh] overflow-hidden">
 
-      {/* Right Column - Exhibition Card (62%) */}
-      <div className="w-full md:w-[62%] min-h-[45vh] md:h-auto md:min-h-[100svh] relative flex justify-center flex-col px-8 md:px-[clamp(48px,6vw,128px)] pt-20 md:pt-32 pb-12">
-        <div className="absolute inset-0 pointer-events-none paper-texture opacity-30" />
-        
-        <div className="flex flex-col relative z-10 w-full max-w-3xl">
-          <motion.div
-             initial={{ opacity: 0, y: 15 }}
-             animate={isLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
-             transition={{ delay: 0.6, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <span className="font-editorial text-[10px] md:text-[11px] tracking-[0.18em] uppercase text-mahogany-soft">
-              CURRENT EXHIBITION — NO. 04
-            </span>
-            <div className="w-12 h-[1px] bg-mahogany/40 mt-4 mb-8" />
-          </motion.div>
+      {/* Background image */}
+      <motion.div
+        className="absolute inset-0"
+        initial={{ scale: 1.06 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 2.4, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <img
+          src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?q=80&w=2000&auto=format&fit=crop"
+          alt="Ceylon Stories Gallery Café interior"
+          referrerPolicy="no-referrer"
+          className="w-full h-full object-cover"
+        />
+        {/* Layered overlays for mood */}
+        <div className="absolute inset-0 bg-mahogany/55" />
+        <div className="absolute inset-0 bg-gradient-to-b from-mahogany/30 via-transparent to-mahogany/70" />
+        <div className="absolute inset-0 paper-texture opacity-[0.06] pointer-events-none" />
+      </motion.div>
 
-          <motion.h1 
-            className="font-display font-light text-mahogany text-[clamp(56px,8vw,120px)] leading-[0.95] tracking-[-0.02em] mb-6"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ delay: 0.8, duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+      {/* Top eyebrow */}
+      <motion.div
+        className="absolute top-[clamp(120px,14vh,160px)] left-0 right-0 flex justify-center z-10"
+        initial={{ opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.8, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <p className="font-editorial text-[10px] tracking-[0.3em] uppercase text-gold-leaf/80 flex items-center gap-4">
+          <span className="w-6 h-[1px] bg-gold-leaf/50" />
+          Colombo, Sri Lanka &nbsp;·&nbsp; Gallery Café
+          <span className="w-6 h-[1px] bg-gold-leaf/50" />
+        </p>
+      </motion.div>
+
+      {/* Center content */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center z-10 px-6 text-center">
+
+        {/* Headline */}
+        <div className="overflow-hidden mb-2">
+          <motion.h1
+            className="font-display font-light text-cream-page text-[clamp(52px,9vw,130px)] leading-[0.9] tracking-[-0.02em]"
+            initial={{ y: '100%', opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4, duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
           >
-            Anoma<br />Wijewardene
+            Tea. Art.
           </motion.h1>
-
-          <motion.p 
-            className="font-editorial text-[10px] md:text-[12px] tracking-[0.15em] uppercase text-mahogany-soft mb-8"
-            initial={{ opacity: 0 }}
-            animate={isLoaded ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ delay: 1, duration: 1.2 }}
+        </div>
+        <div className="overflow-hidden mb-10">
+          <motion.h1
+            className="font-display font-light italic text-clay-warm text-[clamp(52px,9vw,130px)] leading-[0.9] tracking-[-0.02em]"
+            initial={{ y: '100%', opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.6, duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
           >
-            OIL ON CANVAS · ON VIEW THROUGH 30 APRIL
-          </motion.p>
-
-          <motion.p 
-            className="font-body text-mahogany-soft text-[15px] md:text-[16px] leading-[1.7] max-w-[42ch] mb-12"
-            initial={{ opacity: 0, y: 10 }}
-            animate={isLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-            transition={{ delay: 1.1, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          >
-            Wijewardene paints the slow weather of memory. Forty-two new works occupy the gallery from the first of the month.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={isLoaded ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ delay: 1.3, duration: 1 }}
-          >
-            <Link href="/gallery" className="text-link-arrow">
-              <span className="font-editorial text-[11px] tracking-[0.18em] uppercase hover-underline text-clay-deep">
-                READ THE WALL TEXT
-              </span>
-              <span className="arrow text-clay-deep">→</span>
-            </Link>
-          </motion.div>
+            Slow down.
+          </motion.h1>
         </div>
 
-        {/* Microcontent bottom */}
-        <motion.div 
-          className="mt-16 md:mt-auto pt-8 flex flex-wrap gap-x-4 gap-y-2 font-editorial text-[9px] md:text-[10px] tracking-[0.2em] uppercase text-mahogany-soft relative z-10"
-          initial={{ opacity: 0 }}
-          animate={isLoaded ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ delay: 1.5, duration: 1 }}
+        {/* Rule + Subtitle */}
+        <motion.div
+          className="flex items-center gap-5 mb-10"
+          initial={{ opacity: 0, scaleX: 0.6 }}
+          animate={{ opacity: 1, scaleX: 1 }}
+          transition={{ delay: 1, duration: 1, ease: [0.16, 1, 0.3, 1] }}
         >
-          <span>COLOMBO · 28°C</span>
-          <span className="hidden md:inline">·</span>
-          <span>STEEPING NOW: SILVER TIPS, 4:00</span>
-          <span className="hidden lg:inline">·</span>
-          <span className="hidden lg:inline">PAGE I OF VII</span>
+          <span className="w-12 h-[1px] bg-cream-page/30" />
+          <p className="font-editorial text-[10px] tracking-[0.25em] uppercase text-cream-page/60">
+            Marine Drive &nbsp;·&nbsp; Colombo 03
+          </p>
+          <span className="w-12 h-[1px] bg-cream-page/30" />
         </motion.div>
-        
+
+        {/* CTAs */}
+        <motion.div
+          className="flex flex-col sm:flex-row items-center gap-4"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <a
+            href="https://wa.me/94770000000?text=Hi%20Ceylon%20Stories%2C%20I%27d%20like%20to%20make%20a%20reservation."
+            target="_blank"
+            rel="noreferrer"
+            className="font-editorial text-[10px] tracking-[0.22em] uppercase bg-cream-page text-mahogany px-8 py-4 hover:bg-gold-leaf transition-colors duration-300 min-w-[180px] text-center"
+          >
+            Reserve a Table
+          </a>
+          <Link
+            href="/menu"
+            className="font-editorial text-[10px] tracking-[0.22em] uppercase border border-cream-page/40 text-cream-page px-8 py-4 hover:bg-cream-page/10 hover:border-cream-page/70 transition-colors duration-300 min-w-[180px] text-center"
+          >
+            Explore the Menu
+          </Link>
+        </motion.div>
       </div>
+
+      {/* Bottom status bar */}
+      <motion.div
+        className="absolute bottom-8 left-0 right-0 flex justify-center z-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.6, duration: 1 }}
+      >
+        <div className="flex items-center gap-4 font-editorial text-[9px] tracking-[0.22em] uppercase text-cream-page/40">
+          <span>Colombo · 28°C</span>
+          <span>·</span>
+          <span>Steeping Now: Silver Tips</span>
+          <span className="hidden md:inline">·</span>
+          <span className="hidden md:inline">Open Daily · 8 AM – Late</span>
+        </div>
+      </motion.div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        className="absolute bottom-8 right-8 z-10 flex flex-col items-center gap-2"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.8, duration: 1 }}
+      >
+        <span className="font-editorial text-[8px] tracking-[0.2em] uppercase text-cream-page/30 [writing-mode:vertical-lr]">
+          Scroll
+        </span>
+        <motion.div
+          className="w-[1px] h-10 bg-cream-page/20 origin-top"
+          animate={{ scaleY: [1, 0.3, 1] }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+        />
+      </motion.div>
+
     </section>
   );
 }
