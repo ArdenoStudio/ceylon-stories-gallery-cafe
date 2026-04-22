@@ -28,7 +28,7 @@ const InfoIcon = ({ type }: { type: 'website' | 'phone' | 'address' }) => {
   return <div className="mr-2 flex-shrink-0">{icons[type]}</div>;
 };
 
-interface HeroSectionProps extends React.HTMLAttributes<HTMLDivElement> {
+interface HeroSectionProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   logo?: { url: string; alt: string; text?: string };
   slogan?: string;
   title: React.ReactNode;
