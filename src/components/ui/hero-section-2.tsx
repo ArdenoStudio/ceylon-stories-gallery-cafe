@@ -3,6 +3,7 @@
 import React from 'react';
 import { cn } from '../../lib/utils';
 import { motion, type Variants } from 'motion/react';
+import { ArrowRight } from 'lucide-react';
 
 const InfoIcon = ({ type }: { type: 'website' | 'phone' | 'address' }) => {
   const icons = {
@@ -33,19 +34,23 @@ interface HeroSectionProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
   slogan?: string;
   title: React.ReactNode;
   subtitle: string;
+  hours?: string;
   callToAction: { text: string; href: string };
+  secondaryCallToAction?: { text: string; href: string };
   backgroundImage: string;
+  accentImage?: string;
+  establishedYear?: string;
   contactInfo: { website: string; phone: string; address: string };
 }
 
 const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
-  ({ className, logo, slogan, title, subtitle, callToAction, backgroundImage, contactInfo, ...props }, ref) => {
+  ({ className, logo, slogan, title, subtitle, hours, callToAction, secondaryCallToAction, backgroundImage, accentImage, establishedYear, contactInfo, ...props }, ref) => {
 
     const containerVariants: Variants = {
       hidden: { opacity: 0 },
       visible: {
         opacity: 1,
-        transition: { staggerChildren: 0.15, delayChildren: 0.2 },
+        transition: { staggerChildren: 0.12, delayChildren: 0.2 },
       },
     };
 
@@ -62,7 +67,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
       <motion.section
         ref={ref}
         className={cn(
-          'relative flex w-full min-h-screen flex-col overflow-hidden bg-cream-page text-mahogany md:flex-row',
+          'relative flex w-full min-h-[92vh] flex-col overflow-hidden bg-cream-page text-mahogany md:flex-row',
           className
         )}
         initial="hidden"
@@ -71,8 +76,18 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
         {...(props as React.ComponentProps<typeof motion.section>)}
       >
         {/* Left: Content */}
-        <div className="flex w-full flex-col justify-between p-10 md:w-1/2 md:p-14 lg:w-3/5 lg:p-20">
-          <div>
+        <div className="relative flex w-full flex-col justify-between p-10 md:w-1/2 md:p-14 lg:w-3/5 lg:p-20">
+          {/* Ghost anchor numeral (absolute, non-interactive) */}
+          {establishedYear && (
+            <span
+              aria-hidden
+              className="pointer-events-none absolute -right-6 top-36 hidden select-none font-display italic font-light leading-none text-gold-leaf/[0.08] xl:block xl:text-[240px] 2xl:text-[280px]"
+            >
+              {establishedYear}
+            </span>
+          )}
+
+          <div className="relative">
             {/* Logo / brand header */}
             <motion.header className="mb-16" variants={itemVariants}>
               {logo ? (
@@ -100,25 +115,51 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
               </motion.h1>
               <motion.div className="my-8 h-[1px] w-16 bg-gold-leaf" variants={itemVariants} />
               <motion.p
-                className="mb-10 max-w-md font-body text-base leading-relaxed text-mahogany/60"
+                className="mb-8 max-w-md font-body text-base leading-relaxed text-mahogany/60"
                 variants={itemVariants}
               >
                 {subtitle}
               </motion.p>
-              <motion.a
-                href={callToAction.href}
-                target={callToAction.href.startsWith('http') ? '_blank' : undefined}
-                rel={callToAction.href.startsWith('http') ? 'noreferrer' : undefined}
-                className="font-editorial text-[10px] tracking-[0.28em] uppercase text-mahogany border-b border-gold-leaf pb-1 transition-colors hover:text-gold-leaf"
+
+              {hours && (
+                <motion.p
+                  className="mb-10 flex items-center gap-3 font-editorial text-[10px] tracking-[0.28em] uppercase text-mahogany/55"
+                  variants={itemVariants}
+                >
+                  <span className="h-[1px] w-4 bg-gold-leaf/60" />
+                  {hours}
+                </motion.p>
+              )}
+
+              <motion.div
+                className="flex flex-wrap items-center gap-x-8 gap-y-4"
                 variants={itemVariants}
               >
-                {callToAction.text}
-              </motion.a>
+                <a
+                  href={callToAction.href}
+                  target={callToAction.href.startsWith('http') ? '_blank' : undefined}
+                  rel={callToAction.href.startsWith('http') ? 'noreferrer' : undefined}
+                  className="group inline-flex items-center gap-3 rounded-full border border-gold-leaf px-7 py-3.5 font-editorial text-[11px] tracking-[0.28em] uppercase text-mahogany transition-colors duration-500 hover:bg-gold-leaf hover:text-cream-page"
+                >
+                  <span>{callToAction.text}</span>
+                  <ArrowRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover:translate-x-1" />
+                </a>
+                {secondaryCallToAction && (
+                  <a
+                    href={secondaryCallToAction.href}
+                    target={secondaryCallToAction.href.startsWith('http') ? '_blank' : undefined}
+                    rel={secondaryCallToAction.href.startsWith('http') ? 'noreferrer' : undefined}
+                    className="border-b border-mahogany/20 pb-0.5 font-editorial text-[10px] tracking-[0.28em] uppercase text-mahogany/60 transition-colors hover:border-gold-leaf hover:text-mahogany"
+                  >
+                    {secondaryCallToAction.text}
+                  </a>
+                )}
+              </motion.div>
             </motion.main>
           </div>
 
           {/* Footer info */}
-          <motion.footer className="mt-16 w-full" variants={itemVariants}>
+          <motion.footer className="relative mt-16 w-full" variants={itemVariants}>
             <div className="batik-line mb-6" />
             <div className="grid grid-cols-1 gap-4 font-editorial text-[10px] tracking-[0.12em] text-mahogany/50 sm:grid-cols-3">
               <div className="flex items-center">
@@ -137,14 +178,42 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
           </motion.footer>
         </div>
 
-        {/* Right: Image with clip-path reveal, inset top & bottom */}
-        <motion.div
-          className="w-full min-h-[50vh] bg-cover bg-center md:w-1/2 md:my-10 lg:w-2/5 lg:my-14"
-          style={{ backgroundImage: `url(${backgroundImage})` }}
-          initial={{ clipPath: 'polygon(100% 0, 100% 0, 100% 100%, 100% 100%)' }}
-          animate={{ clipPath: 'polygon(15% 0, 100% 0, 100% 100%, 0% 100%)' }}
-          transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-        />
+        {/* Right: Layered image panel with clip-path reveal + ambient zoom */}
+        <div className="relative w-full min-h-[50vh] md:w-1/2 md:my-10 lg:w-2/5 lg:my-14">
+          {/* Primary image — clip-path reveal wrapping a slow-zoom layer */}
+          <motion.div
+            className="absolute inset-0 overflow-hidden bg-mahogany-soft"
+            initial={{ clipPath: 'polygon(100% 0, 100% 0, 100% 100%, 100% 100%)' }}
+            animate={{ clipPath: 'polygon(15% 0, 100% 0, 100% 100%, 0% 100%)' }}
+            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <motion.div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url(${backgroundImage})` }}
+              initial={{ scale: 1 }}
+              animate={{ scale: 1.06 }}
+              transition={{ duration: 14, ease: 'linear', delay: 1.4 }}
+            />
+            {/* Subtle darkening so any light image still reads */}
+            <div className="absolute inset-0 bg-mahogany/10 mix-blend-multiply" />
+          </motion.div>
+
+          {/* Accent detail image — overlaps into the left panel for editorial depth */}
+          {accentImage && (
+            <motion.div
+              className="absolute bottom-14 -left-10 z-10 hidden h-52 w-40 overflow-hidden shadow-ink md:block lg:bottom-20 lg:-left-16 lg:h-64 lg:w-48"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 1.8, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <div
+                className="h-full w-full bg-cover bg-center"
+                style={{ backgroundImage: `url(${accentImage})` }}
+              />
+              <div className="pointer-events-none absolute inset-0 ring-[6px] ring-cream-page" />
+            </motion.div>
+          )}
+        </div>
       </motion.section>
     );
   }
