@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { cn } from '../../lib/utils';
-import { motion } from 'motion/react';
+import { motion, type Variants } from 'motion/react';
 
 const InfoIcon = ({ type }: { type: 'website' | 'phone' | 'address' }) => {
   const icons = {
@@ -41,7 +41,7 @@ interface HeroSectionProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
 const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
   ({ className, logo, slogan, title, subtitle, callToAction, backgroundImage, contactInfo, ...props }, ref) => {
 
-    const containerVariants = {
+    const containerVariants: Variants = {
       hidden: { opacity: 0 },
       visible: {
         opacity: 1,
@@ -49,7 +49,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
       },
     };
 
-    const itemVariants = {
+    const itemVariants: Variants = {
       hidden: { y: 20, opacity: 0 },
       visible: {
         y: 0,
