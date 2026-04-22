@@ -2,35 +2,48 @@
 
 import { motion } from 'motion/react';
 import Link from 'next/link';
+import { MenuItemCard } from './ui/menu-item-card';
 
 const items = [
   {
     tag: 'NEW',
     name: 'Cardamom Cold Brew',
-    description: 'Single-origin Ceylon black steeped cold for 18 hours, finished with hand-crushed cardamom and a sliver of coconut cream.',
-    image: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?q=80&w=600&auto=format&fit=crop',
-    category: 'Beverages',
+    imageUrl: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?q=80&w=600&auto=format&fit=crop',
+    isVegetarian: true,
+    price: 850,
+    originalPrice: 850,
+    quantity: 'Serves 1',
+    prepTimeInMinutes: 5,
   },
   {
     tag: 'SEASONAL',
     name: 'Mango & Chilli Granita',
-    description: "Alphonso mango purée set with a whisper of bird's eye chilli. Served in a chilled terracotta cup. Only while mango season lasts.",
-    image: 'https://images.unsplash.com/photo-1488900128323-21503983a07e?q=80&w=600&auto=format&fit=crop',
-    category: 'Desserts',
+    imageUrl: 'https://images.unsplash.com/photo-1488900128323-21503983a07e?q=80&w=600&auto=format&fit=crop',
+    isVegetarian: true,
+    price: 950,
+    originalPrice: 1100,
+    quantity: 'Serves 1',
+    prepTimeInMinutes: 8,
   },
   {
     tag: 'FEATURED',
     name: 'Dilmah Silver Tips Reserve',
-    description: 'The rarest leaves from Nuwara Eliya — harvested once a year at dawn. Steeped in water at exactly 75°C. No additions.',
-    image: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?q=80&w=600&auto=format&fit=crop',
-    category: 'Tea',
+    imageUrl: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?q=80&w=600&auto=format&fit=crop',
+    isVegetarian: true,
+    price: 1450,
+    originalPrice: 1450,
+    quantity: 'Pot for 1',
+    prepTimeInMinutes: 6,
   },
   {
     tag: 'NEW',
     name: 'Terracotta Shakshuka',
-    description: 'Two eggs poached in a smoky tomato and roasted red pepper sauce, served in a handmade clay pot with sourdough from our morning batch.',
-    image: 'https://images.unsplash.com/photo-1590412200988-a436970781fa?q=80&w=600&auto=format&fit=crop',
-    category: 'Food',
+    imageUrl: 'https://images.unsplash.com/photo-1590412200988-a436970781fa?q=80&w=600&auto=format&fit=crop',
+    isVegetarian: true,
+    price: 1650,
+    originalPrice: 1650,
+    quantity: 'Serves 1',
+    prepTimeInMinutes: 18,
   },
 ];
 
@@ -81,35 +94,22 @@ export default function WhatIsNew() {
           {items.map((item, idx) => (
             <motion.div
               key={idx}
-              className="group flex flex-col"
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-8%' }}
               transition={{ duration: 0.9, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
             >
-              {/* Image */}
-              <div className="w-full aspect-[4/5] overflow-hidden relative mb-5">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover grayscale-[0.15] sepia-[0.1] transition-transform duration-700 group-hover:scale-[1.04]"
-                />
-                <span className="absolute top-3 left-3 font-editorial text-[9px] tracking-[0.2em] uppercase bg-cream-page text-mahogany px-2 py-1">
-                  {item.tag}
-                </span>
-              </div>
-
-              {/* Text */}
-              <p className="font-editorial text-[9px] tracking-[0.2em] uppercase text-clay-warm mb-2">
-                {item.category}
-              </p>
-              <h3 className="font-display text-[22px] text-mahogany leading-[1.1] mb-3 transition-all duration-500 group-hover:italic">
-                {item.name}
-              </h3>
-              <p className="font-body text-[13px] text-mahogany/60 leading-[1.7]">
-                {item.description}
-              </p>
+              <MenuItemCard
+                imageUrl={item.imageUrl}
+                isVegetarian={item.isVegetarian}
+                name={item.name}
+                price={item.price}
+                originalPrice={item.originalPrice}
+                quantity={item.quantity}
+                prepTimeInMinutes={item.prepTimeInMinutes}
+                tag={item.tag}
+                onAdd={() => {}}
+              />
             </motion.div>
           ))}
         </div>
