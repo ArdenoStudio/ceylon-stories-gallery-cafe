@@ -265,7 +265,7 @@ export function SterlingGateKineticNavigation() {
                       </span>
                       <div className="flex flex-col relative overflow-hidden flex-1">
                         <p className="nav-link-text block m-0 p-0 overflow-hidden">
-                          <span className="nav-link block font-display font-light text-[32px] md:text-[44px] text-mahogany tracking-tight transition-all duration-300 group-hover:italic group-hover:translate-x-3">
+                          <span className="nav-link block font-display font-light text-[28px] md:text-[44px] text-mahogany tracking-tight whitespace-nowrap transition-all duration-300 group-hover:italic group-hover:translate-x-3">
                             {item.title}
                           </span>
                         </p>
