@@ -10,76 +10,92 @@ const paths: Record<MotifName, { viewBox: string; content: React.ReactNode }> = 
   'tea-leaf': {
     viewBox: '0 0 120 120',
     content: (
-      <>
-        <path d="M60 108 C60 82 60 56 60 30" />
-        <path d="M60 70 C42 68 30 56 26 40 C44 40 56 50 60 68" />
-        <path d="M60 70 C78 68 90 56 94 40 C76 40 64 50 60 68" />
-        <path d="M60 48 C46 46 36 36 32 22 C48 24 58 32 60 46" />
-        <path d="M60 48 C74 46 84 36 88 22 C72 24 62 32 60 46" />
-        <path d="M60 30 C54 22 52 16 54 10 C60 14 62 20 60 28" />
-        <path d="M60 30 C66 22 68 16 66 10 C60 14 58 20 60 28" />
-      </>
+      <g fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+        {/* Main stem - slightly curved, not straight */}
+        <path d="M60 106 Q58 70 60 32" />
+        {/* Left leaf - asymmetric, hand-drawn feel */}
+        <path d="M60 72 Q44 68 28 44 Q52 44 58 64" />
+        <path d="M58 64 Q50 58 36 36" />
+        {/* Right leaf - bigger, different curve */}
+        <path d="M60 72 Q76 66 92 42 Q68 48 60 66" />
+        <path d="M60 66 Q68 56 80 30" />
+        {/* Top left */}
+        <path d="M60 50 Q48 46 34 26" />
+        {/* Top right */}
+        <path d="M60 50 Q72 44 86 24" />
+        {/* Tip */}
+        <path d="M60 32 Q58 20 56 12" />
+        <path d="M60 32 Q64 18 68 10" />
+      </g>
     ),
   },
   frangipani: {
     viewBox: '0 0 120 120',
     content: (
-      <g transform="translate(60 60)">
-        {[0, 72, 144, 216, 288].map((r) => (
-          <path
-            key={r}
-            d="M0 -8 C-18 -6 -38 -4 -44 -18 C-46 -32 -34 -38 -22 -30 C-10 -22 -2 -12 0 -8 Z"
-            transform={`rotate(${r})`}
-          />
-        ))}
-        <circle r="5" />
-        <circle r="1.5" fill="currentColor" />
+      <g fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round">
+        {/* Asymmetric petals - not perfectly radial */}
+        <path d="M60 58 Q52 48 46 36 Q56 44 60 52" />
+        <path d="M60 58 Q68 44 78 32 Q66 46 60 54" />
+        <path d="M60 58 Q72 56 88 48 Q70 58 60 60" />
+        <path d="M60 60 Q68 72 80 86 Q66 70 60 62" />
+        <path d="M60 60 Q52 74 42 88 Q54 72 60 62" />
+        {/* Center - slightly off */}
+        <circle cx="59" cy="59" r="4" stroke="none" fill="currentColor" fillOpacity={0.3} />
+        <circle cx="59" cy="59" r="1.5" stroke="none" fill="currentColor" />
       </g>
     ),
   },
   'fern-frond': {
     viewBox: '0 0 120 120',
     content: (
-      <>
-        <path d="M12 108 C18 86 28 64 46 48 C64 32 84 26 104 28 C102 46 92 64 76 76 C60 88 40 94 24 92" />
-        <path d="M36 86 C34 76 38 68 46 62" />
-        <path d="M48 74 C46 64 50 56 58 50" />
-        <path d="M60 62 C58 52 62 44 70 38" />
-        <path d="M72 52 C70 42 74 34 82 30" />
-        <path d="M28 94 C26 84 30 76 38 70" />
-        <path d="M84 44 C82 36 86 30 94 28" />
-        <circle cx="104" cy="28" r="2.5" />
-      </>
+      <g fill="none" stroke="currentColor" strokeWidth={1.3} strokeLinecap="round" strokeLinejoin="round">
+        {/* Main stem - gentle curve, not straight */}
+        <path d="M14 106 Q20 80 42 52 Q62 34 102 28" />
+        {/* Left side fronds - varied spacing and length */}
+        <path d="M38 88 Q36 80 40 74" />
+        <path d="M50 76 Q46 66 52 58" />
+        <path d="M62 64 Q58 54 64 46" />
+        <path d="M74 54 Q70 44 78 38" />
+        <path d="M30 94 Q28 86 34 80" />
+        {/* Right side fronds */}
+        <path d="M86 42 Q84 34 92 28" />
+        {/* Tip - slight variation */}
+        <circle cx="102" cy="28" r="2" stroke="none" fill="currentColor" fillOpacity={0.25} />
+      </g>
     ),
   },
   'palm-arch': {
     viewBox: '0 0 240 120',
     content: (
-      <>
-        <path d="M120 110 C120 90 120 60 120 30" />
-        <path d="M120 30 C86 34 54 50 30 74 C48 80 70 82 92 78 C108 74 118 66 120 56" />
-        <path d="M120 30 C154 34 186 50 210 74 C192 80 170 82 148 78 C132 74 122 66 120 56" />
-        <path d="M120 40 C100 42 78 50 60 62" />
-        <path d="M120 40 C140 42 162 50 180 62" />
-        <path d="M120 52 C106 54 90 60 76 68" />
-        <path d="M120 52 C134 54 150 60 164 68" />
-        <path d="M120 66 C112 68 102 72 94 76" />
-        <path d="M120 66 C128 68 138 72 146 76" />
-      </>
+      <g fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round">
+        {/* Stem - not perfectly straight */}
+        <path d="M120 108 Q118 80 120 32" />
+        {/* Left arch - varied curve */}
+        <path d="M120 32 Q88 36 54 72 Q66 80 90 78 Q108 74 118 64" />
+        <path d="M118 48 Q100 52 80 62" />
+        <path d="M118 60 Q108 64 98 70" />
+        {/* Right arch - slightly different */}
+        <path d="M120 32 Q152 34 186 70 Q174 80 150 76 Q132 72 122 62" />
+        <path d="M122 48 Q140 50 160 60" />
+        <path d="M122 60 Q132 62 142 68" />
+      </g>
     ),
   },
   'laurel-half': {
     viewBox: '0 0 60 120',
     content: (
-      <>
-        <path d="M54 10 C40 30 30 55 32 100" />
-        <path d="M50 22 C42 24 36 30 34 38" />
-        <path d="M46 36 C38 38 32 44 30 52" />
-        <path d="M42 50 C34 52 28 58 28 66" />
-        <path d="M40 64 C32 66 28 72 28 80" />
-        <path d="M38 78 C32 80 30 86 30 92" />
-        <circle cx="32" cy="100" r="2" />
-      </>
+      <g fill="none" stroke="currentColor" strokeWidth={1.3} strokeLinecap="round">
+        {/* Main stem - hand-drawn curve */}
+        <path d="M52 12 Q44 32 36 56 Q32 80 30 102" />
+        {/* Leaves - varied sizes and positions */}
+        <path d="M48 24 Q42 26 36 32" />
+        <path d="M44 38 Q38 40 32 46" />
+        <path d="M40 52 Q34 54 30 60" />
+        <path d="M38 66 Q32 68 28 74" />
+        <path d="M36 80 Q30 82 28 88" />
+        <path d="M34 94 Q30 96 28 102" />
+        <circle cx="28" cy="104" r="1.5" stroke="none" fill="currentColor" fillOpacity={0.3} />
+      </g>
     ),
   },
 };
@@ -91,7 +107,7 @@ export function Motif({ name, className, ...rest }: MotifProps) {
       viewBox={viewBox}
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.25}
+      strokeWidth={1.5}
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden

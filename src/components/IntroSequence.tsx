@@ -21,11 +21,12 @@ export default function IntroSequence({ onComplete }: { onComplete: () => void }
     }
   }, [onComplete]);
 
-  if (!show) return null;
+if (!show) return null;
 
   return (
     <motion.div
-      className="fixed inset-0 z-[200] bg-cream-page flex items-center justify-center overflow-hidden pointer-events-none"
+      className="fixed inset-0 z-[200] bg-cream-page flex items-center justify-center overflow-hidden"
+      style={{ pointerEvents: 'none' }}
       initial={{ opacity: 1 }}
       animate={{ opacity: 0 }}
       transition={{ delay: 1.8, duration: 0.6, ease: [0.7, 0, 0.84, 0] }}
@@ -34,12 +35,13 @@ export default function IntroSequence({ onComplete }: { onComplete: () => void }
         {/* Draw Line */}
         <motion.div
           className="absolute h-[1px] bg-mahogany top-1/2 left-0 right-0 origin-left"
-          initial={{ scaleX: 0 }}
+          initial={{ scaleX: 0, opacity: 1 }}
           animate={{ scaleX: 1, opacity: 0 }}
           transition={{
             scaleX: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
             opacity: { delay: 0.6, duration: 0.1 }
           }}
+          style={{ scaleX: 0 }}
         />
         
         {/* Split Line Left */}
@@ -66,7 +68,7 @@ export default function IntroSequence({ onComplete }: { onComplete: () => void }
           transition={{
             opacity: { delay: 0.6, duration: 0.4 },
             scale: { delay: 1.2, duration: 0.6, ease: [0.16, 1, 0.3, 1] },
-            y: { delay: 1.2, duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+            y: { delay: 1.2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }
           }}
         >
           CEYLON STORIES
