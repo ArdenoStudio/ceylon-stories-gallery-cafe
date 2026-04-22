@@ -189,7 +189,7 @@ export default function LivingStories() {
           onMouseMove={handleMouseMove}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
-          style={{ scrollBehavior: isDown ? 'auto' : 'smooth' }}
+          style={{ scrollBehavior: isDragging.current ? 'auto' : 'smooth' }}
         >
           {igImages.map((src, idx) => (
             <motion.div
