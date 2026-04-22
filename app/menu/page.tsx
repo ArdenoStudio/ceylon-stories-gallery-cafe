@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MenuItemCard } from '@/src/components/ui/menu-item-card';
+import { MenuItemModal, type MenuItemDetail } from '@/src/components/ui/menu-item-modal';
 
 const categories = ['All', 'Food', 'Beverages', 'Dilmah Tea', 'Shisha'];
 
@@ -243,11 +244,14 @@ const menuItems = [
 
 export default function MenuPage() {
   const [active, setActive] = useState('All');
+  const [selectedItem, setSelectedItem] = useState<MenuItemDetail | null>(null);
 
   const filtered = active === 'All' ? menuItems : menuItems.filter((i) => i.category === active);
 
   return (
     <>
+      <MenuItemModal item={selectedItem} onClose={() => setSelectedItem(null)} />
+
       {/* Hero */}
       <section className="relative w-full bg-mahogany text-cream-page pt-40 pb-20 px-6 overflow-hidden">
         <div className="batik-line absolute top-0 left-0 bg-white/20" />
@@ -308,6 +312,7 @@ export default function MenuPage() {
                   prepTimeInMinutes={item.prepTimeInMinutes}
                   tag={item.tag}
                   onAdd={() => {}}
+                  onCardClick={() => setSelectedItem(item)}
                 />
               ))}
             </motion.div>
