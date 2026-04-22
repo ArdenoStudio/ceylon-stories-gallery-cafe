@@ -3,6 +3,7 @@
 import { useRef } from 'react';
 import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'motion/react';
+import { Motif } from './heritage/Motif';
 
 export default function Story() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -19,9 +20,19 @@ export default function Story() {
       <div className="batik-line absolute top-0 left-0 bg-white/20 z-0" />
       
       {/* Oversized Background Text - Brutalist touch */}
-      <div className="absolute top-10 left-[-5%] font-display italic text-[30vw] text-mahogany-soft/20 pointer-events-none select-none z-0">
+      <div className="absolute top-10 left-[-5%] font-display italic text-[30vw] text-clay-rust/25 pointer-events-none select-none z-0">
         1926
       </div>
+
+      {/* Botanical accents */}
+      <Motif
+        name="fern-frond"
+        className="pointer-events-none absolute top-12 right-8 h-32 w-32 md:h-48 md:w-48 text-gold-leaf/25 z-0 scale-x-[-1]"
+      />
+      <Motif
+        name="tea-leaf"
+        className="pointer-events-none absolute bottom-16 left-10 h-28 w-28 text-clay-warm/30 z-0 hidden md:block"
+      />
 
       <div className="max-w-7xl mx-auto w-full relative z-10 grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-6 items-center">
         
@@ -74,7 +85,7 @@ export default function Story() {
               src="https://images.unsplash.com/photo-1556881286-fc6915169721?q=80&w=1000&auto=format&fit=crop"
               alt="Colonial verandah space with terracotta floor tiles"
               referrerPolicy="no-referrer"
-              className="w-full h-full object-cover grayscale sepia-[0.3] contrast-[1.1] brightness-[0.8]"
+              className="w-full h-full object-cover photo-heritage-deep"
               style={{ y: yImage, scale: 1.1 }}
             />
           </motion.div>

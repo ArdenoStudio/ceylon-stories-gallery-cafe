@@ -4,6 +4,7 @@ import React from 'react';
 import { cn } from '../../lib/utils';
 import { motion, type Variants } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
+import { Motif } from '@/src/components/heritage/Motif';
 
 const InfoIcon = ({ type }: { type: 'website' | 'phone' | 'address' }) => {
   const icons = {
@@ -188,11 +189,16 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
             transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
           >
             <motion.div
-              className="absolute inset-0 bg-cover bg-center"
+              className="absolute inset-0 bg-cover bg-center photo-heritage-deep"
               style={{ backgroundImage: `url(${backgroundImage})` }}
               initial={{ scale: 1 }}
               animate={{ scale: 1.06 }}
               transition={{ duration: 14, ease: 'linear', delay: 1.4 }}
+            />
+            {/* Botanical corner over image */}
+            <Motif
+              name="fern-frond"
+              className="pointer-events-none absolute top-6 right-6 h-24 w-24 md:h-32 md:w-32 text-gold-leaf/40 z-10 scale-x-[-1]"
             />
             {/* Subtle darkening so any light image still reads */}
             <div className="absolute inset-0 bg-mahogany/10 mix-blend-multiply" />
@@ -207,7 +213,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
               transition={{ duration: 0.9, delay: 1.8, ease: [0.16, 1, 0.3, 1] }}
             >
               <div
-                className="h-full w-full bg-cover bg-center"
+                className="h-full w-full bg-cover bg-center photo-heritage"
                 style={{ backgroundImage: `url(${accentImage})` }}
               />
               <div className="pointer-events-none absolute inset-0 ring-[6px] ring-cream-page" />

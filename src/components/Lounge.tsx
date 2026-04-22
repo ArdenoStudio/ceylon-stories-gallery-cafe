@@ -2,6 +2,7 @@
 
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
+import { Motif } from './heritage/Motif';
 
 export default function Lounge() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -14,11 +15,21 @@ export default function Lounge() {
   const y2 = useTransform(scrollYProgress, [0, 1], ["0%", "-20%"]);
 
   return (
-    <section ref={containerRef} id="experience" className="relative w-full min-h-[90svh] bg-[#1a0f0a] overflow-hidden flex items-center justify-center py-32 px-6">
-      
+    <section ref={containerRef} id="experience" className="relative w-full min-h-[90svh] bg-ink-night overflow-hidden flex items-center justify-center py-32 px-6">
+
       {/* Background Ambience */}
-      <div className="absolute inset-0 bg-[#0f0805] mix-blend-multiply pointer-events-none z-10" />
+      <div className="absolute inset-0 bg-ink-deep mix-blend-multiply pointer-events-none z-10" />
       <div className="absolute inset-0 shadow-[inset_0_0_200px_rgba(0,0,0,0.8)] z-20 pointer-events-none" />
+
+      {/* Botanical drift — frangipani behind Kolpetty Nights text */}
+      <Motif
+        name="frangipani"
+        className="pointer-events-none absolute -bottom-10 -right-10 h-[360px] w-[360px] text-clay-warm/20 z-10"
+      />
+      <Motif
+        name="fern-frond"
+        className="pointer-events-none absolute top-16 left-8 h-40 w-40 text-gold-leaf/15 z-10 hidden md:block"
+      />
 
       <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative z-30">
         
@@ -59,11 +70,11 @@ export default function Lounge() {
               src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop"
               alt="Shisha lounge at night glowing in amber light"
               referrerPolicy="no-referrer"
-              className="w-full h-full object-cover sepia-[0.4] grayscale-[0.2]"
+              className="w-full h-full object-cover photo-heritage-deep"
               style={{ y: y2, scale: 1.2 }}
             />
             {/* Edge mask for the image block to softly blend */}
-            <div className="absolute inset-0 bg-gradient-to-l from-transparent to-[#1a0f0a] mix-blend-multiply opacity-50" />
+            <div className="absolute inset-0 bg-gradient-to-l from-transparent to-ink-night mix-blend-multiply opacity-50" />
           </motion.div>
         </div>
 

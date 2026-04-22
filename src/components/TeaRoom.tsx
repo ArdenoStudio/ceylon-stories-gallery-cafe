@@ -1,6 +1,9 @@
 'use client';
 
 import { motion } from 'motion/react';
+import { HeritageHeading } from './heritage/HeritageHeading';
+import { MotifCorner } from './heritage/MotifCorner';
+import { BotanicalDivider } from './heritage/BotanicalDivider';
 
 export default function TeaRoom() {
   const rituals = [
@@ -28,23 +31,27 @@ export default function TeaRoom() {
   ];
 
   return (
-    <section id="menu" className="relative w-full bg-[#EBE0CA] py-[clamp(100px,15vh,200px)] px-6">
+    <section id="menu" className="relative w-full bg-cream-paper py-[clamp(100px,15vh,200px)] px-6 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none paper-texture opacity-40 mix-blend-color-burn" />
-      
+
+      <MotifCorner motif="palm-arch" position="tl" size={260} className="text-clay-warm/20 hidden md:block" />
+      <MotifCorner motif="fern-frond" position="br" size={160} className="text-clay-warm/25" />
+
       <div className="max-w-7xl mx-auto w-full relative z-10">
-        
+
         {/* Editorial Header */}
         <div className="mb-24 md:mb-40 flex flex-col items-start gap-6 border-b border-mahogany/10 pb-12">
           <div className="flex w-full justify-between items-end flex-wrap gap-8">
-            <motion.h2 
+            <motion.div
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-              className="font-display font-light text-mahogany text-[clamp(64px,9vw,140px)] leading-[0.8] tracking-[-0.03em] m-0"
             >
-              The Rituals
-            </motion.h2>
+              <HeritageHeading eyebrow="03 — The Tea Room" tone="dark">
+                The Rituals
+              </HeritageHeading>
+            </motion.div>
             <motion.div 
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -85,7 +92,7 @@ export default function TeaRoom() {
                     src={ritual.image}
                     alt={ritual.title}
                     referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover grayscale-[0.3] sepia-[0.3]"
+                    className="w-full h-full object-cover photo-heritage"
                   />
                   <div className="absolute inset-0 border border-mahogany/10 pointer-events-none mix-blend-multiply" />
                 </div>

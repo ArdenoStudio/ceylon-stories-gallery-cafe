@@ -3,6 +3,8 @@
 import { motion } from 'motion/react';
 import Link from 'next/link';
 import { MenuItemCard } from './ui/menu-item-card';
+import { BotanicalDivider } from './heritage/BotanicalDivider';
+import { MotifCorner } from './heritage/MotifCorner';
 
 const items = [
   {
@@ -49,8 +51,11 @@ const items = [
 
 export default function WhatIsNew() {
   return (
-    <section className="relative w-full bg-cream-page py-[clamp(80px,12vh,160px)] px-6">
+    <section className="relative w-full bg-cream-page py-[clamp(80px,12vh,160px)] px-6 overflow-hidden">
       <div className="batik-line absolute top-0 left-0" />
+
+      <MotifCorner motif="fern-frond" position="tr" size={140} className="text-clay-warm/25" />
+      <MotifCorner motif="tea-leaf" position="bl" size={110} className="text-clay-warm/25 hidden md:block" />
 
       <div className="max-w-7xl mx-auto">
         {/* Header */}
@@ -88,6 +93,8 @@ export default function WhatIsNew() {
             </Link>
           </motion.div>
         </div>
+
+        <BotanicalDivider motif="tea-leaf" tone="warm" className="mb-12 md:mb-16" />
 
         {/* Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">

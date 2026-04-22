@@ -2,6 +2,8 @@
 
 import { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { BotanicalDivider } from './heritage/BotanicalDivider';
+import { MotifCorner } from './heritage/MotifCorner';
 
 export default function LivingStories() {
   const [hoveredStory, setHoveredStory] = useState<number | null>(null);
@@ -86,8 +88,13 @@ export default function LivingStories() {
   };
 
   return (
-    <section id="stories" className="relative w-full bg-cream-page pt-[clamp(80px,10vh,150px)] pb-[clamp(100px,12vh,180px)]">
-      <div className="batik-line absolute top-0 left-0" />
+    <section id="stories" className="relative w-full bg-cream-page pt-[clamp(80px,10vh,150px)] pb-[clamp(100px,12vh,180px)] overflow-hidden">
+      <MotifCorner motif="palm-arch" position="tl" size={240} className="text-clay-warm/15 hidden md:block" />
+      <MotifCorner motif="frangipani" position="br" size={140} className="text-clay-warm/20" />
+
+      <div className="max-w-7xl mx-auto px-6 pt-6 md:pt-10">
+        <BotanicalDivider motif="frangipani" tone="warm" className="mb-16 md:mb-20" />
+      </div>
 
       {/* Blog Section - Editorial List Pattern */}
       <div className="max-w-7xl mx-auto px-6 mb-32 md:mb-48 relative z-10">
@@ -164,7 +171,7 @@ export default function LivingStories() {
                     <img
                       src={story.image}
                       alt={story.title}
-                      className="w-full h-full object-cover grayscale-[0.2]"
+                      className="w-full h-full object-cover photo-heritage"
                     />
                   </motion.div>
                 )}
@@ -206,7 +213,7 @@ export default function LivingStories() {
                 src={src}
                 alt="Instagram post"
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-cover select-none pointer-events-none grayscale-[0.2] sepia-[0.1]"
+                className="w-full h-full object-cover select-none pointer-events-none photo-heritage"
               />
             </motion.div>
           ))}

@@ -73,7 +73,7 @@ const MenuItemCard = React.forwardRef<HTMLDivElement, MenuItemCardProps>(
           <img
             src={imageUrl}
             alt={name}
-            className="object-cover w-full h-48 transition-transform duration-500 ease-out group-hover:scale-105"
+            className="object-cover w-full h-48 transition-transform duration-500 ease-out group-hover:scale-105 photo-heritage"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-mahogany/60 to-transparent" />
 
@@ -95,13 +95,13 @@ const MenuItemCard = React.forwardRef<HTMLDivElement, MenuItemCardProps>(
             <div
               className={cn(
                 'w-5 h-5 border flex items-center justify-center rounded-sm bg-cream-page',
-                isVegetarian ? 'border-green-600' : 'border-red-600'
+                isVegetarian ? 'border-sage-deep' : 'border-clay-deep'
               )}
             >
               <div
                 className={cn(
                   'w-2.5 h-2.5 rounded-full',
-                  isVegetarian ? 'bg-green-600' : 'bg-red-600'
+                  isVegetarian ? 'bg-sage-deep' : 'bg-clay-deep'
                 )}
               />
             </div>
@@ -129,7 +129,7 @@ const MenuItemCard = React.forwardRef<HTMLDivElement, MenuItemCardProps>(
             {savings > 0 && (
               <>
                 <span className="font-body text-xs line-through text-mahogany/40">Rs. {originalPrice}</span>
-                <span className="font-editorial text-[9px] tracking-[0.1em] uppercase text-green-600">
+                <span className="font-editorial text-[9px] tracking-[0.1em] uppercase text-sage-deep">
                   Save Rs. {savings}
                 </span>
               </>
