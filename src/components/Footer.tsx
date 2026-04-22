@@ -3,26 +3,57 @@
 export default function Footer() {
   return (
     <footer id="contact" className="w-full bg-cream-page text-mahogany px-5 py-5 md:px-8 md:py-8">
-      {/* Bordered frame — the defining design element */}
-      <div className="border border-mahogany/25 px-10 pt-12 pb-8 md:px-16 md:pt-16 md:pb-10 flex flex-col gap-12">
+      {/* Bordered frame */}
+      <div className="border border-mahogany/30 p-10 md:p-14 lg:p-16 flex flex-col md:flex-row gap-12 md:gap-0 min-h-[340px]">
 
-        {/* Main three-column content */}
-        <div className="flex flex-col md:flex-row gap-10 md:gap-0">
-
-          {/* Brand / Logo */}
-          <div className="flex-[1.4] flex flex-col gap-3">
-            <h2 className="font-display italic text-[2.2rem] leading-[1.1] text-mahogany">
-              Ceylon<br />Stories
-            </h2>
-            <p className="font-editorial text-[8px] tracking-[0.25em] uppercase text-mahogany/45">
-              Gallery Café · Colombo 03
-            </p>
+        {/* LEFT — Logo + social icon pinned to bottom */}
+        <div className="md:w-[38%] flex flex-col justify-between">
+          {/* Circular monogram logo */}
+          <div className="w-[130px] h-[130px] md:w-[150px] md:h-[150px]">
+            <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+              {/* Outer ring */}
+              <circle cx="80" cy="80" r="76" stroke="#2a1810" strokeWidth="1.2" />
+              {/* Inner ring */}
+              <circle cx="80" cy="80" r="68" stroke="#2a1810" strokeWidth="0.6" strokeDasharray="3 3" />
+              {/* CS monogram */}
+              <text
+                x="80"
+                y="88"
+                textAnchor="middle"
+                fontFamily="'Fraunces Variable', Georgia, serif"
+                fontSize="38"
+                fontStyle="italic"
+                fontWeight="300"
+                fill="#2a1810"
+                letterSpacing="-1"
+              >
+                CS
+              </text>
+              {/* Subtitle arc — bottom */}
+              <path id="arc" d="M 26,80 A 54,54 0 0 0 134,80" fill="none" />
+              <text fontFamily="'Tenor Sans', Arial, sans-serif" fontSize="7" fill="#2a1810" letterSpacing="3" opacity="0.55">
+                <textPath href="#arc" startOffset="8%">GALLERY CAFÉ · COLOMBO</textPath>
+              </text>
+            </svg>
           </div>
 
-          {/* Explore */}
+          {/* Instagram icon — pinned to bottom */}
+          <a href="#" aria-label="Instagram" className="text-mahogany/50 hover:text-mahogany transition-colors w-max mt-8 md:mt-0">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+              <circle cx="12" cy="12" r="4" />
+              <circle cx="17.5" cy="6.5" r="0.7" fill="currentColor" stroke="none" />
+            </svg>
+          </a>
+        </div>
+
+        {/* RIGHT — two info columns */}
+        <div className="flex flex-col sm:flex-row gap-10 sm:gap-0 md:w-[62%]">
+
+          {/* Explore / About Us */}
           <div className="flex-1">
-            <h3 className="font-display text-[1.05rem] text-mahogany mb-5">Explore</h3>
-            <nav className="flex flex-col gap-[0.6rem]">
+            <h3 className="font-display text-[1.1rem] font-normal text-mahogany mb-5 leading-none">Explore</h3>
+            <nav className="flex flex-col gap-[0.65rem]">
               {[
                 { label: 'Home', href: '/' },
                 { label: 'Menu', href: '#menu' },
@@ -33,7 +64,7 @@ export default function Footer() {
                 <a
                   key={label}
                   href={href}
-                  className="font-editorial text-[8.5px] tracking-[0.22em] uppercase text-mahogany/55 hover:text-mahogany transition-colors w-max"
+                  className="font-editorial text-[8px] tracking-[0.22em] uppercase text-mahogany/55 hover:text-mahogany transition-colors w-max"
                 >
                   {label}
                 </a>
@@ -43,21 +74,21 @@ export default function Footer() {
 
           {/* Contact */}
           <div className="flex-1">
-            <h3 className="font-display text-[1.05rem] text-mahogany mb-5">Contact</h3>
-            <div className="flex flex-col gap-[0.55rem]">
-              <p className="font-editorial text-[8.5px] tracking-[0.12em] uppercase text-mahogany/55 leading-[1.8]">
+            <h3 className="font-display text-[1.1rem] font-normal text-mahogany mb-5 leading-none">Contact</h3>
+            <div className="flex flex-col gap-[0.65rem]">
+              <p className="font-editorial text-[8px] tracking-[0.12em] uppercase text-mahogany/55 leading-[1.9]">
                 9/6A, 16th Lane, Marine Drive<br />
                 Kolpetty, Colombo 03, LK
               </p>
               <a
                 href="tel:+94770000000"
-                className="font-editorial text-[8.5px] tracking-[0.12em] uppercase text-mahogany/55 hover:text-mahogany transition-colors w-max mt-1"
+                className="font-editorial text-[8px] tracking-[0.12em] uppercase text-mahogany/55 hover:text-mahogany transition-colors w-max"
               >
                 +94 (77) 000 0000
               </a>
               <a
                 href="mailto:hello@ceylonstories.lk"
-                className="font-editorial text-[8.5px] tracking-[0.12em] uppercase text-mahogany/55 hover:text-mahogany transition-colors w-max"
+                className="font-editorial text-[8px] tracking-[0.12em] uppercase text-mahogany/55 hover:text-mahogany transition-colors w-max"
               >
                 hello@ceylonstories.lk
               </a>
@@ -65,35 +96,14 @@ export default function Footer() {
                 href="https://wa.me/94770000000"
                 target="_blank"
                 rel="noreferrer"
-                className="font-editorial text-[8.5px] tracking-[0.22em] uppercase text-mahogany/55 hover:text-mahogany transition-colors w-max mt-2"
+                className="font-editorial text-[8px] tracking-[0.22em] uppercase text-mahogany/55 hover:text-mahogany transition-colors w-max"
               >
-                Reservations ↗
+                Reservations
               </a>
             </div>
           </div>
-        </div>
 
-        {/* Bottom bar: social icons + copyright */}
-        <div className="flex items-center justify-between border-t border-mahogany/15 pt-6">
-          <div className="flex gap-4">
-            <a href="#" aria-label="Instagram" className="text-mahogany/45 hover:text-mahogany transition-colors">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                <circle cx="12" cy="12" r="4" />
-                <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" stroke="none" />
-              </svg>
-            </a>
-            <a href="#" aria-label="Facebook" className="text-mahogany/45 hover:text-mahogany transition-colors">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-              </svg>
-            </a>
-          </div>
-          <p className="font-editorial text-[8px] tracking-[0.22em] uppercase text-mahogany/35">
-            © {new Date().getFullYear()} Ceylon Stories. All Rights Reserved.
-          </p>
         </div>
-
       </div>
     </footer>
   );
