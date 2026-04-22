@@ -3,9 +3,43 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Google AI Studio App</title>
+    <title>Ceylon Stories — Gallery Café & Tea House | Colombo</title>
+    <meta name="description" content="Ceylon Stories is a gallery café and tea house on the Kolpetty coast of Colombo. Discover rotating exhibitions, reserve Dilmah teas, and artisanal menus in a curated space." />
+    <meta name="theme-color" content="#6B2D1F" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Ceylon Stories" />
+    <meta property="og:title" content="Ceylon Stories — Gallery Café & Tea House" />
+    <meta property="og:description" content="A gallery café and tea house on the Kolpetty coast of Colombo. Rotating exhibitions, Dilmah reserve teas, and artisanal menus." />
+    <meta property="og:locale" content="en_LK" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Ceylon Stories — Gallery Café & Tea House" />
+    <meta name="twitter:description" content="A gallery café and tea house on the Kolpetty coast of Colombo. Rotating exhibitions, Dilmah reserve teas, and artisanal menus." />
+
+    <!-- Schema.org structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CafeOrCoffeeShop",
+      "name": "Ceylon Stories Gallery Café",
+      "description": "A gallery café and tea house on the Kolpetty coast of Colombo.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Colombo",
+        "addressCountry": "LK"
+      },
+      "servesCuisine": ["Sri Lankan", "Tea", "Pastries"],
+      "url": "https://ceylonstories.lk"
+    }
+    </script>
   </head>
   <body>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:bg-white focus:text-mahogany focus:px-4 focus:py-2 focus:text-sm focus:font-medium">
+      Skip to content
+    </a>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

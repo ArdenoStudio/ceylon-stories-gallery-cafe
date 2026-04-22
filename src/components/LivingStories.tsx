@@ -38,37 +38,35 @@ export default function LivingStories() {
   ];
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
+  const dragStartX = useRef(0);
+  const dragScrollLeft = useRef(0);
   const touchStartX = useRef(0);
   const touchScrollLeft = useRef(0);
 
-  // Simple drag to scroll handler for IG strip
-  let isDown = false;
-  let startX: number;
-  let scrollLeft: number;
-
   const handleMouseDown = (e: React.MouseEvent) => {
-    isDown = true;
+    isDragging.current = true;
     if (scrollContainerRef.current) {
       scrollContainerRef.current.classList.add('active');
-      startX = e.pageX - scrollContainerRef.current.offsetLeft;
-      scrollLeft = scrollContainerRef.current.scrollLeft;
+      dragStartX.current = e.pageX - scrollContainerRef.current.offsetLeft;
+      dragScrollLeft.current = scrollContainerRef.current.scrollLeft;
     }
   };
   const handleMouseLeave = () => {
-    isDown = false;
+    isDragging.current = false;
     scrollContainerRef.current?.classList.remove('active');
   };
   const handleMouseUp = () => {
-    isDown = false;
+    isDragging.current = false;
     scrollContainerRef.current?.classList.remove('active');
   };
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDown) return;
+    if (!isDragging.current) return;
     e.preventDefault();
     if (scrollContainerRef.current) {
       const x = e.pageX - scrollContainerRef.current.offsetLeft;
-      const walk = (x - startX) * 2;
-      scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+      const walk = (x - dragStartX.current) * 2;
+      scrollContainerRef.current.scrollLeft = dragScrollLeft.current - walk;
     }
   };
 
