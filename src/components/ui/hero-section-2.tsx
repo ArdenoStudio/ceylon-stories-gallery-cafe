@@ -137,9 +137,9 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
           </motion.footer>
         </div>
 
-        {/* Right: Image with clip-path reveal */}
+        {/* Right: Image with clip-path reveal, inset top & bottom */}
         <motion.div
-          className="w-full min-h-[50vh] bg-cover bg-center md:w-1/2 md:min-h-full lg:w-2/5"
+          className="w-full min-h-[50vh] bg-cover bg-center md:w-1/2 md:my-10 lg:w-2/5 lg:my-14"
           style={{ backgroundImage: `url(${backgroundImage})` }}
           initial={{ clipPath: 'polygon(100% 0, 100% 0, 100% 100%, 100% 100%)' }}
           animate={{ clipPath: 'polygon(15% 0, 100% 0, 100% 100%, 0% 100%)' }}
