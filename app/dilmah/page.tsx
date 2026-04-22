@@ -100,16 +100,19 @@ export default function DilmahPage() {
       {/* ── Hero ───────────────────────────────────────────────────── */}
       <section
         className="relative w-full text-white pt-40 pb-24 px-6 overflow-hidden"
-        style={{ backgroundColor: TEAL }}
+        style={{ backgroundImage: "url('/dilmah-bg.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
+        {/* Teal overlay for readability */}
+        <div className="absolute inset-0 z-0" style={{ backgroundColor: `${TEAL}e6` }} />
+
         {/* Sandy top rule */}
         <div
-          className="absolute top-0 left-0 right-0 h-[2px]"
+          className="absolute top-0 left-0 right-0 h-[2px] z-[1]"
           style={{ background: `linear-gradient(to right, transparent, ${SANDY}60, transparent)` }}
         />
 
         {/* Ghost letter */}
-        <div className="absolute inset-0 pointer-events-none select-none overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none select-none overflow-hidden z-[1]">
           <span
             className="absolute top-10 left-[-5%] font-display italic text-[28vw] leading-none opacity-10"
             style={{ color: '#003f44' }}
@@ -179,7 +182,7 @@ export default function DilmahPage() {
                 style={{ border: `3px solid ${SANDY}60`, borderRadius: 4 }}
               >
                 <Image
-                  src="/dilmah-logo.svg"
+                  src="/dilmah-logo.png"
                   alt="Dilmah Tea logo"
                   fill
                   className="object-contain"
@@ -279,10 +282,13 @@ export default function DilmahPage() {
       {/* ── What It Means to Ceylon Stories ───────────────────────── */}
       <section
         className="relative w-full py-[clamp(80px,12vh,160px)] px-6 overflow-hidden"
-        style={{ backgroundColor: TEAL }}
+        style={{ backgroundImage: "url('/dilmah-bg.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
+        {/* Teal overlay for readability */}
+        <div className="absolute inset-0 z-0" style={{ backgroundColor: `${TEAL}e6` }} />
+
         {/* Ghost watermark */}
-        <div className="absolute inset-0 pointer-events-none select-none overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none select-none overflow-hidden z-[1]">
           <span
             className="absolute bottom-0 right-[-8%] font-display italic text-[22vw] leading-none opacity-[0.07]"
             style={{ color: '#003f44' }}
@@ -418,11 +424,14 @@ export default function DilmahPage() {
       {/* ── Visit & Reserve ────────────────────────────────────────── */}
       <section
         className="relative w-full py-[clamp(80px,12vh,160px)] px-6 overflow-hidden"
-        style={{ backgroundColor: TEAL }}
+        style={{ backgroundImage: "url('/dilmah-bg.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
+        {/* Teal overlay for readability */}
+        <div className="absolute inset-0 z-0" style={{ backgroundColor: `${TEAL}e6` }} />
+
         {/* Sandy top rule */}
         <div
-          className="absolute top-0 left-0 right-0 h-[2px]"
+          className="absolute top-0 left-0 right-0 h-[2px] z-[1]"
           style={{ background: `linear-gradient(to right, transparent, ${SANDY}60, transparent)` }}
         />
 
