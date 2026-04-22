@@ -39,10 +39,10 @@ export default function Footer() {
               <nav className="flex flex-col gap-[0.65rem]">
                 {[
                   { label: 'Home', href: '/' },
-                  { label: 'Menu', href: '#menu' },
-                  { label: 'Gallery', href: '#gallery' },
-                  { label: 'About', href: '#about' },
+                  { label: 'Menu', href: '/menu' },
+                  { label: 'Gallery', href: '/gallery' },
                   { label: 'Dilmah', href: '/dilmah' },
+                  { label: 'About', href: '/our-story' },
                 ].map(({ label, href }) => (
                   <a key={label} href={href} className="font-editorial text-[8px] tracking-[0.22em] uppercase text-mahogany/55 hover:text-mahogany transition-colors w-max">
                     {label}

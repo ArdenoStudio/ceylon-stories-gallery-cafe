@@ -103,7 +103,7 @@ export default function DilmahPage() {
         style={{ backgroundImage: "url('/dilmah-bg.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
         {/* Teal overlay for readability */}
-        <div className="absolute inset-0 z-0" style={{ backgroundColor: `${TEAL}e6` }} />
+        <div className="absolute inset-0 z-0" style={{ backgroundColor: `${TEAL}80` }} />
 
         {/* Sandy top rule */}
         <div
@@ -285,7 +285,7 @@ export default function DilmahPage() {
         style={{ backgroundImage: "url('/dilmah-bg.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
         {/* Teal overlay for readability */}
-        <div className="absolute inset-0 z-0" style={{ backgroundColor: `${TEAL}e6` }} />
+        <div className="absolute inset-0 z-0" style={{ backgroundColor: `${TEAL}80` }} />
 
         {/* Ghost watermark */}
         <div className="absolute inset-0 pointer-events-none select-none overflow-hidden z-[1]">
@@ -427,7 +427,7 @@ export default function DilmahPage() {
         style={{ backgroundImage: "url('/dilmah-bg.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
         {/* Teal overlay for readability */}
-        <div className="absolute inset-0 z-0" style={{ backgroundColor: `${TEAL}e6` }} />
+        <div className="absolute inset-0 z-0" style={{ backgroundColor: `${TEAL}80` }} />
 
         {/* Sandy top rule */}
         <div
