@@ -33,7 +33,6 @@ export default function Footer() {
 
           {/* RIGHT — two info columns */}
           <div className="flex flex-col sm:flex-row gap-10 sm:gap-0 md:w-[62%]">
-
             <div className="flex-1">
               <h3 className="font-display text-[1.1rem] font-normal text-mahogany mb-5 leading-none">Explore</h3>
               <nav className="flex flex-col gap-[0.65rem]">
@@ -69,8 +68,8 @@ export default function Footer() {
                 </a>
               </div>
             </div>
-
           </div>
+
         </div>
       </div>
     </footer>

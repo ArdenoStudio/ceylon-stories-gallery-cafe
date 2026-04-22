@@ -126,7 +126,7 @@ export default function DilmahPage() {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="flex flex-col md:flex-row md:items-end gap-12 md:gap-20"
+            className="flex flex-col md:flex-row md:items-center gap-12 md:gap-20"
           >
             <div className="flex-1">
               <motion.p
