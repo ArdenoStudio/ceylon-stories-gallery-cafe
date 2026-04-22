@@ -38,6 +38,8 @@ export default function LivingStories() {
   ];
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const touchStartX = useRef(0);
+  const touchScrollLeft = useRef(0);
 
   // Simple drag to scroll handler for IG strip
   let isDown = false;
@@ -68,6 +70,19 @@ export default function LivingStories() {
       const walk = (x - startX) * 2;
       scrollContainerRef.current.scrollLeft = scrollLeft - walk;
     }
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (scrollContainerRef.current) {
+      touchStartX.current = e.touches[0].pageX - scrollContainerRef.current.offsetLeft;
+      touchScrollLeft.current = scrollContainerRef.current.scrollLeft;
+    }
+  };
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!scrollContainerRef.current) return;
+    const x = e.touches[0].pageX - scrollContainerRef.current.offsetLeft;
+    const walk = (x - touchStartX.current) * 1.5;
+    scrollContainerRef.current.scrollLeft = touchScrollLeft.current - walk;
   };
 
   return (
@@ -174,6 +189,8 @@ export default function LivingStories() {
           onMouseLeave={handleMouseLeave}
           onMouseUp={handleMouseUp}
           onMouseMove={handleMouseMove}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
           style={{ scrollBehavior: isDown ? 'auto' : 'smooth' }}
         >
           {igImages.map((src, idx) => (
