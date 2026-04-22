@@ -4,7 +4,7 @@ import { motion } from 'motion/react';
 import Link from 'next/link';
 import { MenuItemCard } from './ui/menu-item-card';
 import { BotanicalDivider } from './heritage/BotanicalDivider';
-import { BotanicalIllustration } from './heritage/BotanicalIllustration';
+import { MotifCorner } from './heritage/MotifCorner';
 
 const items = [
   {
@@ -54,22 +54,8 @@ export default function WhatIsNew() {
     <section className="relative w-full bg-cream-page py-[clamp(80px,12vh,160px)] px-6 overflow-hidden">
       <div className="batik-line absolute top-0 left-0" />
 
-      {/* Ostrich Fern — E.J. Lowe, 1857, public domain */}
-      <BotanicalIllustration
-        src="https://www.pictureboxblue.com/wp-content/uploads/2023/07/Ostrich-Fern-Eaton-s.jpg.webp"
-        position="tr"
-        size={220}
-        blend="multiply"
-        className="opacity-30 sepia-[0.25] hidden md:block"
-      />
-      {/* Camellia sinensis — Köhler's Medizinal-Pflanzen, 1897, public domain */}
-      <BotanicalIllustration
-        src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Camellia_sinensis_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-025.jpg"
-        position="bl"
-        size={200}
-        blend="multiply"
-        className="opacity-25 sepia-[0.3] hidden md:block"
-      />
+      <MotifCorner motif="fern-frond" position="tr" size={140} className="text-clay-warm/25" />
+      <MotifCorner motif="tea-leaf" position="bl" size={110} className="text-clay-warm/25 hidden md:block" />
 
       <div className="max-w-7xl mx-auto">
         {/* Header */}
