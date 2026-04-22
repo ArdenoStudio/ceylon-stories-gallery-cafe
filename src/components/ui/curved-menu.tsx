@@ -40,6 +40,7 @@ const defaultNavItems: iNavItem[] = [
 	{ heading: "Home", href: "/", subheading: "Cinematic hero, brand story" },
 	{ heading: "Our Story", href: "/our-story", subheading: "Founders, vision & history" },
 	{ heading: "Menu", href: "/menu", subheading: "Food, beverages, Dilmah tea" },
+	{ heading: "Dilmah", href: "/dilmah", subheading: "Ceylon tea — brand & story" },
 	{ heading: "The Gallery", href: "/gallery", subheading: "Monthly rotating artist feature" },
 	{ heading: "Experience", href: "/experience", subheading: "Tea tastings, shisha lounge" },
 	{ heading: "Stories", href: "/stories", subheading: "Editorial blog & heritage" },
