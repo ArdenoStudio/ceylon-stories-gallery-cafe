@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react';
-import { motion, useSpring } from 'motion/react';
+import { motion, useMotionValue, useSpring } from 'motion/react';
 
 export default function Cursor() {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [hoverText, setHoverText] = useState('');
   const [isTouch, setIsTouch] = useState(false);
 
-  const springConfig = { damping: 25, stiffness: 150, mass: 0.5 };
-  const cursorX = useSpring(position.x, springConfig);
-  const cursorY = useSpring(position.y, springConfig);
+  const mouseX = useMotionValue(-100);
+  const mouseY = useMotionValue(-100);
 
-  const ringX = useSpring(position.x, { damping: 40, stiffness: 100, mass: 1 });
-  const ringY = useSpring(position.y, { damping: 40, stiffness: 100, mass: 1 });
+  const dotX = useSpring(mouseX, { damping: 20, stiffness: 300, mass: 0.3 });
+  const dotY = useSpring(mouseY, { damping: 20, stiffness: 300, mass: 0.3 });
+
+  const ringX = useSpring(mouseX, { damping: 30, stiffness: 180, mass: 0.6 });
+  const ringY = useSpring(mouseY, { damping: 30, stiffness: 180, mass: 0.6 });
 
   useEffect(() => {
     if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
@@ -20,26 +21,23 @@ export default function Cursor() {
       return;
     }
 
-    const updatePosition = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY });
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
-      ringX.set(e.clientX);
-      ringY.set(e.clientY);
+    const onMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
     };
 
-    const handleMouseOver = (e: MouseEvent) => {
+    const onOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      const interactiveNode = target.closest('a, button, [data-cursor-text], img');
+      const node = target.closest('a, button, [data-cursor-text], img');
 
-      if (interactiveNode) {
+      if (node) {
         setIsHovering(true);
-        if (interactiveNode.hasAttribute('data-cursor-text')) {
-          setHoverText(interactiveNode.getAttribute('data-cursor-text') || '');
-        } else if (interactiveNode.tagName === 'IMG') {
+        if (node.hasAttribute('data-cursor-text')) {
+          setHoverText(node.getAttribute('data-cursor-text') || '');
+        } else if (node.tagName === 'IMG') {
           setHoverText('VIEW');
-        } else if (interactiveNode.closest('a') && interactiveNode.closest('.blog-card')) {
-           setHoverText('READ');
+        } else if (node.closest('a') && node.closest('.blog-card')) {
+          setHoverText('READ');
         } else {
           setHoverText('');
         }
@@ -49,14 +47,13 @@ export default function Cursor() {
       }
     };
 
-    window.addEventListener('mousemove', updatePosition);
-    window.addEventListener('mouseover', handleMouseOver);
-
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseover', onOver);
     return () => {
-      window.removeEventListener('mousemove', updatePosition);
-      window.removeEventListener('mouseover', handleMouseOver);
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseover', onOver);
     };
-  }, [cursorX, cursorY, ringX, ringY]);
+  }, [mouseX, mouseY]);
 
   if (isTouch) return null;
 
@@ -67,42 +64,40 @@ export default function Cursor() {
         *:focus-visible {
           outline: 2px solid #6B2D1F !important;
           outline-offset: 3px !important;
-          cursor: auto !important;
         }
       `}</style>
 
-      {/* Outer Ring */}
+      {/* Ring */}
       <motion.div
-        className="fixed top-0 left-0 w-8 h-8 rounded-full border border-mahogany/30 pointer-events-none z-[100] transform -translate-x-1/2 -translate-y-1/2"
+        className="fixed top-0 left-0 rounded-full border border-mahogany/40 pointer-events-none z-[100]"
         style={{ x: ringX, y: ringY, translateX: '-50%', translateY: '-50%' }}
         animate={{
-          width: isHovering ? 56 : 32,
-          height: isHovering ? 56 : 32,
+          width: isHovering ? 48 : 28,
+          height: isHovering ? 48 : 28,
+          borderColor: isHovering ? 'rgba(107,45,31,0.7)' : 'rgba(107,45,31,0.4)',
         }}
-        transition={{ type: 'tween', ease: [0.16, 1, 0.3, 1], duration: 0.4 }}
+        transition={{ type: 'tween', ease: [0.16, 1, 0.3, 1], duration: 0.35 }}
       />
 
-      {/* Inner Dot & Text */}
+      {/* Dot */}
       <motion.div
-        className="fixed top-0 left-0 hidden md:flex items-center pointer-events-none z-[100] transform -translate-x-1/2 -translate-y-1/2"
-        style={{ x: cursorX, y: cursorY, translateX: '-50%', translateY: '-50%' }}
+        className="fixed top-0 left-0 pointer-events-none z-[100] flex items-center"
+        style={{ x: dotX, y: dotY, translateX: '-50%', translateY: '-50%' }}
       >
         <motion.div
-          className="bg-mahogany rounded-full flex items-center justify-center relative"
-          animate={{
-            width: isHovering ? 16 : 8,
-            height: isHovering ? 16 : 8,
-          }}
-          transition={{ type: 'tween', ease: [0.16, 1, 0.3, 1], duration: 0.4 }}
+          className="bg-mahogany rounded-full"
+          animate={{ width: isHovering ? 6 : 5, height: isHovering ? 6 : 5, opacity: isHovering ? 0.5 : 1 }}
+          transition={{ type: 'tween', ease: [0.16, 1, 0.3, 1], duration: 0.35 }}
         />
         {hoverText && (
-          <motion.div
-            initial={{ opacity: 0, x: 10 }}
-            animate={{ opacity: 1, x: 20 }}
-            className="absolute left-full whitespace-nowrap text-editorial text-[10px] tracking-widest uppercase text-mahogany bg-cream-page/80 px-2 py-1 backdrop-blur-sm"
+          <motion.span
+            initial={{ opacity: 0, x: 8 }}
+            animate={{ opacity: 1, x: 14 }}
+            exit={{ opacity: 0 }}
+            className="absolute left-full whitespace-nowrap text-editorial text-[9px] tracking-widest uppercase text-mahogany bg-cream-page/80 px-2 py-0.5 backdrop-blur-sm"
           >
             {hoverText}
-          </motion.div>
+          </motion.span>
         )}
       </motion.div>
     </>
