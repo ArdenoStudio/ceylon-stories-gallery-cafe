@@ -29,10 +29,10 @@ interface iHeaderProps {
 
 const MENU_SLIDE_ANIMATION = {
 	initial: { x: "calc(100% + 100px)" },
-	enter: { x: "0", transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } },
+	enter: { x: "0", transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] as const } },
 	exit: {
 		x: "calc(100% + 100px)",
-		transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] },
+		transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] as const },
 	},
 };
 
@@ -157,11 +157,11 @@ const Curve: React.FC = () => {
 		initial: { d: initialPath },
 		enter: {
 			d: targetPath,
-			transition: { duration: 1, ease: [0.76, 0, 0.24, 1] },
+			transition: { duration: 1, ease: [0.76, 0, 0.24, 1] as const },
 		},
 		exit: {
 			d: initialPath,
-			transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] },
+			transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] as const },
 		},
 	};
 

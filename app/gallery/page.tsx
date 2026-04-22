@@ -22,7 +22,7 @@ const artworks = [
     medium: 'Terracotta & mixed media',
     dimensions: 'Variable — approx. 60 × 40 cm each',
     year: '2025',
-    description: 'Three sculptural forms cast in locally sourced red clay, fired in an anagama kiln in Matale. Jayasinghe's work interrogates the domestic object — how we assign value to the vessel that holds our daily rituals.',
+    description: "Three sculptural forms cast in locally sourced red clay, fired in an anagama kiln in Matale. Jayasinghe's work interrogates the domestic object — how we assign value to the vessel that holds our daily rituals.",
     image: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?q=80&w=1200&auto=format&fit=crop',
     available: true,
   },

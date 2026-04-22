@@ -14,7 +14,7 @@ const items = [
   {
     tag: 'SEASONAL',
     name: 'Mango & Chilli Granita',
-    description: 'Alphonso mango purée set with a whisper of bird's eye chilli. Served in a chilled terracotta cup. Only while mango season lasts.',
+    description: "Alphonso mango purée set with a whisper of bird's eye chilli. Served in a chilled terracotta cup. Only while mango season lasts.",
     image: 'https://images.unsplash.com/photo-1488900128323-21503983a07e?q=80&w=600&auto=format&fit=crop',
     category: 'Desserts',
   },

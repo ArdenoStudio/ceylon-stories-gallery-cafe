@@ -15,11 +15,11 @@ const menuItems = [
   // Beverages
   { category: 'Beverages', name: 'Cardamom Cold Brew', description: 'Ceylon black steeped cold for 18 hours, finished with hand-crushed cardamom and coconut cream.', tag: 'New' },
   { category: 'Beverages', name: 'Heritage Lemonade', description: 'Fresh lime, ginger syrup, and a pinch of sea salt — served long over hand-cut ice.', tag: '' },
-  { category: 'Beverages', name: 'Mango & Chilli Granita', description: 'Alphonso mango purée set with a whisper of bird's eye chilli. Served in a chilled terracotta cup.', tag: 'Seasonal' },
+  { category: 'Beverages', name: 'Mango & Chilli Granita', description: "Alphonso mango purée set with a whisper of bird's eye chilli. Served in a chilled terracotta cup.", tag: 'Seasonal' },
   { category: 'Beverages', name: 'Specialty Flat White', description: 'Single-origin Ceylon robusta, 18g basket, served at 65°C. Milk from a farm just outside Nuwara Eliya.', tag: '' },
   { category: 'Beverages', name: 'Spiced Coconut Latte', description: 'Housemade coconut milk, cinnamon, clove, and a double shot of Ceylon espresso.', tag: '' },
   // Dilmah Tea
-  { category: 'Dilmah Tea', name: 'Silver Tips Reserve', description: 'Nuwara Eliya's rarest leaves harvested once a year at dawn. Steeped at exactly 75°C. No additions.', tag: 'Featured' },
+  { category: 'Dilmah Tea', name: 'Silver Tips Reserve', description: "Nuwara Eliya's rarest leaves harvested once a year at dawn. Steeped at exactly 75°C. No additions.", tag: 'Featured' },
   { category: 'Dilmah Tea', name: 'Ceylon Single Estate', description: 'A full-bodied Dimbula black — clean tannins, golden liquor. Served with pure kithul jaggery.', tag: '' },
   { category: 'Dilmah Tea', name: 'High Grown Green', description: 'Delicate Uda Pussellawa green, light-steamed, served in a Japanese-style ceramic cup at 70°C.', tag: '' },
   { category: 'Dilmah Tea', name: 'Gallery Chai', description: 'Our signature blend — black Ceylon, cardamom, cinnamon, and clove — served in hand-thrown terracotta cups.', tag: 'House Blend' },

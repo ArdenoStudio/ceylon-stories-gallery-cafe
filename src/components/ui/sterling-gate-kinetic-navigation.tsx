@@ -124,8 +124,8 @@ export function SterlingGateKineticNavigation() {
             
             tl.set(navWrap, { display: "block" })
               .set(menu, { xPercent: 0 }, "<")
-              .fromTo(menuButtonTexts, { yPercent: 0 }, { yPercent: -100, stagger: 0.2 }, "<")
-              .fromTo(menuButtonIcon, { rotate: 0 }, { rotate: 315 }, "<")
+              .fromTo(menuButtonTexts ?? [], { yPercent: 0 }, { yPercent: -100, stagger: 0.2 }, "<")
+              .fromTo(menuButtonIcon ?? [], { rotate: 0 }, { rotate: 315 }, "<")
               .fromTo(overlay, { autoAlpha: 0 }, { autoAlpha: 1 }, "<")
               .fromTo(bgPanels, { xPercent: 101 }, { xPercent: 0, stagger: 0.12, duration: 0.575 }, "<")
               .fromTo(menuLinks, { yPercent: 140, rotate: 10 }, { yPercent: 0, rotate: 0, stagger: 0.05 }, "<+=0.35");
@@ -139,8 +139,8 @@ export function SterlingGateKineticNavigation() {
 
             tl.to(overlay, { autoAlpha: 0 })
               .to(menu, { xPercent: 120 }, "<")
-              .to(menuButtonTexts, { yPercent: 0 }, "<")
-              .to(menuButtonIcon, { rotate: 0 }, "<")
+              .to(menuButtonTexts ?? [], { yPercent: 0 }, "<")
+              .to(menuButtonIcon ?? [], { rotate: 0 }, "<")
               .set(navWrap, { display: "none" });
         }
 
