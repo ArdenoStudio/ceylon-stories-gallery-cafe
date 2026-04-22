@@ -41,6 +41,8 @@ export default function LivingStories() {
   const isDragging = useRef(false);
   const dragStartX = useRef(0);
   const dragScrollLeft = useRef(0);
+  const touchStartX = useRef(0);
+  const touchScrollLeft = useRef(0);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     isDragging.current = true;
@@ -66,6 +68,19 @@ export default function LivingStories() {
       const walk = (x - dragStartX.current) * 2;
       scrollContainerRef.current.scrollLeft = dragScrollLeft.current - walk;
     }
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (scrollContainerRef.current) {
+      touchStartX.current = e.touches[0].pageX - scrollContainerRef.current.offsetLeft;
+      touchScrollLeft.current = scrollContainerRef.current.scrollLeft;
+    }
+  };
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!scrollContainerRef.current) return;
+    const x = e.touches[0].pageX - scrollContainerRef.current.offsetLeft;
+    const walk = (x - touchStartX.current) * 1.5;
+    scrollContainerRef.current.scrollLeft = touchScrollLeft.current - walk;
   };
 
   return (
@@ -172,6 +187,8 @@ export default function LivingStories() {
           onMouseLeave={handleMouseLeave}
           onMouseUp={handleMouseUp}
           onMouseMove={handleMouseMove}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
           style={{ scrollBehavior: isDown ? 'auto' : 'smooth' }}
         >
           {igImages.map((src, idx) => (
