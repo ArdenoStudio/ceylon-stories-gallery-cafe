@@ -3,7 +3,7 @@
 import { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { BotanicalDivider } from './heritage/BotanicalDivider';
-import { MotifCorner } from './heritage/MotifCorner';
+import { BotanicalIllustration } from './heritage/BotanicalIllustration';
 
 export default function LivingStories() {
   const [hoveredStory, setHoveredStory] = useState<number | null>(null);
@@ -89,8 +89,22 @@ export default function LivingStories() {
 
   return (
     <section id="stories" className="relative w-full bg-cream-page pt-[clamp(80px,10vh,150px)] pb-[clamp(100px,12vh,180px)] overflow-hidden">
-      <MotifCorner motif="palm-arch" position="tl" size={240} className="text-clay-warm/15 hidden md:block" />
-      <MotifCorner motif="frangipani" position="br" size={140} className="text-clay-warm/20" />
+      {/* Ostrich Fern — E.J. Lowe, 1857, public domain */}
+      <BotanicalIllustration
+        src="https://www.pictureboxblue.com/wp-content/uploads/2023/07/Ostrich-Fern-Eaton-s.jpg.webp"
+        position="tl"
+        size={260}
+        blend="multiply"
+        className="opacity-20 sepia-[0.2] hidden md:block"
+      />
+      {/* Camellia sinensis — Köhler's Medizinal-Pflanzen, 1897, public domain */}
+      <BotanicalIllustration
+        src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Camellia_sinensis_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-025.jpg"
+        position="br"
+        size={200}
+        blend="multiply"
+        className="opacity-25 sepia-[0.3]"
+      />
 
       <div className="max-w-7xl mx-auto px-6 pt-6 md:pt-10">
         <BotanicalDivider motif="frangipani" tone="warm" className="mb-16 md:mb-20" />

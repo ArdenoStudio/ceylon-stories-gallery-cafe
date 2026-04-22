@@ -2,8 +2,8 @@
 
 import { motion } from 'motion/react';
 import { HeritageHeading } from './heritage/HeritageHeading';
-import { MotifCorner } from './heritage/MotifCorner';
 import { BotanicalDivider } from './heritage/BotanicalDivider';
+import { BotanicalIllustration } from './heritage/BotanicalIllustration';
 
 export default function TeaRoom() {
   const rituals = [
@@ -34,8 +34,22 @@ export default function TeaRoom() {
     <section id="menu" className="relative w-full bg-cream-paper py-[clamp(100px,15vh,200px)] px-6 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none paper-texture opacity-40 mix-blend-color-burn" />
 
-      <MotifCorner motif="palm-arch" position="tl" size={260} className="text-clay-warm/20 hidden md:block" />
-      <MotifCorner motif="fern-frond" position="br" size={160} className="text-clay-warm/25" />
+      {/* Ostrich Fern — E.J. Lowe, 1857, public domain */}
+      <BotanicalIllustration
+        src="https://www.pictureboxblue.com/wp-content/uploads/2023/07/Ostrich-Fern-Eaton-s.jpg.webp"
+        position="tl"
+        size={300}
+        blend="multiply"
+        className="opacity-25 sepia-[0.2] hidden md:block"
+      />
+      {/* Plumeria rubra — vintage botanical print, c. 1800s, public domain */}
+      <BotanicalIllustration
+        src="https://upload.wikimedia.org/wikipedia/commons/4/45/1378_Plumeria_rubra.jpg"
+        position="br"
+        size={240}
+        blend="multiply"
+        className="opacity-30 sepia-[0.25]"
+      />
 
       <div className="max-w-7xl mx-auto w-full relative z-10">
 

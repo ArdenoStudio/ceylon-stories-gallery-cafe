@@ -4,7 +4,7 @@ import React from 'react';
 import { cn } from '../../lib/utils';
 import { motion, type Variants } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
-import { Motif } from '@/src/components/heritage/Motif';
+import { BotanicalIllustration } from '@/src/components/heritage/BotanicalIllustration';
 
 const InfoIcon = ({ type }: { type: 'website' | 'phone' | 'address' }) => {
   const icons = {
@@ -77,7 +77,16 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
         {...(props as React.ComponentProps<typeof motion.section>)}
       >
         {/* Left: Content */}
-        <div className="relative flex w-full flex-col justify-between p-10 md:w-1/2 md:p-14 lg:w-3/5 lg:p-20">
+        <div className="relative flex w-full flex-col justify-between p-10 md:w-1/2 md:p-14 lg:w-3/5 lg:p-20 overflow-hidden">
+          {/* Bohea tea tree — Curtis's Botanical Magazine, 1807, public domain */}
+          <BotanicalIllustration
+            src="https://upload.wikimedia.org/wikipedia/commons/d/de/Bohea_Tea_tree.jpg"
+            position="br"
+            size={340}
+            blend="multiply"
+            className="opacity-[0.12] sepia-[0.3] hidden lg:block"
+          />
+
           {/* Ghost anchor numeral (absolute, non-interactive) */}
           {establishedYear && (
             <span
@@ -195,10 +204,13 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
               animate={{ scale: 1.06 }}
               transition={{ duration: 14, ease: 'linear', delay: 1.4 }}
             />
-            {/* Botanical corner over image */}
-            <Motif
-              name="fern-frond"
-              className="pointer-events-none absolute top-6 right-6 h-24 w-24 md:h-32 md:w-32 text-gold-leaf/40 z-10 scale-x-[-1]"
+            {/* Plumeria rubra — vintage botanical print, c.1800s, public domain */}
+            <BotanicalIllustration
+              src="https://upload.wikimedia.org/wikipedia/commons/4/45/1378_Plumeria_rubra.jpg"
+              position="tr"
+              size={180}
+              blend="screen"
+              className="opacity-20 sepia-[0.2] z-10"
             />
             {/* Subtle darkening so any light image still reads */}
             <div className="absolute inset-0 bg-mahogany/10 mix-blend-multiply" />
