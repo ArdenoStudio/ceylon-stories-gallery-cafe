@@ -62,7 +62,14 @@ export default function Cursor() {
 
   return (
     <>
-      <style>{`* { cursor: none !important; }`}</style>
+      <style>{`
+        * { cursor: none !important; }
+        *:focus-visible {
+          outline: 2px solid #6B2D1F !important;
+          outline-offset: 3px !important;
+          cursor: auto !important;
+        }
+      `}</style>
 
       {/* Outer Ring */}
       <motion.div
