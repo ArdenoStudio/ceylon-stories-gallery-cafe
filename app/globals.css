@@ -27,6 +27,15 @@
 }
 
 @layer base {
+  html {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  html::-webkit-scrollbar {
+    display: none;
+  }
+
   body {
     @apply bg-cream-page text-mahogany font-body;
     scrollbar-width: none;
