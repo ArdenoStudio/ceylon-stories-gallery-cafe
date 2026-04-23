@@ -201,20 +201,24 @@ function MenuPageContent() {
         <div className="max-w-7xl mx-auto">
 
           {/* Filter Tabs */}
-          <div className="flex flex-wrap gap-3 mb-16 border-b border-mahogany/10 pb-8">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActive(cat)}
-                className={`font-editorial text-[10px] tracking-[0.2em] uppercase px-4 py-2 border transition-colors duration-300 ${
-                  active === cat
-                    ? 'bg-mahogany text-cream-page border-mahogany'
-                    : 'text-mahogany/60 border-mahogany/20 hover:border-mahogany/60 hover:text-mahogany'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+          <div className="relative mb-16">
+            <div className="pointer-events-none absolute left-0 top-0 h-full w-12 bg-gradient-to-r from-cream-page to-transparent z-10" />
+            <div className="pointer-events-none absolute right-0 top-0 h-full w-12 bg-gradient-to-l from-cream-page to-transparent z-10" />
+            <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-4 border-b border-mahogany/10 px-1">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActive(cat)}
+                  className={`font-editorial text-[10px] tracking-[0.2em] uppercase whitespace-nowrap px-5 py-2.5 rounded-full border transition-all duration-300 flex-shrink-0 ${
+                    active === cat
+                      ? 'bg-mahogany text-cream-page border-mahogany shadow-md'
+                      : 'text-mahogany/55 border-mahogany/20 bg-transparent hover:border-mahogany/50 hover:text-mahogany hover:bg-mahogany/5'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Items */}

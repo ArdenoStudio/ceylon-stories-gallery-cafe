@@ -73,6 +73,9 @@
 }
 
 @layer utilities {
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { scrollbar-width: none; -ms-overflow-style: none; }
+
   .noise-overlay {
     position: fixed;
     top: 0;
