@@ -154,10 +154,9 @@ export const ShoppingCart: React.FC<ShoppingCartProps> = ({ items, onQuantityCha
             <div className="flex justify-between">
               <span className="flex items-center gap-1">
                 Service Charge
-                <Info
-                  className="h-3.5 w-3.5 text-mahogany/40 cursor-help"
-                  title="A fixed service fee applied to all orders"
-                />
+                <span title="A fixed service fee applied to all orders" className="cursor-help">
+                  <Info className="h-3.5 w-3.5 text-mahogany/40" />
+                </span>
               </span>
               <span className="font-medium">{formatCurrency(shipping)}</span>
             </div>
