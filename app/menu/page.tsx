@@ -2,12 +2,12 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useAnimation } from 'motion/react';
-import { ShoppingBag } from 'lucide-react';
+import { ShoppingBag, LayoutGrid, Utensils, UtensilsCrossed, Leaf, Wheat, Sandwich, ChefHat, Cookie, Coffee, Wine, GlassWater, Droplets, Zap, type LucideIcon } from 'lucide-react';
 import { MenuItemCard } from '@/src/components/ui/menu-item-card';
 import { MenuItemModal, type MenuItemDetail } from '@/src/components/ui/menu-item-modal';
 import { CartProvider, useCart } from '@/src/components/CartContext';
 import { CartDrawer } from '@/src/components/CartDrawer';
-import type { MenuItem } from '@/src/types/menu';
+import type { MenuItem, MenuCategory } from '@/src/types/menu';
 
 interface FlyItemData {
   id: number;
@@ -60,8 +60,24 @@ export default function MenuPage() {
 }
 
 function MenuPageContent() {
+  const FOOD_CATS: MenuCategory[] = ['Soup','Salad','Starters','Rice','Kothu','Chun Paan','Toasty Panini','Western','Desserts'];
+  const DRINK_CATS: MenuCategory[] = ['Kopi Base','Mocktails','Milkshakes','Fresh Juice','Energy Drinks','Water','Dilmah Hot Teas','Dilmah Iced Teas','Dilmah Smoothies'];
+  const CATEGORY_ICONS: Record<string, LucideIcon> = {
+    'All': LayoutGrid, 'Soup': UtensilsCrossed, 'Salad': Leaf, 'Starters': UtensilsCrossed,
+    'Rice': Wheat, 'Kothu': Utensils, 'Chun Paan': Sandwich, 'Toasty Panini': Sandwich,
+    'Western': ChefHat, 'Desserts': Cookie, 'Kopi Base': Coffee, 'Mocktails': Wine,
+    'Milkshakes': GlassWater, 'Fresh Juice': Droplets, 'Energy Drinks': Zap,
+    'Water': Droplets, 'Dilmah Hot Teas': Coffee, 'Dilmah Iced Teas': GlassWater, 'Dilmah Smoothies': GlassWater,
+  };
+  const TIERS = [
+    { label: 'All' as const, Icon: LayoutGrid },
+    { label: 'Food' as const, Icon: Utensils },
+    { label: 'Drinks' as const, Icon: Coffee },
+  ];
+
   const { addItem, totalItems, openCart } = useCart();
   const [active, setActive] = useState('All');
+  const [activeTier, setActiveTier] = useState<'All' | 'Food' | 'Drinks'>('All');
   const [selectedItem, setSelectedItem] = useState<MenuItemDetail | null>(null);
   const [flyItems, setFlyItems] = useState<FlyItemData[]>([]);
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
@@ -69,6 +85,7 @@ function MenuPageContent() {
   const flyCounter = useRef(0);
   const cartButtonRef = useRef<HTMLButtonElement>(null);
   const bagControls = useAnimation();
+  const pillRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
 
   useEffect(() => {
     fetch('/api/menu')
@@ -77,8 +94,18 @@ function MenuPageContent() {
       .catch(() => setLoading(false));
   }, []);
 
-  const categories = ['All', ...Array.from(new Set(menuItems.map(i => i.category)))];
-  const filtered = active === 'All' ? menuItems : menuItems.filter((i) => i.category === active);
+  useEffect(() => {
+    pillRefs.current.get(active)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }, [active]);
+
+  const categories = Array.from(new Set(menuItems.map(i => i.category)));
+  const filtered = (() => {
+    if (activeTier === 'All') return menuItems;
+    const group = menuItems.filter(i =>
+      activeTier === 'Food' ? FOOD_CATS.includes(i.category) : DRINK_CATS.includes(i.category)
+    );
+    return active === 'All' ? group : group.filter(i => i.category === active);
+  })();
 
   const triggerFly = (sourceRect: DOMRect, imageUrl: string) => {
     setTimeout(() => {
@@ -201,27 +228,55 @@ function MenuPageContent() {
         <div className="max-w-7xl mx-auto">
 
           {/* Filter Tabs */}
-          <div className="relative mb-16">
+          <div className="relative mb-16 space-y-2">
+            {/* Tier 1: All / Food / Drinks */}
             <div className="glass-filter-bar rounded-2xl px-3 py-3">
-              <div className="pointer-events-none absolute left-3 top-0 h-full w-10 bg-gradient-to-r from-white/10 to-transparent z-10 rounded-l-2xl" />
-              <div className="pointer-events-none absolute right-3 top-0 h-full w-10 bg-gradient-to-l from-white/10 to-transparent z-10 rounded-r-2xl" />
-              <div className="flex gap-2 overflow-x-auto scrollbar-hide px-1">
-                {categories.map((cat) => (
+              <div className="flex gap-2 px-1">
+                {TIERS.map(({ label, Icon }) => (
                   <button
-                    key={cat}
-                    onClick={() => setActive(cat)}
-                    className={`font-editorial text-[10px] tracking-[0.2em] uppercase whitespace-nowrap px-5 py-2.5 rounded-full flex-shrink-0 cursor-pointer ${
-                      active === cat
+                    key={label}
+                    onClick={() => { setActiveTier(label); setActive('All'); }}
+                    className={`font-editorial text-[10px] tracking-[0.2em] uppercase whitespace-nowrap px-5 py-2.5 rounded-full flex-shrink-0 cursor-pointer inline-flex items-center gap-2 ${
+                      activeTier === label
                         ? 'glass-pill-active text-cream-page'
                         : 'glass-pill text-mahogany/65 hover:text-mahogany'
                     }`}
                   >
-                    {cat}
+                    <Icon className="w-3 h-3" />
+                    {label}
                   </button>
                 ))}
               </div>
             </div>
-            <div className="mt-6 border-b border-mahogany/10" />
+
+            {/* Tier 2: Subcategory pills */}
+            {activeTier !== 'All' && (
+              <div className="relative glass-filter-bar rounded-2xl px-3 py-3">
+                <div className="pointer-events-none absolute left-3 top-0 h-full w-10 bg-gradient-to-r from-white/10 to-transparent z-10 rounded-l-2xl" />
+                <div className="pointer-events-none absolute right-3 top-0 h-full w-10 bg-gradient-to-l from-white/10 to-transparent z-10 rounded-r-2xl" />
+                <div className="flex gap-2 overflow-x-auto scrollbar-hide px-1">
+                  {(['All', ...(activeTier === 'Food' ? FOOD_CATS : DRINK_CATS).filter(c => categories.includes(c))] as string[]).map((cat) => {
+                    const Icon = CATEGORY_ICONS[cat] ?? Utensils;
+                    return (
+                      <button
+                        key={cat}
+                        ref={(el) => { if (el) pillRefs.current.set(cat, el); else pillRefs.current.delete(cat); }}
+                        onClick={() => setActive(cat)}
+                        className={`font-editorial text-[10px] tracking-[0.2em] uppercase whitespace-nowrap px-5 py-2.5 rounded-full flex-shrink-0 cursor-pointer inline-flex items-center gap-2 ${
+                          active === cat
+                            ? 'glass-pill-active text-cream-page'
+                            : 'glass-pill text-mahogany/65 hover:text-mahogany'
+                        }`}
+                      >
+                        <Icon className="w-3 h-3" />
+                        {cat}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+            <div className="mt-4 border-b border-mahogany/10" />
           </div>
 
           {/* Items */}
