@@ -45,6 +45,7 @@ export function CartDrawer() {
                 items={items}
                 onQuantityChange={updateQuantity}
                 onRemoveItem={removeItem}
+                onClose={closeCart}
               />
             </div>
           </motion.div>

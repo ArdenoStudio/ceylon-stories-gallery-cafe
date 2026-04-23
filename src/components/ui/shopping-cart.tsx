@@ -4,7 +4,7 @@ import { Button } from '@/src/components/ui/button';
 import { Separator } from '@/src/components/ui/separator';
 import { ScrollArea } from '@/src/components/ui/scroll-area';
 import { Input } from '@/src/components/ui/input';
-import { Plus, Minus, Trash2 } from 'lucide-react';
+import { Plus, Minus, Trash2, Info } from 'lucide-react';
 
 interface CartItem {
   id: string;
@@ -19,6 +19,7 @@ interface ShoppingCartProps {
   items: CartItem[];
   onQuantityChange: (id: string, newQuantity: number) => void;
   onRemoveItem: (id: string) => void;
+  onClose?: () => void;
 }
 
 function WoodenCartIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -29,7 +30,7 @@ function WoodenCartIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-export const ShoppingCart: React.FC<ShoppingCartProps> = ({ items, onQuantityChange, onRemoveItem }) => {
+export const ShoppingCart: React.FC<ShoppingCartProps> = ({ items, onQuantityChange, onRemoveItem, onClose }) => {
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const shipping = subtotal > 0 ? 500 : 0;
   const taxRate = 0.1;
@@ -71,7 +72,7 @@ export const ShoppingCart: React.FC<ShoppingCartProps> = ({ items, onQuantityCha
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-4">
                       <div className="min-w-0">
-                        <h3 className="truncate text-xl font-medium">{item.name}</h3>
+                        <h3 className="line-clamp-2 text-xl font-medium">{item.name}</h3>
                         <p className="mt-1 text-sm text-mahogany/60">{formatCurrency(item.price)} per item</p>
                       </div>
                       <p className="shrink-0 text-2xl font-semibold tracking-tight">
@@ -96,7 +97,7 @@ export const ShoppingCart: React.FC<ShoppingCartProps> = ({ items, onQuantityCha
                           value={item.quantity}
                           onChange={(e) => {
                             const newQty = parseInt(e.target.value);
-                            if (!isNaN(newQty) && newQty >= 1) {
+                            if (!isNaN(newQty) && newQty >= 1 && newQty <= 99) {
                               onQuantityChange(item.id, newQty);
                             }
                           }}
@@ -107,6 +108,7 @@ export const ShoppingCart: React.FC<ShoppingCartProps> = ({ items, onQuantityCha
                           size="icon"
                           className="h-10 w-10 border-mahogany/15 bg-transparent"
                           onClick={() => onQuantityChange(item.id, item.quantity + 1)}
+                          disabled={item.quantity >= 99}
                         >
                           <Plus className="h-4 w-4" />
                         </Button>
@@ -116,7 +118,11 @@ export const ShoppingCart: React.FC<ShoppingCartProps> = ({ items, onQuantityCha
                         variant="ghost"
                         size="icon"
                         className="h-10 w-10 text-red-500 hover:bg-red-500/10 hover:text-red-600"
-                        onClick={() => onRemoveItem(item.id)}
+                        onClick={() => {
+                          if (window.confirm(`Remove "${item.name}" from your cart?`)) {
+                            onRemoveItem(item.id);
+                          }
+                        }}
                       >
                         <Trash2 className="h-5 w-5" />
                       </Button>
@@ -128,6 +134,17 @@ export const ShoppingCart: React.FC<ShoppingCartProps> = ({ items, onQuantityCha
           </ScrollArea>
         )}
 
+        {items.length > 0 && onClose && (
+          <div className="py-3 text-center">
+            <button
+              onClick={onClose}
+              className="text-sm text-mahogany/50 underline-offset-2 hover:text-mahogany hover:underline transition-colors"
+            >
+              ← Continue shopping
+            </button>
+          </div>
+        )}
+
         <div className="mt-auto border-t border-mahogany/10 pt-6">
           <div className="grid gap-3 text-sm">
             <div className="flex justify-between">
@@ -135,7 +152,13 @@ export const ShoppingCart: React.FC<ShoppingCartProps> = ({ items, onQuantityCha
               <span className="font-medium">{formatCurrency(subtotal)}</span>
             </div>
             <div className="flex justify-between">
-              <span>Service Charge</span>
+              <span className="flex items-center gap-1">
+                Service Charge
+                <Info
+                  className="h-3.5 w-3.5 text-mahogany/40 cursor-help"
+                  title="A fixed service fee applied to all orders"
+                />
+              </span>
               <span className="font-medium">{formatCurrency(shipping)}</span>
             </div>
             <div className="flex justify-between">
