@@ -4,7 +4,7 @@ import { Button } from '@/src/components/ui/button';
 import { Separator } from '@/src/components/ui/separator';
 import { ScrollArea } from '@/src/components/ui/scroll-area';
 import { Input } from '@/src/components/ui/input';
-import { Plus, Minus, Trash2, ShoppingCart as ShoppingCartIcon } from 'lucide-react';
+import { Plus, Minus, Trash2 } from 'lucide-react';
 
 interface CartItem {
   id: string;
@@ -19,6 +19,14 @@ interface ShoppingCartProps {
   items: CartItem[];
   onQuantityChange: (id: string, newQuantity: number) => void;
   onRemoveItem: (id: string) => void;
+}
+
+function WoodenCartIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" {...props}>
+      <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A.996.996 0 0 0 21.42 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" />
+    </svg>
+  );
 }
 
 export const ShoppingCart: React.FC<ShoppingCartProps> = ({ items, onQuantityChange, onRemoveItem }) => {
@@ -37,7 +45,7 @@ export const ShoppingCart: React.FC<ShoppingCartProps> = ({ items, onQuantityCha
     <div className="flex h-full w-full flex-col text-mahogany">
       <div className="flex items-end justify-between gap-4 border-b border-mahogany/10 pb-5">
         <div className="flex items-center gap-3">
-          <ShoppingCartIcon className="h-6 w-6 shrink-0" />
+          <WoodenCartIcon className="h-6 w-6 shrink-0 text-mahogany" />
           <h2 className="text-[clamp(2rem,2.6vw,2.4rem)] font-semibold leading-none tracking-tight">
             Your Shopping Cart
           </h2>
