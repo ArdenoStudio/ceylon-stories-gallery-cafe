@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'motion/react';
 import CurvedMenuHeader from './ui/curved-menu';
 
@@ -33,13 +34,17 @@ export default function Navigation() {
           <span className={`font-display italic text-lg md:text-xl transition-colors duration-500 ${scrolled ? 'text-mahogany' : 'text-cream-page md:text-cream-page text-mahogany mix-blend-difference'}`}>I</span>
         </div>
         
-        {/* Centre: Wordmark */}
-        <div className="flex-1 flex justify-center pointer-events-auto mt-1">
-          <Link
-            href="/"
-            className="font-display font-normal text-mahogany text-[18px] tracking-wide select-none outline-none"
-          >
-            CEYLON STORIES
+        {/* Centre: Logo */}
+        <div className="flex-1 flex justify-center pointer-events-auto">
+          <Link href="/" className="select-none outline-none">
+            <Image
+              src={scrolled ? '/logo-black.png' : '/logo-white.png'}
+              alt="Ceylon Stories Gallery Cafe"
+              width={72}
+              height={72}
+              className="transition-opacity duration-500"
+              priority
+            />
           </Link>
         </div>
         
