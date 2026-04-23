@@ -358,21 +358,45 @@ function MenuPageContent() {
         {totalItems > 0 && (
           <motion.button
             ref={cartButtonRef}
+            type="button"
             onClick={openCart}
-            className="fixed bottom-6 left-6 z-[90] flex items-center gap-3 bg-cream-page text-mahogany border border-mahogany/20 px-4 py-3 shadow-ink hover:border-mahogany/40 transition-colors"
+            className="group fixed bottom-5 left-5 md:bottom-7 md:left-7 z-[90] isolate flex items-center gap-3 overflow-hidden rounded-[18px] border border-mahogany/15 bg-cream-paper/90 px-3 py-3 text-mahogany shadow-[0_18px_44px_rgba(42,24,16,0.18)] backdrop-blur-md transition-[border-color,background-color,box-shadow,transform] duration-500 hover:border-gold-leaf/45 hover:bg-cream-page/95 hover:shadow-[0_22px_54px_rgba(42,24,16,0.22)]"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            whileHover={{ y: -2 }}
-            aria-label="Open order"
+            whileHover={{ y: -3, scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
+            aria-label={`Open order with ${totalItems} item${totalItems === 1 ? '' : 's'}`}
           >
-            <motion.span animate={bagControls} className="flex items-center justify-center">
-              <ShoppingBag className="w-4 h-4 text-clay-warm shrink-0" />
+            <span className="absolute inset-0 bg-[linear-gradient(135deg,rgba(184,146,74,0.12),transparent_45%,rgba(181,85,46,0.10))] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+            <span className="absolute inset-[5px] rounded-[13px] border border-white/35 opacity-60" />
+
+            <motion.span
+              animate={bagControls}
+              className="relative flex h-11 w-11 items-center justify-center rounded-[12px] border border-clay-warm/15 bg-[linear-gradient(145deg,rgba(244,236,220,0.98),rgba(235,224,202,0.92))] shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_8px_18px_rgba(42,24,16,0.08)]"
+            >
+              <ShoppingBag className="h-4 w-4 shrink-0 text-clay-warm" />
             </motion.span>
-            <span className="font-editorial text-[10px] tracking-[0.15em] uppercase">
-              Order · {totalItems}
+
+            <span className="relative flex min-w-[5rem] flex-col items-start justify-center leading-none">
+              <span className="font-body text-[8px] font-medium uppercase tracking-[0.32em] text-mahogany/42">
+                Your cart
+              </span>
+              <span className="mt-1.5 font-editorial text-[11px] uppercase tracking-[0.24em] text-mahogany">
+                Order
+              </span>
             </span>
+
+            <motion.span
+              key={totalItems}
+              initial={{ scale: 0.86, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+              className="relative flex h-10 min-w-10 items-center justify-center rounded-full border border-mahogany/10 bg-mahogany px-3 font-body text-sm font-semibold text-cream-page shadow-[0_10px_22px_rgba(42,24,16,0.22)]"
+            >
+              {totalItems}
+            </motion.span>
           </motion.button>
         )}
       </AnimatePresence>
