@@ -202,23 +202,26 @@ function MenuPageContent() {
 
           {/* Filter Tabs */}
           <div className="relative mb-16">
-            <div className="pointer-events-none absolute left-0 top-0 h-full w-12 bg-gradient-to-r from-cream-page to-transparent z-10" />
-            <div className="pointer-events-none absolute right-0 top-0 h-full w-12 bg-gradient-to-l from-cream-page to-transparent z-10" />
-            <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-4 border-b border-mahogany/10 px-1">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setActive(cat)}
-                  className={`font-editorial text-[10px] tracking-[0.2em] uppercase whitespace-nowrap px-5 py-2.5 rounded-full border transition-all duration-300 flex-shrink-0 ${
-                    active === cat
-                      ? 'bg-mahogany text-cream-page border-mahogany shadow-md'
-                      : 'text-mahogany/55 border-mahogany/20 bg-transparent hover:border-mahogany/50 hover:text-mahogany hover:bg-mahogany/5'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
+            <div className="glass-filter-bar rounded-2xl px-3 py-3">
+              <div className="pointer-events-none absolute left-3 top-0 h-full w-10 bg-gradient-to-r from-white/10 to-transparent z-10 rounded-l-2xl" />
+              <div className="pointer-events-none absolute right-3 top-0 h-full w-10 bg-gradient-to-l from-white/10 to-transparent z-10 rounded-r-2xl" />
+              <div className="flex gap-2 overflow-x-auto scrollbar-hide px-1">
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setActive(cat)}
+                    className={`font-editorial text-[10px] tracking-[0.2em] uppercase whitespace-nowrap px-5 py-2.5 rounded-full flex-shrink-0 cursor-pointer ${
+                      active === cat
+                        ? 'glass-pill-active text-cream-page'
+                        : 'glass-pill text-mahogany/65 hover:text-mahogany'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
             </div>
+            <div className="mt-6 border-b border-mahogany/10" />
           </div>
 
           {/* Items */}
