@@ -50,19 +50,29 @@ const defaultNavItems: iNavItem[] = [
 
 const CustomFooter: React.FC = () => {
 	return (
-		<div className="flex w-full text-sm justify-between text-mahogany px-10 md:px-24 py-5 border-t border-mahogany/20 mt-8 font-editorial">
-			<a href="#" className="hover:text-clay-warm transition-colors" aria-label="Instagram">
-				<Instagram size={20} />
-			</a>
-			<a href="#" className="hover:text-clay-warm transition-colors" aria-label="Directions">
-				<MapPin size={20} />
-			</a>
-			<a href="#" className="hover:text-clay-warm transition-colors" aria-label="Email">
-				<Mail size={20} />
-			</a>
-			<a href="#" className="hover:text-clay-warm transition-colors" aria-label="Menu">
-				<BookOpen size={20} />
-			</a>
+		<div className="px-10 md:px-24 mt-8 font-editorial">
+			{/* Status indicator */}
+			<div className="flex items-center gap-3 mb-6 pb-5 border-b border-mahogany/15">
+				<span className="h-2 w-2 rounded-full bg-forest/80 animate-pulse" />
+				<span className="text-[9px] tracking-[0.22em] uppercase text-mahogany/55">
+					Open Today · 8:00 AM — 10:00 PM
+				</span>
+			</div>
+			{/* Social links */}
+			<div className="flex w-full text-sm justify-between text-mahogany py-3">
+				<a href="https://instagram.com/ceylonstories.gallerycafe" target="_blank" rel="noreferrer" className="hover:text-clay-warm transition-colors" aria-label="Instagram">
+					<Instagram size={18} />
+				</a>
+				<a href="/visit" className="hover:text-clay-warm transition-colors" aria-label="Directions">
+					<MapPin size={18} />
+				</a>
+				<a href="mailto:hello@ceylonstories.lk" className="hover:text-clay-warm transition-colors" aria-label="Email">
+					<Mail size={18} />
+				</a>
+				<a href="/menu" className="hover:text-clay-warm transition-colors" aria-label="Menu">
+					<BookOpen size={18} />
+				</a>
+			</div>
 		</div>
 	);
 };
@@ -70,6 +80,7 @@ const CustomFooter: React.FC = () => {
 const NavLink: React.FC<iNavLinkProps> = ({
 	heading,
 	href,
+	subheading,
 	setIsActive,
 	index,
 }) => {
@@ -96,25 +107,27 @@ const NavLink: React.FC<iNavLinkProps> = ({
 			onClick={handleClick}
 			initial="initial"
 			whileHover="whileHover"
-			className="group relative flex items-center justify-between border-b border-mahogany/20 py-4 transition-colors duration-500 md:py-6 uppercase"
+			className="group relative flex items-center justify-between border-b border-mahogany/20 py-3 transition-colors duration-500 md:py-5 uppercase"
 		>
 			<Link ref={ref} onMouseMove={handleMouseMove} href={href} className="w-full">
-				<div className="relative flex flex-col md:flex-row md:items-center gap-2 md:gap-6">
-					<span className="text-mahogany/50 transition-colors duration-500 text-sm md:text-xl font-editorial tracking-[0.2em]">
-						0{index}.
+				<div className="relative flex flex-col md:flex-row md:items-center gap-1 md:gap-6">
+					<span className="text-mahogany/40 transition-colors duration-500 text-xs md:text-sm font-editorial tracking-[0.25em] w-8 shrink-0">
+						0{index}
 					</span>
-					<div className="flex flex-col">
+					<div className="flex flex-col gap-1">
 						<motion.span
 							variants={{
 								initial: { x: 0 },
-								whileHover: { x: 12 },
+								whileHover: { x: 10 },
 							}}
 							transition={{
 								type: "spring",
-								staggerChildren: 0.075,
-								delayChildren: 0.1,
+								stiffness: 300,
+								damping: 25,
+								staggerChildren: 0.04,
+								delayChildren: 0.05,
 							}}
-							className="relative z-10 font-display text-4xl md:text-5xl lg:text-6xl text-mahogany transition-colors duration-500 tracking-tight group-hover:italic"
+							className="relative z-10 font-display text-3xl md:text-4xl lg:text-5xl text-mahogany transition-colors duration-500 tracking-[-0.02em] group-hover:italic"
 						>
 							{heading.split("").map((letter, i) => {
 								return (
@@ -122,9 +135,9 @@ const NavLink: React.FC<iNavLinkProps> = ({
 										key={i}
 										variants={{
 											initial: { x: 0 },
-											whileHover: { x: 8 },
+											whileHover: { x: 6 },
 										}}
-										transition={{ type: "spring" }}
+										transition={{ type: "spring", stiffness: 300, damping: 25 }}
 										className="inline-block"
 									>
 										{letter === " " ? "\u00A0" : letter}
@@ -132,6 +145,11 @@ const NavLink: React.FC<iNavLinkProps> = ({
 								);
 							})}
 						</motion.span>
+						{subheading && (
+							<span className="font-editorial text-[8px] tracking-[0.18em] text-mahogany/35 normal-case mt-0.5">
+								{subheading}
+							</span>
+						)}
 					</div>
 				</div>
 			</Link>
