@@ -25,7 +25,7 @@ export function CartDrawer() {
 
           {/* Drawer */}
           <motion.div
-            className="relative z-10 w-full max-w-lg bg-cream-page flex flex-col h-full overflow-y-auto"
+            className="relative z-10 flex h-full w-full max-w-xl flex-col overflow-hidden border-l border-mahogany/10 bg-cream-page"
             style={{ boxShadow: '-20px 0 60px rgba(42, 24, 16, 0.25)' }}
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
@@ -40,7 +40,7 @@ export function CartDrawer() {
               <X className="w-4 h-4" />
             </button>
 
-            <div className="p-6 pt-12">
+            <div className="flex min-h-0 flex-1 px-6 pb-6 pt-12 sm:px-8 sm:pb-8">
               <ShoppingCart
                 items={items}
                 onQuantityChange={updateQuantity}
