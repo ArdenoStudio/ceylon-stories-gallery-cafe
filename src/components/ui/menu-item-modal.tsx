@@ -193,28 +193,30 @@ export function MenuItemModal({ item, onClose, onAddToCart }: MenuItemModalProps
                 {onAddToCart && (
                   <div className="mt-auto pt-4 border-t border-mahogany/10">
                     <div className="flex items-center gap-3">
-                      <div className="flex items-center border border-mahogany/15">
+                      {/* Counter — matches meta pill aesthetic */}
+                      <div className="flex items-center rounded-md bg-mahogany/5 border border-mahogany/8 px-1 py-2 gap-1">
                         <button
                           onClick={() => setQty(q => Math.max(1, q - 1))}
                           disabled={qty <= 1}
-                          className="w-9 h-9 flex items-center justify-center text-mahogany/50 hover:text-mahogany transition-colors disabled:opacity-30"
+                          className="w-7 h-7 flex items-center justify-center rounded-sm text-mahogany/45 hover:bg-mahogany/8 hover:text-mahogany transition-colors disabled:opacity-25"
                           aria-label="Decrease"
                         >
-                          <Minus className="w-3.5 h-3.5" />
+                          <Minus className="w-3 h-3" />
                         </button>
-                        <span className="font-editorial text-[12px] tracking-[0.1em] text-mahogany w-8 text-center select-none">{qty}</span>
+                        <span className="font-editorial text-[11px] tracking-[0.15em] text-mahogany w-7 text-center select-none">{qty}</span>
                         <button
                           onClick={() => setQty(q => Math.min(10, q + 1))}
                           disabled={qty >= 10}
-                          className="w-9 h-9 flex items-center justify-center text-mahogany/50 hover:text-mahogany transition-colors disabled:opacity-30"
+                          className="w-7 h-7 flex items-center justify-center rounded-sm text-mahogany/45 hover:bg-mahogany/8 hover:text-mahogany transition-colors disabled:opacity-25"
                           aria-label="Increase"
                         >
-                          <Plus className="w-3.5 h-3.5" />
+                          <Plus className="w-3 h-3" />
                         </button>
                       </div>
+                      {/* Add to Order — same radius, filled variant */}
                       <button
                         onClick={() => { onAddToCart(qty); setQty(1); }}
-                        className="flex-1 bg-mahogany text-cream-page font-editorial text-[10px] tracking-[0.25em] uppercase py-3 hover:bg-mahogany-soft transition-colors"
+                        className="flex-1 rounded-md bg-mahogany text-cream-page font-editorial text-[10px] tracking-[0.25em] uppercase py-[11px] hover:bg-mahogany-soft active:scale-[0.98] transition-all duration-200"
                       >
                         Add{qty > 1 ? ` ${qty} ×` : ''} to Order
                       </button>
