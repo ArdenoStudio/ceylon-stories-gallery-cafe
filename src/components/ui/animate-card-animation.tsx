@@ -141,7 +141,7 @@ function AnimatedDrinkCard({
 
 export default function AnimatedDrinkStack({ cards }: { cards: DrinkCard[] }) {
   return (
-    <div className="relative h-[380px] w-full overflow-visible sm:w-[480px]">
+    <div className="relative h-[380px] w-full overflow-hidden sm:w-[480px]">
       <AnimatePresence initial={false}>
         {cards.slice(0, 3).map((card, index) => (
           <AnimatedDrinkCard key={card.id} card={card} index={index} />
