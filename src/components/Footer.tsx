@@ -1,6 +1,13 @@
 'use client';
 
+import { CalendarDays } from 'lucide-react';
+
+import { useReservation } from './ReservationProvider';
+import ShinyButton from './ui/shiny-button';
+
 export default function Footer() {
+  const { openReservation } = useReservation();
+
   return (
     <footer id="contact" className="w-full bg-cream-page text-mahogany px-5 py-5 md:px-8 md:py-8">
       {/* Outer frame — sharp corners */}
@@ -63,9 +70,15 @@ export default function Footer() {
                 <a href="mailto:hello@ceylonstories.lk" className="font-editorial text-[8px] tracking-[0.12em] uppercase text-mahogany/55 hover:text-mahogany transition-colors w-max">
                   hello@ceylonstories.lk
                 </a>
-                <a href="https://wa.me/94770000000" target="_blank" rel="noreferrer" className="font-editorial text-[8px] tracking-[0.22em] uppercase text-mahogany/55 hover:text-mahogany transition-colors w-max">
-                  Reservations
-                </a>
+                <div className="pt-3">
+                  <ShinyButton
+                    onClick={openReservation}
+                    icon={<CalendarDays className="size-3.5" strokeWidth={1.7} />}
+                    className="min-w-[158px] bg-[#24130d] px-4 py-2.5 shadow-[0_14px_28px_rgba(0,0,0,0.16)]"
+                  >
+                    Reserve
+                  </ShinyButton>
+                </div>
               </div>
             </div>
           </div>

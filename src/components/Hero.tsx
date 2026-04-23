@@ -1,8 +1,11 @@
 'use client';
 
 import { HeroSection } from './ui/hero-section-2';
+import { useReservation } from './ReservationProvider';
 
 export default function Hero() {
+  const { openReservation } = useReservation();
+
   return (
     <HeroSection
       slogan="Marine Drive · Colombo 03 · Gallery Cafe"
@@ -17,7 +20,7 @@ export default function Hero() {
       hours="Open Daily · 8:00 AM — 10:00 PM"
       callToAction={{
         text: 'Reserve Your Table',
-        href: 'https://wa.me/94770000000?text=Hi%20Ceylon%20Stories%2C%20I%27d%20like%20to%20make%20a%20reservation.',
+        onClick: openReservation,
       }}
       secondaryCallToAction={{
         text: 'Browse the Menu',
