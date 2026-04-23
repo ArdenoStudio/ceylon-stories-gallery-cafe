@@ -4,6 +4,7 @@ import Navigation from '@/src/components/Navigation';
 import Footer from '@/src/components/Footer';
 import ClientProviders from '@/src/components/ClientProviders';
 import WhatsAppFloat from '@/src/components/WhatsAppFloat';
+import { DottedGlowBackground } from '@/src/components/ui/dotted-glow-background';
 
 export const metadata: Metadata = {
   title: {
@@ -41,6 +42,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Navigation />
           <main id="main-content">{children}</main>
           <Footer />
+          <div
+            className="relative h-40 md:h-52 overflow-hidden bg-cream-page pointer-events-none"
+            style={{ maskImage: 'linear-gradient(to bottom, transparent 0%, black 45%)' }}
+            aria-hidden="true"
+          >
+            <DottedGlowBackground
+              opacity={0.55}
+              gap={18}
+              radius={1.6}
+              colorVar="--color-mahogany-soft"
+              glowColorVar="--color-gold-leaf"
+              speedMin={0.2}
+              speedMax={1.3}
+              speedScale={1}
+            />
+          </div>
           <WhatsAppFloat />
         </ClientProviders>
       </body>
