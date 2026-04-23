@@ -360,32 +360,36 @@ function MenuPageContent() {
             ref={cartButtonRef}
             type="button"
             onClick={openCart}
-            className="group fixed bottom-5 left-5 md:bottom-7 md:left-7 z-[90] isolate flex items-center gap-3 overflow-hidden rounded-[18px] border border-mahogany/15 bg-cream-paper/90 px-3 py-3 text-mahogany shadow-[0_18px_44px_rgba(42,24,16,0.18)] backdrop-blur-md transition-[border-color,background-color,box-shadow,transform] duration-500 hover:border-gold-leaf/45 hover:bg-cream-page/95 hover:shadow-[0_22px_54px_rgba(42,24,16,0.22)]"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
+            className="group fixed bottom-5 left-5 md:bottom-7 md:left-7 z-[90] inline-flex items-center gap-3 overflow-hidden rounded-full border border-[#9a6f42]/70 bg-[linear-gradient(180deg,#f5deb3_0%,#e7c290_48%,#d1a06d_100%)] px-4 py-3 text-[#5c4033] [transform:perspective(500px)_rotateX(5deg)] [transform-style:preserve-3d] transition-all duration-300 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] shadow-[inset_0_5px_10px_rgba(255,255,255,0.5),inset_0_-5px_10px_rgba(0,0,0,0.18),0_10px_24px_rgba(42,24,16,0.26)] hover:[transform:perspective(500px)_translateY(-3px)] hover:bg-[linear-gradient(180deg,#f6e2bf_0%,#e8c99e_48%,#d8af81_100%)] hover:shadow-[inset_0_6px_12px_rgba(255,255,255,0.58),inset_0_-6px_12px_rgba(0,0,0,0.22),0_14px_28px_rgba(42,24,16,0.3)] active:[transform:perspective(500px)_rotateX(2deg)_translateY(2px)] active:bg-[linear-gradient(180deg,#e3c79e_0%,#cfaa79_55%,#bc8f62_100%)] active:shadow-[inset_0_3px_6px_rgba(255,255,255,0.3),inset_0_-3px_6px_rgba(0,0,0,0.15),0_5px_10px_rgba(42,24,16,0.22)]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            whileHover={{ y: -3, scale: 1.01 }}
-            whileTap={{ scale: 0.98 }}
             aria-label={`Open order with ${totalItems} item${totalItems === 1 ? '' : 's'}`}
           >
-            <span className="absolute inset-0 bg-[linear-gradient(135deg,rgba(184,146,74,0.12),transparent_45%,rgba(181,85,46,0.10))] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-            <span className="absolute inset-[5px] rounded-[13px] border border-white/35 opacity-60" />
+            <span
+              aria-hidden="true"
+              className="absolute inset-0 rounded-full bg-[linear-gradient(45deg,rgba(139,90,43,0.12)_25%,transparent_25%,transparent_75%,rgba(139,90,43,0.12)_75%)] bg-[length:12px_12px] opacity-45 mix-blend-multiply"
+            />
+            <span
+              aria-hidden="true"
+              className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.34),transparent_58%)]"
+            />
+            <span
+              aria-hidden="true"
+              className="absolute inset-x-5 top-[5px] h-px bg-white/50"
+            />
 
-            <motion.span
-              animate={bagControls}
-              className="relative flex h-11 w-11 items-center justify-center rounded-[12px] border border-clay-warm/15 bg-[linear-gradient(145deg,rgba(244,236,220,0.98),rgba(235,224,202,0.92))] shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_8px_18px_rgba(42,24,16,0.08)]"
+            <span
+              className="relative z-10 flex h-11 w-11 items-center justify-center rounded-full border border-[#8b5a2b]/25 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.45),transparent_55%),linear-gradient(180deg,rgba(245,224,192,0.95),rgba(193,154,107,0.78))] shadow-[inset_0_2px_4px_rgba(255,255,255,0.45),inset_0_-2px_4px_rgba(0,0,0,0.12)] transition-transform duration-300 group-hover:scale-[1.04] group-hover:-rotate-3 group-active:translate-y-px group-active:scale-95"
             >
-              <ShoppingBag className="h-4 w-4 shrink-0 text-clay-warm" />
-            </motion.span>
+              <motion.span animate={bagControls} className="relative flex items-center justify-center">
+                <ShoppingBag className="h-[18px] w-[18px] shrink-0 text-[#5c4033]" />
+              </motion.span>
+            </span>
 
-            <span className="relative flex min-w-[5rem] flex-col items-start justify-center leading-none">
-              <span className="font-body text-[8px] font-medium uppercase tracking-[0.32em] text-mahogany/42">
-                Your cart
-              </span>
-              <span className="mt-1.5 font-editorial text-[11px] uppercase tracking-[0.24em] text-mahogany">
-                Order
-              </span>
+            <span className="relative z-10 pr-1 font-body text-sm font-bold uppercase tracking-[0.18em] text-[#5c4033] transition-all duration-300 group-hover:translate-x-0.5 group-hover:drop-shadow-[0_2px_4px_rgba(0,0,0,0.18)] group-active:translate-y-px">
+              Order
             </span>
 
             <motion.span
@@ -393,7 +397,7 @@ function MenuPageContent() {
               initial={{ scale: 0.86, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-              className="relative flex h-10 min-w-10 items-center justify-center rounded-full border border-mahogany/10 bg-mahogany px-3 font-body text-sm font-semibold text-cream-page shadow-[0_10px_22px_rgba(42,24,16,0.22)]"
+              className="relative z-10 flex h-9 min-w-9 items-center justify-center rounded-full border border-[#8b5a2b]/30 bg-[linear-gradient(180deg,rgba(255,255,255,0.28),rgba(139,90,43,0.1))] px-2.5 font-body text-sm font-bold text-[#5c4033] shadow-[inset_0_2px_4px_rgba(255,255,255,0.28),inset_0_-2px_4px_rgba(0,0,0,0.08)]"
             >
               {totalItems}
             </motion.span>
