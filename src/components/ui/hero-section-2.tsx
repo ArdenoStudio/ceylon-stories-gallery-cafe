@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { cn } from '../../lib/utils';
-import { motion, type Variants } from 'motion/react';
+import { motion, type Variants, useReducedMotion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { Motif } from '@/src/components/heritage/Motif';
 
@@ -46,21 +46,41 @@ interface HeroSectionProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
 
 const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
   ({ className, logo, slogan, title, subtitle, hours, callToAction, secondaryCallToAction, backgroundImage, accentImage, establishedYear, contactInfo, ...props }, ref) => {
-
+    const prefersReducedMotion = useReducedMotion();
+    const shouldOpenExternally = (href: string) => href.startsWith('http');
     const containerVariants: Variants = {
       hidden: { opacity: 0 },
       visible: {
         opacity: 1,
-        transition: { staggerChildren: 0.12, delayChildren: 0.2 },
+        transition: { staggerChildren: 0.1, delayChildren: 0.18 },
       },
     };
 
     const itemVariants: Variants = {
-      hidden: { y: 20, opacity: 0 },
+      hidden: prefersReducedMotion ? { opacity: 0 } : { y: 18, opacity: 0 },
       visible: {
         y: 0,
         opacity: 1,
-        transition: { duration: 0.6, ease: 'easeOut' },
+        transition: { duration: 0.72, ease: [0.16, 1, 0.3, 1] },
+      },
+    };
+
+    const panelVariants: Variants = {
+      hidden: prefersReducedMotion ? { opacity: 0 } : { opacity: 0, x: 32, rotate: -1.5 },
+      visible: {
+        opacity: 1,
+        x: 0,
+        rotate: 0,
+        transition: { duration: 1.05, ease: [0.16, 1, 0.3, 1] },
+      },
+    };
+
+    const badgeVariants: Variants = {
+      hidden: prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 14 },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.8, delay: 0.38, ease: [0.16, 1, 0.3, 1] },
       },
     };
 
@@ -68,7 +88,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
       <motion.section
         ref={ref}
         className={cn(
-          'relative flex w-full min-h-[92vh] flex-col overflow-hidden bg-cream-page text-mahogany md:flex-row',
+          'relative isolate flex w-full min-h-[100svh] flex-col overflow-hidden bg-cream-page text-mahogany',
           className
         )}
         initial="hidden"
@@ -76,149 +96,179 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
         variants={containerVariants}
         {...(props as React.ComponentProps<typeof motion.section>)}
       >
-        {/* Left: Content */}
-        <div className="relative flex w-full flex-col justify-between p-10 md:w-1/2 md:p-14 lg:w-3/5 lg:p-20">
-          {/* Ghost anchor numeral (absolute, non-interactive) */}
-          {establishedYear && (
-            <span
-              aria-hidden
-              className="pointer-events-none absolute -right-6 top-36 hidden select-none font-display italic font-light leading-none text-gold-leaf/[0.08] xl:block xl:text-[240px] 2xl:text-[280px]"
-            >
-              {establishedYear}
-            </span>
-          )}
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(140%_120%_at_15%_0%,rgba(245,237,220,0.95)_0%,rgba(244,236,220,0.84)_38%,rgba(228,214,186,0.8)_100%)]" />
+        <motion.div
+          className="pointer-events-none absolute inset-0 opacity-45 mix-blend-multiply"
+          style={{
+            backgroundImage: `url(${backgroundImage})`,
+            backgroundPosition: 'center',
+            backgroundSize: 'cover',
+          }}
+          initial={prefersReducedMotion ? { opacity: 0.45 } : { opacity: 0.2, scale: 1.05 }}
+          animate={prefersReducedMotion ? { opacity: 0.45 } : { opacity: 0.45, scale: 1 }}
+          transition={{ duration: prefersReducedMotion ? 0 : 1.2, ease: [0.16, 1, 0.3, 1] }}
+        />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(244,236,220,0.06)_0%,rgba(244,236,220,0.18)_45%,rgba(42,24,16,0.2)_100%)]" />
+        <div className="pointer-events-none absolute inset-y-0 left-[58%] hidden w-px bg-gradient-to-b from-transparent via-gold-leaf/30 to-transparent lg:block" />
 
-          <div className="relative">
-            {/* Logo / brand header */}
-            <motion.header className="mb-16" variants={itemVariants}>
-              {logo ? (
-                <div className="flex items-center">
-                  <img src={logo.url} alt={logo.alt} className="mr-3 h-8" />
-                  <div>
-                    {logo.text && <p className="font-display text-lg font-bold text-mahogany">{logo.text}</p>}
-                    {slogan && <p className="font-editorial text-[10px] tracking-[0.3em] uppercase text-mahogany/50">{slogan}</p>}
+        <div className="relative z-10 mx-auto grid min-h-[100svh] w-full max-w-[1720px] grid-cols-1 lg:grid-cols-12">
+          <div className="relative flex flex-col px-6 pb-10 pt-28 sm:px-10 lg:col-span-7 lg:px-[clamp(48px,6vw,124px)] lg:pb-14 lg:pt-36">
+            {establishedYear && (
+              <span
+                aria-hidden
+                className="pointer-events-none absolute right-2 top-28 select-none font-display text-[110px] italic font-light leading-none text-gold-leaf/[0.09] sm:text-[150px] lg:right-8 lg:top-32 lg:text-[230px]"
+              >
+                {establishedYear}
+              </span>
+            )}
+
+            <motion.header className="relative mb-12 flex items-center justify-between gap-6 lg:mb-16" variants={itemVariants}>
+              <div className="flex flex-col gap-3">
+                {logo ? (
+                  <div className="flex items-center gap-3">
+                    <img src={logo.url} alt={logo.alt} className="h-8 w-auto opacity-90" />
+                    {logo.text ? (
+                      <span className="font-editorial text-[11px] uppercase tracking-[0.24em] text-mahogany/70">{logo.text}</span>
+                    ) : null}
                   </div>
-                </div>
-              ) : slogan ? (
-                <p className="font-editorial text-[10px] tracking-[0.3em] uppercase text-mahogany/50 flex items-center gap-4">
-                  <span className="w-6 h-[1px] bg-gold-leaf/40" />
-                  {slogan}
-                </p>
-              ) : null}
+                ) : (
+                  <span className="font-display text-[20px] tracking-[0.04em] text-mahogany">CEYLON STORIES</span>
+                )}
+                {slogan ? (
+                  <p className="font-editorial text-[10px] uppercase tracking-[0.28em] text-mahogany/55">
+                    {slogan}
+                  </p>
+                ) : null}
+              </div>
+
+              <div className="hidden items-center gap-3 rounded-full border border-gold-leaf/35 bg-cream-paper/70 px-5 py-2.5 backdrop-blur-sm md:inline-flex">
+                <span className="h-2 w-2 rounded-full bg-forest/80" />
+                <span className="font-editorial text-[10px] uppercase tracking-[0.24em] text-mahogany/65">Open Today</span>
+              </div>
             </motion.header>
 
-            <motion.main variants={containerVariants}>
+            <motion.div className="relative max-w-[900px]" variants={containerVariants}>
               <motion.h1
-                className="font-display font-light text-[clamp(44px,7vw,96px)] leading-[0.92] tracking-[-0.02em] text-mahogany"
+                className="font-display text-[clamp(50px,8vw,118px)] font-light leading-[0.88] tracking-[-0.03em] text-mahogany"
                 variants={itemVariants}
               >
                 {title}
               </motion.h1>
-              <motion.div className="my-8 h-[1px] w-16 bg-gold-leaf" variants={itemVariants} />
+
+              <motion.div
+                className="my-8 h-px w-24 bg-gradient-to-r from-gold-leaf/0 via-gold-leaf/90 to-gold-leaf/20 lg:my-10"
+                variants={itemVariants}
+              />
+
               <motion.p
-                className="mb-8 max-w-md font-body text-base leading-relaxed text-mahogany/60"
+                className="max-w-[58ch] font-body text-[16px] leading-[1.75] text-mahogany/72 lg:text-[18px]"
                 variants={itemVariants}
               >
                 {subtitle}
               </motion.p>
 
-              {hours && (
+              {hours ? (
                 <motion.p
-                  className="mb-10 flex items-center gap-3 font-editorial text-[10px] tracking-[0.28em] uppercase text-mahogany/55"
+                  className="mt-8 inline-flex items-center gap-3 rounded-full border border-mahogany/15 bg-cream-paper/65 px-5 py-2.5 font-editorial text-[10px] uppercase tracking-[0.24em] text-mahogany/60 backdrop-blur-sm"
                   variants={itemVariants}
                 >
-                  <span className="h-[1px] w-4 bg-gold-leaf/60" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-gold-leaf" />
                   {hours}
                 </motion.p>
-              )}
+              ) : null}
 
-              <motion.div
-                className="flex flex-wrap items-center gap-x-8 gap-y-4"
-                variants={itemVariants}
-              >
+              <motion.div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4" variants={itemVariants}>
                 <a
                   href={callToAction.href}
-                  target={callToAction.href.startsWith('http') ? '_blank' : undefined}
-                  rel={callToAction.href.startsWith('http') ? 'noreferrer' : undefined}
-                  className="group inline-flex items-center gap-3 rounded-full border border-gold-leaf px-7 py-3.5 font-editorial text-[11px] tracking-[0.28em] uppercase text-mahogany transition-colors duration-500 hover:bg-gold-leaf hover:text-cream-page"
+                  target={shouldOpenExternally(callToAction.href) ? '_blank' : undefined}
+                  rel={shouldOpenExternally(callToAction.href) ? 'noreferrer' : undefined}
+                  className="group inline-flex items-center gap-3 border border-gold-leaf/80 bg-gold-leaf px-7 py-3.5 font-editorial text-[11px] uppercase tracking-[0.24em] text-ink-deep transition-colors duration-500 hover:bg-mahogany hover:text-cream-page"
                 >
                   <span>{callToAction.text}</span>
                   <ArrowRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover:translate-x-1" />
                 </a>
-                {secondaryCallToAction && (
+                {secondaryCallToAction ? (
                   <a
                     href={secondaryCallToAction.href}
-                    target={secondaryCallToAction.href.startsWith('http') ? '_blank' : undefined}
-                    rel={secondaryCallToAction.href.startsWith('http') ? 'noreferrer' : undefined}
-                    className="border-b border-mahogany/20 pb-0.5 font-editorial text-[10px] tracking-[0.28em] uppercase text-mahogany/60 transition-colors hover:border-gold-leaf hover:text-mahogany"
+                    target={shouldOpenExternally(secondaryCallToAction.href) ? '_blank' : undefined}
+                    rel={shouldOpenExternally(secondaryCallToAction.href) ? 'noreferrer' : undefined}
+                    className="group inline-flex items-center gap-2 font-editorial text-[10px] uppercase tracking-[0.24em] text-mahogany/70"
                   >
-                    {secondaryCallToAction.text}
+                    <span className="border-b border-mahogany/25 pb-1 transition-colors group-hover:border-gold-leaf">{secondaryCallToAction.text}</span>
+                    <ArrowRight className="h-3.5 w-3.5 text-gold-leaf transition-transform duration-500 group-hover:translate-x-1" />
                   </a>
-                )}
+                ) : null}
               </motion.div>
-            </motion.main>
+            </motion.div>
+
+            <motion.footer className="relative mt-auto pt-12 lg:pt-14" variants={itemVariants}>
+              <div className="mb-7 h-px w-full bg-gradient-to-r from-mahogany/10 via-mahogany/25 to-transparent" />
+              <div className="grid grid-cols-1 gap-4 text-mahogany/58 sm:grid-cols-3">
+                <div className="flex items-center">
+                  <InfoIcon type="website" />
+                  <span className="font-editorial text-[10px] uppercase tracking-[0.17em]">{contactInfo.website}</span>
+                </div>
+                <div className="flex items-center">
+                  <InfoIcon type="phone" />
+                  <span className="font-editorial text-[10px] uppercase tracking-[0.17em]">{contactInfo.phone}</span>
+                </div>
+                <div className="flex items-center">
+                  <InfoIcon type="address" />
+                  <span className="font-editorial text-[10px] uppercase tracking-[0.17em]">{contactInfo.address}</span>
+                </div>
+              </div>
+            </motion.footer>
           </div>
 
-          {/* Footer info */}
-          <motion.footer className="relative mt-16 w-full" variants={itemVariants}>
-            <div className="batik-line mb-6" />
-            <div className="grid grid-cols-1 gap-4 font-editorial text-[10px] tracking-[0.12em] text-mahogany/50 sm:grid-cols-3">
-              <div className="flex items-center">
-                <InfoIcon type="website" />
-                <span>{contactInfo.website}</span>
-              </div>
-              <div className="flex items-center">
-                <InfoIcon type="phone" />
-                <span>{contactInfo.phone}</span>
-              </div>
-              <div className="flex items-center">
-                <InfoIcon type="address" />
-                <span>{contactInfo.address}</span>
-              </div>
-            </div>
-          </motion.footer>
-        </div>
-
-        {/* Right: Layered image panel with clip-path reveal + ambient zoom */}
-        <div className="relative w-full min-h-[50vh] md:w-1/2 md:my-10 lg:w-2/5 lg:my-14">
-          {/* Primary image — clip-path reveal wrapping a slow-zoom layer */}
-          <motion.div
-            className="absolute inset-0 overflow-hidden bg-mahogany-soft"
-            initial={{ clipPath: 'polygon(100% 0, 100% 0, 100% 100%, 100% 100%)' }}
-            animate={{ clipPath: 'polygon(15% 0, 100% 0, 100% 100%, 0% 100%)' }}
-            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-          >
+          <div className="relative flex min-h-[48vh] items-end px-6 pb-10 sm:px-10 lg:col-span-5 lg:min-h-[100svh] lg:px-[clamp(32px,4vw,76px)] lg:pb-14">
             <motion.div
-              className="absolute inset-0 bg-cover bg-center photo-heritage-deep"
-              style={{ backgroundImage: `url(${backgroundImage})` }}
-              initial={{ scale: 1 }}
-              animate={{ scale: 1.06 }}
-              transition={{ duration: 14, ease: 'linear', delay: 1.4 }}
-            />
-            {/* Botanical corner over image */}
-            <Motif
-              name="fern-frond"
-              className="pointer-events-none absolute top-6 right-6 h-24 w-24 md:h-32 md:w-32 text-gold-leaf/40 z-10 scale-x-[-1]"
-            />
-            {/* Subtle darkening so any light image still reads */}
-            <div className="absolute inset-0 bg-mahogany/10 mix-blend-multiply" />
-          </motion.div>
-
-          {/* Accent detail image — overlaps into the left panel for editorial depth */}
-          {accentImage && (
-            <motion.div
-              className="absolute bottom-14 -left-10 z-10 hidden h-52 w-40 overflow-hidden shadow-ink md:block lg:bottom-20 lg:-left-16 lg:h-64 lg:w-48"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 1.8, ease: [0.16, 1, 0.3, 1] }}
+              className="relative isolate w-full overflow-hidden border border-gold-leaf/35 bg-ink-deep/65 shadow-[0_24px_70px_rgba(25,14,9,0.32)]"
+              variants={panelVariants}
             >
-              <div
-                className="h-full w-full bg-cover bg-center photo-heritage"
-                style={{ backgroundImage: `url(${accentImage})` }}
+              <div className="aspect-[16/10] w-full sm:aspect-[5/4] lg:aspect-[4/5]" />
+              <motion.div
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  backgroundImage: `url(${backgroundImage})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  filter: 'sepia(0.28) saturate(0.85) contrast(1.05)',
+                }}
+                initial={prefersReducedMotion ? { scale: 1 } : { scale: 1.08 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: prefersReducedMotion ? 0 : 8, ease: 'linear' }}
               />
-              <div className="pointer-events-none absolute inset-0 ring-[6px] ring-cream-page" />
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_15%_15%,rgba(248,240,221,0.14)_0%,rgba(31,18,12,0.72)_100%)]" />
+              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(15,8,5,0.12)_0%,rgba(15,8,5,0.6)_70%,rgba(15,8,5,0.82)_100%)]" />
+              <Motif
+                name="palm-arch"
+                className="pointer-events-none absolute right-3 top-3 h-24 w-24 text-gold-leaf/35 sm:h-28 sm:w-28 lg:h-32 lg:w-32"
+              />
+              <Motif
+                name="fern-frond"
+                className="pointer-events-none absolute bottom-6 left-5 h-20 w-20 rotate-[12deg] text-cream-page/30 sm:h-24 sm:w-24"
+              />
+              <motion.div
+                className="absolute bottom-6 left-6 right-6 border border-cream-page/20 bg-ink-night/55 px-5 py-4 backdrop-blur-[3px]"
+                variants={itemVariants}
+              >
+                <p className="font-editorial text-[9px] uppercase tracking-[0.3em] text-gold-leaf/90">Now Pouring</p>
+                <p className="mt-2 font-display text-[clamp(20px,2.8vw,34px)] leading-none text-cream-page">Dilmah Reserve Pairings</p>
+              </motion.div>
             </motion.div>
-          )}
+
+            {accentImage ? (
+              <motion.div
+                className="absolute -top-3 right-8 z-20 h-20 w-20 sm:h-24 sm:w-24 lg:-right-5 lg:bottom-16 lg:top-auto lg:h-28 lg:w-28"
+                variants={badgeVariants}
+              >
+                <div className="absolute inset-0 rounded-full bg-gold-leaf/30 blur-xl" />
+                <div className="relative h-full w-full overflow-hidden rounded-full border border-gold-leaf/45 bg-cream-paper p-2.5 shadow-[0_10px_26px_rgba(15,8,5,0.28)]">
+                  <img src={accentImage} alt="Dilmah reserve seal" className="h-full w-full object-contain" />
+                </div>
+              </motion.div>
+            ) : null}
+          </div>
         </div>
       </motion.section>
     );
