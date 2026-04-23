@@ -10,7 +10,7 @@ interface MenuItemCardProps extends React.HTMLAttributes<HTMLDivElement> {
   isVegetarian: boolean;
   name: string;
   price: number;
-  originalPrice: number;
+  originalPrice: number | null;
   quantity: string;
   prepTimeInMinutes: number;
   tag?: string;
@@ -36,7 +36,7 @@ const MenuItemCard = React.forwardRef<HTMLDivElement, MenuItemCardProps>(
     },
     ref
   ) => {
-    const savings = originalPrice - price;
+    const savings = originalPrice != null ? originalPrice - price : 0;
 
     const cardVariants = {
       initial: { opacity: 0, y: 20 },

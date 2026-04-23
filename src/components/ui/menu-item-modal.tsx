@@ -11,7 +11,7 @@ export interface MenuItemDetail {
   name: string;
   description: string;
   price: number;
-  originalPrice: number;
+  originalPrice: number | null;
   quantity: string;
   prepTimeInMinutes: number;
   tag?: string;
@@ -25,7 +25,7 @@ interface MenuItemModalProps {
 }
 
 export function MenuItemModal({ item, onClose, onAddToCart }: MenuItemModalProps) {
-  const savings = item ? item.originalPrice - item.price : 0;
+  const savings = item?.originalPrice != null ? item.originalPrice - item.price : 0;
   const [qty, setQty] = useState(1);
 
   useEffect(() => {
@@ -152,7 +152,7 @@ export function MenuItemModal({ item, onClose, onAddToCart }: MenuItemModalProps
                     </span>
                     {savings > 0 && (
                       <span className="font-body text-sm line-through text-mahogany/35">
-                        Rs.&nbsp;{item.originalPrice.toLocaleString()}
+                        Rs.&nbsp;{item.originalPrice?.toLocaleString()}
                       </span>
                     )}
                   </div>
