@@ -14,7 +14,7 @@ interface MenuItemCardProps extends React.HTMLAttributes<HTMLDivElement> {
   quantity: string;
   prepTimeInMinutes: number;
   tag?: string;
-  onAdd: () => void;
+  onAdd: (rect: DOMRect) => void;
   onCardClick?: () => void;
 }
 
@@ -110,7 +110,7 @@ const MenuItemCard = React.forwardRef<HTMLDivElement, MenuItemCardProps>(
           {/* Add button */}
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-full flex justify-center">
             <motion.button
-              onClick={(e) => { e.stopPropagation(); onAdd(); }}
+              onClick={(e) => { e.stopPropagation(); onAdd(e.currentTarget.getBoundingClientRect()); }}
               variants={buttonVariants}
               whileTap="tap"
               className="px-8 py-2 font-editorial text-[9px] tracking-[0.25em] uppercase transition-all duration-300 transform translate-y-4 border rounded opacity-0 bg-cream-page/85 text-mahogany backdrop-blur-sm border-mahogany/20 group-hover:opacity-100 group-hover:translate-y-0 hover:bg-mahogany hover:text-cream-page focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mahogany focus-visible:ring-offset-2"

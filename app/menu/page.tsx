@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { useState, useRef } from 'react';
+import { motion, AnimatePresence, useAnimation } from 'motion/react';
 import { ShoppingBag } from 'lucide-react';
 import { MenuItemCard } from '@/src/components/ui/menu-item-card';
 import { MenuItemModal, type MenuItemDetail } from '@/src/components/ui/menu-item-modal';
@@ -245,6 +245,38 @@ const menuItems = [
   },
 ];
 
+interface FlyItemData {
+  id: number;
+  fromX: number;
+  fromY: number;
+  toX: number;
+  toY: number;
+  imageUrl: string;
+}
+
+function FlyingItem({ data, onDone }: { data: FlyItemData; onDone: () => void }) {
+  const size = 40;
+  const x0 = data.fromX - size / 2;
+  const y0 = data.fromY - size / 2;
+  const x1 = data.toX - size / 2;
+  const y1 = data.toY - size / 2;
+  const midX = (x0 + x1) / 2;
+  const arcY = Math.min(y0, y1) - 130;
+
+  return (
+    <motion.div
+      className="fixed z-[200] rounded-full overflow-hidden border-2 border-cream-page shadow-ink pointer-events-none"
+      style={{ left: 0, top: 0, width: size, height: size }}
+      initial={{ x: x0, y: y0, scale: 1, opacity: 1 }}
+      animate={{ x: [x0, midX, x1], y: [y0, arcY, y1], scale: [1, 0.9, 0.35], opacity: [1, 1, 0] }}
+      transition={{ duration: 0.58, ease: 'easeIn', times: [0, 0.42, 1] }}
+      onAnimationComplete={onDone}
+    >
+      <img src={data.imageUrl} alt="" className="w-full h-full object-cover" />
+    </motion.div>
+  );
+}
+
 export default function MenuPage() {
   return (
     <CartProvider>
@@ -257,10 +289,35 @@ function MenuPageContent() {
   const { addItem, totalItems, openCart } = useCart();
   const [active, setActive] = useState('All');
   const [selectedItem, setSelectedItem] = useState<MenuItemDetail | null>(null);
+  const [flyItems, setFlyItems] = useState<FlyItemData[]>([]);
+  const flyCounter = useRef(0);
+  const cartButtonRef = useRef<HTMLButtonElement>(null);
+  const bagControls = useAnimation();
 
   const filtered = active === 'All' ? menuItems : menuItems.filter((i) => i.category === active);
 
-  const handleAddToCart = (item: typeof menuItems[0], qty: number) => {
+  const triggerFly = (sourceRect: DOMRect, imageUrl: string) => {
+    setTimeout(() => {
+      const cartEl = cartButtonRef.current;
+      const toX = cartEl ? cartEl.getBoundingClientRect().left + cartEl.getBoundingClientRect().width / 2 : 56;
+      const toY = cartEl ? cartEl.getBoundingClientRect().top + cartEl.getBoundingClientRect().height / 2 : window.innerHeight - 40;
+      setFlyItems(prev => [...prev, {
+        id: ++flyCounter.current,
+        fromX: sourceRect.left + sourceRect.width / 2,
+        fromY: sourceRect.top + sourceRect.height / 2,
+        toX,
+        toY,
+        imageUrl,
+      }]);
+    }, 0);
+  };
+
+  const handleFlyDone = (id: number) => {
+    setFlyItems(prev => prev.filter(i => i.id !== id));
+    bagControls.start({ scale: [1, 1.5, 0.9, 1.15, 1], rotate: [-6, 6, -3, 0], transition: { duration: 0.4, ease: 'easeOut' } });
+  };
+
+  const handleAddToCart = (item: typeof menuItems[0], qty: number, sourceRect?: DOMRect) => {
     addItem({
       id: `${item.category}-${item.name}`,
       name: item.name,
@@ -269,23 +326,28 @@ function MenuPageContent() {
       category: item.category,
     }, qty);
     setSelectedItem(null);
-    openCart();
+    if (sourceRect) triggerFly(sourceRect, item.imageUrl);
   };
 
   return (
     <>
       <CartDrawer />
 
+      {flyItems.map(data => (
+        <FlyingItem key={data.id} data={data} onDone={() => handleFlyDone(data.id)} />
+      ))}
+
       <MenuItemModal
         item={selectedItem}
         onClose={() => setSelectedItem(null)}
-        onAddToCart={(qty) => selectedItem && handleAddToCart(selectedItem as typeof menuItems[0], qty)}
+        onAddToCart={(qty, rect) => selectedItem && handleAddToCart(selectedItem as typeof menuItems[0], qty, rect)}
       />
 
       {/* Floating cart button */}
       <AnimatePresence>
         {totalItems > 0 && (
           <motion.button
+            ref={cartButtonRef}
             onClick={openCart}
             className="fixed bottom-6 left-6 z-[90] flex items-center gap-3 bg-cream-page text-mahogany border border-mahogany/20 px-4 py-3 shadow-ink hover:border-mahogany/40 transition-colors"
             initial={{ opacity: 0, y: 20 }}
@@ -295,7 +357,9 @@ function MenuPageContent() {
             whileHover={{ y: -2 }}
             aria-label="Open order"
           >
-            <ShoppingBag className="w-4 h-4 text-clay-warm shrink-0" />
+            <motion.span animate={bagControls} className="flex items-center justify-center">
+              <ShoppingBag className="w-4 h-4 text-clay-warm shrink-0" />
+            </motion.span>
             <span className="font-editorial text-[10px] tracking-[0.15em] uppercase">
               Order · {totalItems}
             </span>
@@ -362,7 +426,7 @@ function MenuPageContent() {
                   quantity={item.quantity}
                   prepTimeInMinutes={item.prepTimeInMinutes}
                   tag={item.tag}
-                  onAdd={() => handleAddToCart(item, 1)}
+                  onAdd={(rect) => handleAddToCart(item, 1, rect)}
                   onCardClick={() => setSelectedItem(item)}
                 />
               ))}

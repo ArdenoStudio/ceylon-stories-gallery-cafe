@@ -21,7 +21,7 @@ export interface MenuItemDetail {
 interface MenuItemModalProps {
   item: MenuItemDetail | null;
   onClose: () => void;
-  onAddToCart?: (qty: number) => void;
+  onAddToCart?: (qty: number, rect: DOMRect) => void;
 }
 
 export function MenuItemModal({ item, onClose, onAddToCart }: MenuItemModalProps) {
@@ -215,7 +215,7 @@ export function MenuItemModal({ item, onClose, onAddToCart }: MenuItemModalProps
                       </div>
                       {/* Add to Order — same radius, filled variant */}
                       <button
-                        onClick={() => { onAddToCart(qty); setQty(1); }}
+                        onClick={(e) => { onAddToCart(qty, e.currentTarget.getBoundingClientRect()); setQty(1); }}
                         className="flex-1 rounded-md bg-mahogany text-cream-page font-editorial text-[10px] tracking-[0.25em] uppercase py-[11px] hover:bg-mahogany-soft active:scale-[0.98] transition-all duration-200"
                       >
                         Add{qty > 1 ? ` ${qty} ×` : ''} to Order
