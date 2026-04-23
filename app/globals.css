@@ -18,6 +18,27 @@
   --color-sage-deep: #4a5a3d;
   --color-gold-leaf: #b8924a;
 
+  /* shadcn semantic tokens mapped to Ceylon Stories palette */
+  --color-background: #f4ecdc;
+  --color-foreground: #2a1810;
+  --color-card: #f4ecdc;
+  --color-card-foreground: #2a1810;
+  --color-popover: #f4ecdc;
+  --color-popover-foreground: #2a1810;
+  --color-primary: #2a1810;
+  --color-primary-foreground: #f4ecdc;
+  --color-secondary: #ebe0ca;
+  --color-secondary-foreground: #2a1810;
+  --color-muted: #ebe0ca;
+  --color-muted-foreground: #7a6050;
+  --color-accent: #ebe0ca;
+  --color-accent-foreground: #2a1810;
+  --color-destructive: #b91c1c;
+  --color-destructive-foreground: #f4ecdc;
+  --color-border: #d4c8b0;
+  --color-input: #d4c8b0;
+  --color-ring: #b8924a;
+
   --font-display: "Fraunces Variable", "Georgia", serif;
   --font-editorial: "Tenor Sans", "Helvetica Neue", Arial, sans-serif;
   --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
@@ -27,6 +48,10 @@
 }
 
 @layer base {
+  *, ::before, ::after {
+    border-color: var(--color-border);
+  }
+
   html {
     scrollbar-width: none;
     -ms-overflow-style: none;

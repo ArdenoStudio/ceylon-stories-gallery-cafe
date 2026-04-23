@@ -1,7 +1,20 @@
 'use client';
 import * as React from 'react';
-import { Minus, Plus, Trash2, ShoppingBag } from 'lucide-react';
-import type { CartItem } from '@/src/components/CartContext';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/src/components/ui/card';
+import { Button } from '@/src/components/ui/button';
+import { Separator } from '@/src/components/ui/separator';
+import { ScrollArea } from '@/src/components/ui/scroll-area';
+import { Input } from '@/src/components/ui/input';
+import { Plus, Minus, Trash2, ShoppingCart as ShoppingCartIcon } from 'lucide-react';
+
+interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  imageUrl: string;
+  category?: string;
+}
 
 interface ShoppingCartProps {
   items: CartItem[];
@@ -11,102 +24,115 @@ interface ShoppingCartProps {
 
 export const ShoppingCart: React.FC<ShoppingCartProps> = ({ items, onQuantityChange, onRemoveItem }) => {
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const shipping = subtotal > 0 ? 500 : 0;
+  const taxRate = 0.1;
+  const tax = subtotal * taxRate;
+  const total = subtotal + shipping + tax;
 
-  const fmt = (n: number) => `Rs. ${n.toLocaleString('en-LK')}`;
-
-  const handleOrder = () => {
-    const lines = items.map(i => `• ${i.name} ×${i.quantity} — ${fmt(i.price * i.quantity)}`);
-    const msg = `Hello Ceylon Stories! I'd like to place an order:\n\n${lines.join('\n')}\n\n*Total: ${fmt(subtotal)}*`;
-    window.open(`https://wa.me/94770000000?text=${encodeURIComponent(msg)}`, '_blank');
+  const formatCurrency = (amount: number) => {
+    return `Rs. ${Math.round(amount).toLocaleString()}`;
   };
 
   return (
-    <div className="flex flex-col h-full">
-      {/* Header */}
-      <div className="px-6 pt-6 pb-5 border-b border-mahogany/10 flex items-center justify-between shrink-0">
-        <div className="flex items-center gap-2.5">
-          <ShoppingBag className="w-4 h-4 text-clay-warm" />
-          <h2 className="font-display font-light text-mahogany text-xl tracking-[-0.01em]">Your Order</h2>
-        </div>
-        <span className="font-editorial text-[9px] tracking-[0.2em] uppercase text-mahogany/40">
-          {items.length} {items.length === 1 ? 'item' : 'items'}
-        </span>
-      </div>
-
-      {/* Items */}
-      <div className="flex-1 overflow-y-auto px-6 py-5 space-y-5">
+    <Card className="w-full max-w-2xl mx-auto shadow-lg">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+        <CardTitle className="text-2xl font-bold flex items-center gap-2">
+          <ShoppingCartIcon className="h-6 w-6" /> Your Shopping Cart
+        </CardTitle>
+        <span className="text-sm text-muted-foreground">{items.length} items</span>
+      </CardHeader>
+      <CardContent>
         {items.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-52 text-center">
-            <ShoppingBag className="w-10 h-10 text-mahogany/12 mb-4" />
-            <p className="font-body text-sm text-mahogany/40">Your order is empty.</p>
-            <p className="font-body text-xs text-mahogany/25 mt-1">Browse the menu to add items.</p>
+          <div className="text-center py-8 text-muted-foreground">
+            Your cart is empty. Start shopping!
           </div>
         ) : (
-          items.map(item => (
-            <div key={item.id} className="flex items-start gap-3 pb-5 border-b border-mahogany/8 last:border-0 last:pb-0">
-              <img
-                src={item.imageUrl}
-                alt={item.name}
-                className="w-16 h-16 object-cover rounded-sm shrink-0 photo-heritage"
-              />
-              <div className="flex-1 min-w-0">
-                <p className="font-editorial text-[8px] tracking-[0.2em] uppercase text-gold-leaf mb-0.5">{item.category}</p>
-                <h3 className="font-display font-light text-mahogany text-[14px] leading-tight mb-2.5">{item.name}</h3>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => onQuantityChange(item.id, item.quantity - 1)}
-                    disabled={item.quantity <= 1}
-                    className="w-6 h-6 flex items-center justify-center border border-mahogany/20 text-mahogany/50 hover:border-mahogany/50 hover:text-mahogany transition-colors disabled:opacity-30"
-                    aria-label="Decrease quantity"
-                  >
-                    <Minus className="w-3 h-3" />
-                  </button>
-                  <span className="font-editorial text-[11px] tracking-[0.1em] text-mahogany w-5 text-center select-none">
-                    {item.quantity}
-                  </span>
-                  <button
-                    onClick={() => onQuantityChange(item.id, item.quantity + 1)}
-                    className="w-6 h-6 flex items-center justify-center border border-mahogany/20 text-mahogany/50 hover:border-mahogany/50 hover:text-mahogany transition-colors"
-                    aria-label="Increase quantity"
-                  >
-                    <Plus className="w-3 h-3" />
-                  </button>
+          <ScrollArea className="h-[300px] w-full pr-4">
+            <div className="space-y-4">
+              {items.map((item) => (
+                <div key={item.id} className="flex items-center gap-4 border p-3 rounded-lg">
+                  <img
+                    src={item.imageUrl}
+                    alt={item.name}
+                    className="w-20 h-20 object-cover rounded-md"
+                  />
+                  <div className="flex-1 grid gap-1">
+                    <h3 className="font-medium text-lg">{item.name}</h3>
+                    <p className="text-sm text-muted-foreground">{formatCurrency(item.price)} per item</p>
+                    <div className="flex items-center gap-2 mt-2">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-7 w-7"
+                        onClick={() => onQuantityChange(item.id, item.quantity - 1)}
+                        disabled={item.quantity <= 1}
+                      >
+                        <Minus className="h-4 w-4" />
+                      </Button>
+                      <Input
+                        type="number"
+                        min="1"
+                        value={item.quantity}
+                        onChange={(e) => {
+                          const newQty = parseInt(e.target.value);
+                          if (!isNaN(newQty) && newQty >= 1) {
+                            onQuantityChange(item.id, newQty);
+                          }
+                        }}
+                        className="w-16 text-center"
+                      />
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-7 w-7"
+                        onClick={() => onQuantityChange(item.id, item.quantity + 1)}
+                      >
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end gap-2">
+                    <p className="font-semibold text-lg">{formatCurrency(item.price * item.quantity)}</p>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-red-500 hover:text-red-700"
+                      onClick={() => onRemoveItem(item.id)}
+                    >
+                      <Trash2 className="h-5 w-5" />
+                    </Button>
+                  </div>
                 </div>
-              </div>
-              <div className="flex flex-col items-end gap-2 shrink-0">
-                <p className="font-display font-light text-mahogany text-[13px] leading-none">{fmt(item.price * item.quantity)}</p>
-                <button
-                  onClick={() => onRemoveItem(item.id)}
-                  className="text-mahogany/25 hover:text-red-600 transition-colors"
-                  aria-label={`Remove ${item.name}`}
-                >
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
-              </div>
+              ))}
             </div>
-          ))
+          </ScrollArea>
         )}
-      </div>
-
-      {/* Footer */}
-      {items.length > 0 && (
-        <div className="px-6 py-5 border-t border-mahogany/10 space-y-4 shrink-0 bg-cream-paper/50">
-          <div className="w-full h-[1px] bg-gradient-to-r from-gold-leaf/30 via-mahogany/10 to-transparent" />
-          <div className="flex justify-between items-baseline">
-            <span className="font-editorial text-[9px] tracking-[0.25em] uppercase text-mahogany/50">Total</span>
-            <span className="font-display font-light text-mahogany text-2xl">{fmt(subtotal)}</span>
+        <Separator className="my-6" />
+        <div className="grid gap-2 text-sm">
+          <div className="flex justify-between">
+            <span>Subtotal</span>
+            <span className="font-medium">{formatCurrency(subtotal)}</span>
           </div>
-          <button
-            onClick={handleOrder}
-            className="w-full bg-mahogany text-cream-page font-editorial text-[10px] tracking-[0.25em] uppercase py-3.5 hover:bg-mahogany-soft transition-colors"
-          >
-            Place Order via WhatsApp
-          </button>
-          <p className="text-center font-body text-[10px] text-mahogany/30">
-            Prices in LKR · Service charge may apply
-          </p>
+          <div className="flex justify-between">
+            <span>Service Charge</span>
+            <span className="font-medium">{formatCurrency(shipping)}</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Tax ({taxRate * 100}%)</span>
+            <span className="font-medium">{formatCurrency(tax)}</span>
+          </div>
+          <Separator className="my-2" />
+          <div className="flex justify-between font-bold text-lg">
+            <span>Total</span>
+            <span>{formatCurrency(total)}</span>
+          </div>
         </div>
-      )}
-    </div>
+      </CardContent>
+      <CardFooter className="pt-6">
+        <Button className="w-full" disabled={items.length === 0}>
+          Proceed to Checkout
+        </Button>
+      </CardFooter>
+    </Card>
   );
 };
