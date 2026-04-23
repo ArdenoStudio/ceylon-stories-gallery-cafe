@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
+import Image from 'next/image';
 
 export default function IntroSequence({ onComplete }: { onComplete: () => void }) {
   const [show, setShow] = useState(true);
@@ -60,9 +61,9 @@ if (!show) return null;
           transition={{ delay: 0.6, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         />
 
-        {/* Wordmark Reveal */}
+        {/* Logo Reveal */}
         <motion.div
-          className="font-display font-light text-mahogany text-4xl md:text-6xl tracking-[0.02em] absolute"
+          className="absolute"
           initial={{ opacity: 0, scale: 1 }}
           animate={{ opacity: 1, scale: 0.6, y: '-45vh' }}
           transition={{
@@ -71,7 +72,14 @@ if (!show) return null;
             y: { delay: 1.2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }
           }}
         >
-          CEYLON STORIES
+          <Image
+            src="/logo-color.png"
+            alt="Ceylon Stories"
+            width={320}
+            height={160}
+            className="w-64 md:w-80 h-auto object-contain"
+            priority
+          />
         </motion.div>
       </div>
     </motion.div>
