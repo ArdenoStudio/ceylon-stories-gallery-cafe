@@ -1,0 +1,163 @@
+@import "tailwindcss";
+@import "@fontsource-variable/fraunces";
+@import "@fontsource/tenor-sans";
+@import "@fontsource/inter";
+
+@theme {
+  --color-clay-deep: #8b3a1f;
+  --color-clay-warm: #b5552e;
+  --color-clay-rust: #7a3820;
+  --color-cream-page: #f4ecdc;
+  --color-cream-paper: #ebe0ca;
+  --color-mahogany: #2a1810;
+  --color-mahogany-soft: #4a2e20;
+  --color-ink-night: #1a0f0a;
+  --color-ink-deep: #0f0805;
+  --color-forest: #2f3e2a;
+  --color-sage: #6b7a5a;
+  --color-sage-deep: #4a5a3d;
+  --color-gold-leaf: #b8924a;
+
+  /* shadcn semantic tokens mapped to Ceylon Stories palette */
+  --color-background: #f4ecdc;
+  --color-foreground: #2a1810;
+  --color-card: #f4ecdc;
+  --color-card-foreground: #2a1810;
+  --color-popover: #f4ecdc;
+  --color-popover-foreground: #2a1810;
+  --color-primary: #2a1810;
+  --color-primary-foreground: #f4ecdc;
+  --color-secondary: #ebe0ca;
+  --color-secondary-foreground: #2a1810;
+  --color-muted: #ebe0ca;
+  --color-muted-foreground: #7a6050;
+  --color-accent: #ebe0ca;
+  --color-accent-foreground: #2a1810;
+  --color-destructive: #b91c1c;
+  --color-destructive-foreground: #f4ecdc;
+  --color-border: #d4c8b0;
+  --color-input: #d4c8b0;
+  --color-ring: #b8924a;
+
+  --font-display: "Fraunces Variable", "Georgia", serif;
+  --font-editorial: "Tenor Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
+
+  --shadow-ink: 0 4px 20px rgba(42, 24, 16, 0.08);
+  --shadow-ornament: 0 2px 8px rgba(139, 58, 31, 0.12);
+
+  /* Editorial easing curve — used across all deliberate animations */
+  --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  *, ::before, ::after {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  html::-webkit-scrollbar {
+    display: none;
+  }
+
+  body {
+    @apply bg-cream-page text-mahogany font-body;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  body::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer utilities {
+  .noise-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 50;
+    opacity: 0.035;
+    mix-blend-mode: multiply;
+    transform: translateZ(0);
+    will-change: auto;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+
+  .paper-texture {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    transform: translateZ(0);
+    will-change: auto;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' result='noise'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0.9 0 1 0 0 0.85 0 0 1 0 0.7 0 0 0 0.5 0' in='noise' result='coloredNoise'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23EBE0CA'/%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E");
+  }
+
+  .batik-line {
+    width: 100%;
+    height: 1px;
+    background: rgba(42, 24, 16, 0.4);
+    mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+  }
+
+  .photo-heritage {
+    filter: sepia(0.18) saturate(0.92) contrast(1.04);
+  }
+
+  .photo-heritage-deep {
+    filter: sepia(0.35) saturate(0.85) contrast(1.08) brightness(0.92);
+  }
+
+  /* Amber glow animation for the lounge section */
+  @keyframes amber-pulse {
+    0%, 100% { opacity: 0.12; }
+    50% { opacity: 0.22; }
+  }
+
+  .amber-glow {
+    animation: amber-pulse 6s ease-in-out infinite;
+  }
+
+  /* Slow drift animation for oversized background text */
+  @keyframes drift-right {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(3%); }
+  }
+
+  .drift-slow {
+    animation: drift-right 20s ease-in-out infinite alternate;
+    will-change: transform;
+    transform: translateZ(0);
+  }
+
+  /* Editorial hover underline — gold variant */
+  .hover-underline-gold {
+    position: relative;
+  }
+
+  .hover-underline-gold::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 1px;
+    bottom: -2px;
+    left: 0;
+    background-color: var(--color-gold-leaf);
+    transform-origin: bottom right;
+    transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  .hover-underline-gold:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+}

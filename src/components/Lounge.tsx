@@ -1,0 +1,116 @@
+'use client';
+
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'motion/react';
+import { Motif } from './heritage/Motif';
+
+export default function Lounge() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  /* Day-to-evening colour shift driven by scroll position */
+  const bgOpacity = useTransform(scrollYProgress, [0.1, 0.4], [0, 1]);
+
+  return (
+    <section ref={containerRef} id="experience" className="relative w-full min-h-[90svh] bg-ink-night overflow-hidden flex items-center justify-center py-32 px-6">
+
+      {/* Background Ambience */}
+      <div className="absolute inset-0 bg-ink-deep pointer-events-none z-10" style={{ opacity: 0.6 }} />
+      <div className="absolute inset-0 shadow-[inset_0_0_200px_rgba(0,0,0,0.8)] z-20 pointer-events-none" />
+
+      {/* Amber atmospheric glow — pulsing softly */}
+      <motion.div
+        className="absolute inset-0 z-[5] pointer-events-none"
+        style={{
+          background: 'radial-gradient(ellipse 80% 60% at 30% 60%, rgba(184, 146, 74, 0.18) 0%, transparent 70%)',
+          opacity: bgOpacity,
+        }}
+      />
+      <motion.div
+        className="absolute inset-0 z-[5] pointer-events-none amber-glow"
+        style={{
+          background: 'radial-gradient(ellipse 60% 50% at 70% 40%, rgba(181, 85, 46, 0.12) 0%, transparent 65%)',
+          opacity: bgOpacity,
+        }}
+      />
+
+      {/* Botanical drift — frangipani behind Kolpetty Nights text */}
+      <Motif
+        name="frangipani"
+        className="pointer-events-none absolute -bottom-10 -right-10 h-[360px] w-[360px] text-clay-warm/20 z-10"
+      />
+      <Motif
+        name="fern-frond"
+        className="pointer-events-none absolute top-16 left-8 h-40 w-40 text-gold-leaf/15 z-10 hidden md:block"
+      />
+
+      <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative z-30">
+        
+        {/* Left Side Typography Overlap */}
+        <div className="md:col-span-7 flex flex-col items-start relative z-20 md:-mr-20 lg:-mr-32 mt-12 md:mt-0 order-2 md:order-1">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <p className="font-editorial text-[9px] md:text-[10px] tracking-[0.3em] uppercase text-clay-warm mb-8 flex items-center gap-4">
+              <span className="w-12 h-[1px] bg-clay-warm" /> 04 — THE LOUNGE
+            </p>
+            <h2 className="font-display italic font-light text-cream-page/90 text-[clamp(56px,8vw,120px)] leading-[0.85] tracking-[-0.02em] mix-blend-screen drop-shadow-2xl">
+              After six, <br />
+              <span className="text-gold-leaf not-italic font-normal">the room</span> <br />
+              turns amber.
+            </h2>
+            <div className="mt-12 flex items-center gap-8 border-l border-gold-leaf/20 pl-6 max-w-md">
+              <p className="font-body text-sm text-cream-page/60 leading-[1.8] uppercase tracking-wider">
+                Our evening lounge pairs imported shisha blends with an understated, slow ambiance. Strictly reserved for evenings.
+              </p>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Right Side Parallax Image Block */}
+        <div className="md:col-span-5 relative z-10 order-1 md:order-2 h-[50vh] md:h-[80vh] w-full">
+          <motion.div 
+            className="w-full h-full absolute inset-0 overflow-hidden"
+            initial={{ clipPath: "scale(0.9) inset(20% 0% 0% 0%)" }}
+            whileInView={{ clipPath: "scale(1) inset(0% 0% 0% 0%)" }}
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ duration: 1.5, ease: [0.76, 0, 0.24, 1] }}
+          >
+            <motion.img
+              src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop"
+              alt="Shisha lounge at night glowing in amber light"
+              loading="lazy"
+              className="w-full h-full object-cover photo-heritage-deep"
+              style={{ scale: 1.05 }}
+            />
+            {/* Edge mask for the image block to softly blend */}
+            <div className="absolute inset-0 bg-gradient-to-l from-transparent to-ink-night opacity-50" />
+          </motion.div>
+        </div>
+
+      </div>
+
+      {/* Atmospheric Text Drift — "Kolpetty Nights" with amber glow */}
+      <div 
+        className="absolute bottom-10 right-10 whitespace-nowrap pointer-events-none drift-slow"
+      >
+        <span 
+          className="font-display italic text-[160px] text-clay-warm select-none"
+          style={{ 
+            opacity: 0.08,
+            textShadow: '0 0 80px rgba(184, 146, 74, 0.3)',
+          }}
+        >
+          Kolpetty Nights
+        </span>
+      </div>
+
+    </section>
+  );
+}
