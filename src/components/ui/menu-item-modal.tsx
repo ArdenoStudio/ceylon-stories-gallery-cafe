@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Clock, Leaf, Minus, Plus, X } from 'lucide-react';
+import { Clock, Minus, Plus, UtensilsCrossed, X } from 'lucide-react';
 import { cn } from '@/src/lib/utils';
 
 export interface MenuItemDetail {
@@ -27,9 +27,11 @@ interface MenuItemModalProps {
 export function MenuItemModal({ item, onClose, onAddToCart }: MenuItemModalProps) {
   const savings = item?.originalPrice != null ? item.originalPrice - item.price : 0;
   const [qty, setQty] = useState(1);
+  const [imgLoaded, setImgLoaded] = useState(false);
 
   useEffect(() => {
     setQty(1);
+    setImgLoaded(false);
   }, [item?.name]);
 
   useEffect(() => {
@@ -72,11 +74,15 @@ export function MenuItemModal({ item, onClose, onAddToCart }: MenuItemModalProps
             <div className="sm:hidden absolute top-3 left-1/2 -translate-x-1/2 w-10 h-1 rounded-full bg-mahogany/20 z-20" />
 
             {/* ── IMAGE PANEL ────────────────────────────── */}
-            <div className="relative h-60 sm:h-auto sm:w-[42%] flex-shrink-0 overflow-hidden">
+            <div className="relative h-60 sm:h-auto sm:w-[42%] flex-shrink-0 overflow-hidden bg-mahogany/10">
               <img
                 src={item.imageUrl}
                 alt={item.name}
-                className="w-full h-full object-cover"
+                onLoad={() => setImgLoaded(true)}
+                className={cn(
+                  'w-full h-full object-cover transition-opacity duration-500',
+                  imgLoaded ? 'opacity-100' : 'opacity-0'
+                )}
               />
 
               {/* Gradient: strong on mobile (bottom title overlay), subtle on desktop */}
@@ -125,7 +131,7 @@ export function MenuItemModal({ item, onClose, onAddToCart }: MenuItemModalProps
               {/* Close button */}
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 sm:top-5 sm:right-5 w-8 h-8 flex items-center justify-center rounded-full bg-mahogany/8 hover:bg-mahogany/12 text-mahogany/50 hover:text-mahogany transition-all z-20"
+                className="absolute top-4 right-4 sm:top-5 sm:right-5 w-8 h-8 flex items-center justify-center rounded-full bg-mahogany/8 hover:bg-mahogany/12 text-mahogany/50 hover:text-mahogany transition-all z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mahogany/40"
                 aria-label="Close"
               >
                 <X className="w-3.5 h-3.5" />
@@ -167,14 +173,14 @@ export function MenuItemModal({ item, onClose, onAddToCart }: MenuItemModalProps
                 <div className="w-full h-[1px] bg-gradient-to-r from-gold-leaf/30 via-mahogany/10 to-transparent" />
 
                 {/* Description */}
-                <p className="font-body text-[13.5px] text-mahogany/65 leading-[1.85]">
+                <p className="font-body text-[14px] text-mahogany/75 leading-[1.85]">
                   {item.description}
                 </p>
 
                 {/* Meta pills */}
                 <div className="flex items-center gap-3 flex-wrap">
                   <div className="flex items-center gap-2 px-3 py-2 rounded-md bg-mahogany/5 border border-mahogany/8">
-                    <Leaf className="w-3 h-3 text-mahogany/40" />
+                    <UtensilsCrossed className="w-3 h-3 text-mahogany/40" />
                     <div>
                       <p className="font-editorial text-[7.5px] tracking-[0.2em] uppercase text-mahogany/40 leading-none mb-0.5">Quantity</p>
                       <p className="font-editorial text-[9.5px] tracking-[0.12em] uppercase text-mahogany leading-none">{item.quantity}</p>
@@ -193,34 +199,41 @@ export function MenuItemModal({ item, onClose, onAddToCart }: MenuItemModalProps
                 {onAddToCart && (
                   <div className="mt-auto pt-4 border-t border-mahogany/10">
                     <div className="flex items-center gap-3">
-                      {/* Counter — matches meta pill aesthetic */}
+                      {/* Counter */}
                       <div className="flex items-center rounded-md bg-mahogany/5 border border-mahogany/8 px-1 py-2 gap-1">
                         <button
                           onClick={() => setQty(q => Math.max(1, q - 1))}
                           disabled={qty <= 1}
-                          className="w-7 h-7 flex items-center justify-center rounded-sm text-mahogany/45 hover:bg-mahogany/8 hover:text-mahogany transition-colors disabled:opacity-25"
-                          aria-label="Decrease"
+                          className="w-7 h-7 flex items-center justify-center rounded-sm text-mahogany/45 hover:bg-mahogany/8 hover:text-mahogany transition-colors disabled:opacity-25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-mahogany/40"
+                          aria-label="Decrease quantity"
                         >
                           <Minus className="w-3 h-3" />
                         </button>
-                        <span className="font-editorial text-[11px] tracking-[0.15em] text-mahogany w-7 text-center select-none">{qty}</span>
+                        <span className="font-editorial text-[11px] tracking-[0.15em] text-mahogany w-7 text-center select-none" aria-live="polite" aria-label={`Quantity: ${qty}`}>{qty}</span>
                         <button
                           onClick={() => setQty(q => Math.min(10, q + 1))}
                           disabled={qty >= 10}
-                          className="w-7 h-7 flex items-center justify-center rounded-sm text-mahogany/45 hover:bg-mahogany/8 hover:text-mahogany transition-colors disabled:opacity-25"
-                          aria-label="Increase"
+                          className="w-7 h-7 flex items-center justify-center rounded-sm text-mahogany/45 hover:bg-mahogany/8 hover:text-mahogany transition-colors disabled:opacity-25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-mahogany/40"
+                          aria-label={qty >= 10 ? 'Maximum quantity reached' : 'Increase quantity'}
                         >
                           <Plus className="w-3 h-3" />
                         </button>
                       </div>
-                      {/* Add to Order — same radius, filled variant */}
+                      {/* Add to Order with live total */}
                       <button
                         onClick={(e) => { onAddToCart(qty, e.currentTarget.getBoundingClientRect()); setQty(1); }}
-                        className="flex-1 rounded-md bg-mahogany text-cream-page font-editorial text-[10px] tracking-[0.25em] uppercase py-[11px] hover:bg-mahogany-soft active:scale-[0.98] transition-all duration-200"
+                        className="flex-1 rounded-md bg-mahogany text-cream-page font-editorial text-[10px] tracking-[0.25em] uppercase py-[11px] hover:bg-mahogany-soft active:scale-[0.98] transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mahogany"
                       >
                         Add{qty > 1 ? ` ${qty} ×` : ''} to Order
+                        <span className="ml-2 opacity-60">·</span>
+                        <span className="ml-2">Rs.&nbsp;{(item.price * qty).toLocaleString()}</span>
                       </button>
                     </div>
+                    {qty >= 10 && (
+                      <p className="font-editorial text-[8px] tracking-[0.15em] uppercase text-mahogany/40 mt-2 text-right">
+                        Max 10 per order
+                      </p>
+                    )}
                   </div>
                 )}
 
