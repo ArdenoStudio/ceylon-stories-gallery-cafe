@@ -36,7 +36,7 @@ interface HeroSectionProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
   title: React.ReactNode;
   subtitle: string;
   hours?: string;
-  callToAction: { text: string; href: string };
+  callToAction: { text: string; href?: string; onClick?: () => void };
   secondaryCallToAction?: { text: string; href: string };
   backgroundImage: string;
   accentImage?: string;
@@ -178,15 +178,27 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
               ) : null}
 
               <motion.div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4" variants={itemVariants}>
-                <a
-                  href={callToAction.href}
-                  target={shouldOpenExternally(callToAction.href) ? '_blank' : undefined}
-                  rel={shouldOpenExternally(callToAction.href) ? 'noreferrer' : undefined}
-                  className="group inline-flex items-center gap-3 border border-gold-leaf/80 bg-gold-leaf px-7 py-3.5 font-editorial text-[11px] uppercase tracking-[0.24em] text-ink-deep transition-colors duration-500 hover:bg-mahogany hover:text-cream-page"
-                >
-                  <span>{callToAction.text}</span>
-                  <ArrowRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover:translate-x-1" />
-                </a>
+                {callToAction.href ? (
+                  <a
+                    href={callToAction.href}
+                    onClick={callToAction.onClick}
+                    target={shouldOpenExternally(callToAction.href) ? '_blank' : undefined}
+                    rel={shouldOpenExternally(callToAction.href) ? 'noreferrer' : undefined}
+                    className="group inline-flex items-center gap-3 border border-gold-leaf/80 bg-gold-leaf px-7 py-3.5 font-editorial text-[11px] uppercase tracking-[0.24em] text-ink-deep transition-colors duration-500 hover:bg-mahogany hover:text-cream-page"
+                  >
+                    <span>{callToAction.text}</span>
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover:translate-x-1" />
+                  </a>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={callToAction.onClick}
+                    className="group inline-flex items-center gap-3 border border-gold-leaf/80 bg-gold-leaf px-7 py-3.5 font-editorial text-[11px] uppercase tracking-[0.24em] text-ink-deep transition-colors duration-500 hover:bg-mahogany hover:text-cream-page"
+                  >
+                    <span>{callToAction.text}</span>
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover:translate-x-1" />
+                  </button>
+                )}
                 {secondaryCallToAction ? (
                   <a
                     href={secondaryCallToAction.href}
