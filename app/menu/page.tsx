@@ -2,8 +2,11 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { ShoppingBag } from 'lucide-react';
 import { MenuItemCard } from '@/src/components/ui/menu-item-card';
 import { MenuItemModal, type MenuItemDetail } from '@/src/components/ui/menu-item-modal';
+import { CartProvider, useCart } from '@/src/components/CartContext';
+import { CartDrawer } from '@/src/components/CartDrawer';
 
 const categories = ['All', 'Food', 'Beverages', 'Dilmah Tea', 'Shisha'];
 
@@ -243,14 +246,62 @@ const menuItems = [
 ];
 
 export default function MenuPage() {
+  return (
+    <CartProvider>
+      <MenuPageContent />
+    </CartProvider>
+  );
+}
+
+function MenuPageContent() {
+  const { addItem, totalItems, openCart } = useCart();
   const [active, setActive] = useState('All');
   const [selectedItem, setSelectedItem] = useState<MenuItemDetail | null>(null);
 
   const filtered = active === 'All' ? menuItems : menuItems.filter((i) => i.category === active);
 
+  const handleAddToCart = (item: typeof menuItems[0], qty: number) => {
+    addItem({
+      id: `${item.category}-${item.name}`,
+      name: item.name,
+      price: item.price,
+      imageUrl: item.imageUrl,
+      category: item.category,
+    }, qty);
+    setSelectedItem(null);
+    openCart();
+  };
+
   return (
     <>
-      <MenuItemModal item={selectedItem} onClose={() => setSelectedItem(null)} />
+      <CartDrawer />
+
+      <MenuItemModal
+        item={selectedItem}
+        onClose={() => setSelectedItem(null)}
+        onAddToCart={(qty) => selectedItem && handleAddToCart(selectedItem as typeof menuItems[0], qty)}
+      />
+
+      {/* Floating cart button */}
+      <AnimatePresence>
+        {totalItems > 0 && (
+          <motion.button
+            onClick={openCart}
+            className="fixed bottom-6 left-6 z-[90] flex items-center gap-3 bg-cream-page text-mahogany border border-mahogany/20 px-4 py-3 shadow-ink hover:border-mahogany/40 transition-colors"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            whileHover={{ y: -2 }}
+            aria-label="Open order"
+          >
+            <ShoppingBag className="w-4 h-4 text-clay-warm shrink-0" />
+            <span className="font-editorial text-[10px] tracking-[0.15em] uppercase">
+              Order · {totalItems}
+            </span>
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {/* Hero */}
       <section className="relative w-full bg-mahogany text-cream-page pt-40 pb-20 px-6 overflow-hidden">
@@ -311,7 +362,7 @@ export default function MenuPage() {
                   quantity={item.quantity}
                   prepTimeInMinutes={item.prepTimeInMinutes}
                   tag={item.tag}
-                  onAdd={() => {}}
+                  onAdd={() => handleAddToCart(item, 1)}
                   onCardClick={() => setSelectedItem(item)}
                 />
               ))}

@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Clock, Leaf, X } from 'lucide-react';
+import { Clock, Leaf, Minus, Plus, X } from 'lucide-react';
 import { cn } from '@/src/lib/utils';
 
 export interface MenuItemDetail {
@@ -21,10 +21,16 @@ export interface MenuItemDetail {
 interface MenuItemModalProps {
   item: MenuItemDetail | null;
   onClose: () => void;
+  onAddToCart?: (qty: number) => void;
 }
 
-export function MenuItemModal({ item, onClose }: MenuItemModalProps) {
+export function MenuItemModal({ item, onClose, onAddToCart }: MenuItemModalProps) {
   const savings = item ? item.originalPrice - item.price : 0;
+  const [qty, setQty] = useState(1);
+
+  useEffect(() => {
+    setQty(1);
+  }, [item?.name]);
 
   useEffect(() => {
     if (!item) return;
@@ -166,7 +172,7 @@ export function MenuItemModal({ item, onClose }: MenuItemModalProps) {
                 </p>
 
                 {/* Meta pills */}
-                <div className="mt-auto pt-2 flex items-center gap-3 flex-wrap">
+                <div className="flex items-center gap-3 flex-wrap">
                   <div className="flex items-center gap-2 px-3 py-2 rounded-md bg-mahogany/5 border border-mahogany/8">
                     <Leaf className="w-3 h-3 text-mahogany/40" />
                     <div>
@@ -182,6 +188,39 @@ export function MenuItemModal({ item, onClose }: MenuItemModalProps) {
                     </div>
                   </div>
                 </div>
+
+                {/* Add to order */}
+                {onAddToCart && (
+                  <div className="mt-auto pt-4 border-t border-mahogany/10">
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center border border-mahogany/15">
+                        <button
+                          onClick={() => setQty(q => Math.max(1, q - 1))}
+                          disabled={qty <= 1}
+                          className="w-9 h-9 flex items-center justify-center text-mahogany/50 hover:text-mahogany transition-colors disabled:opacity-30"
+                          aria-label="Decrease"
+                        >
+                          <Minus className="w-3.5 h-3.5" />
+                        </button>
+                        <span className="font-editorial text-[12px] tracking-[0.1em] text-mahogany w-8 text-center select-none">{qty}</span>
+                        <button
+                          onClick={() => setQty(q => Math.min(10, q + 1))}
+                          disabled={qty >= 10}
+                          className="w-9 h-9 flex items-center justify-center text-mahogany/50 hover:text-mahogany transition-colors disabled:opacity-30"
+                          aria-label="Increase"
+                        >
+                          <Plus className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                      <button
+                        onClick={() => { onAddToCart(qty); setQty(1); }}
+                        className="flex-1 bg-mahogany text-cream-page font-editorial text-[10px] tracking-[0.25em] uppercase py-3 hover:bg-mahogany-soft transition-colors"
+                      >
+                        Add{qty > 1 ? ` ${qty} ×` : ''} to Order
+                      </button>
+                    </div>
+                  </div>
+                )}
 
               </div>
             </div>
