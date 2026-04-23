@@ -1,15 +1,14 @@
 "use client"
 
-import { useState } from "react"
 import { motion, AnimatePresence } from "motion/react"
 import Link from "next/link"
 
-interface DrinkCard {
+export interface DrinkCard {
   id: number
   contentType: number
 }
 
-const drinkData: Record<number, {
+export const drinkData: Record<number, {
   name: string
   description: string
   price: number
@@ -53,13 +52,7 @@ const drinkData: Record<number, {
   },
 }
 
-const TOTAL = Object.keys(drinkData).length
-
-const initialCards: DrinkCard[] = [
-  { id: 1, contentType: 1 },
-  { id: 2, contentType: 2 },
-  { id: 3, contentType: 3 },
-]
+export const TOTAL_DRINKS = Object.keys(drinkData).length
 
 const positionStyles = [
   { scale: 1, y: 12 },
@@ -124,14 +117,12 @@ function DrinkCardContent({ contentType }: { contentType: number }) {
 function AnimatedDrinkCard({
   card,
   index,
-  isAnimating,
 }: {
   card: DrinkCard
   index: number
-  isAnimating: boolean
 }) {
   const { scale, y } = positionStyles[index] ?? positionStyles[2]
-  const zIndex = index === 0 && isAnimating ? 10 : 3 - index
+  const zIndex = 3 - index
 
   return (
     <motion.div
@@ -141,44 +132,21 @@ function AnimatedDrinkCard({
       exit={index === 0 ? exitAnimation : undefined}
       transition={{ type: "spring", duration: 1, bounce: 0 }}
       style={{ zIndex, left: "50%", x: "-50%", bottom: 0 }}
-      className="absolute flex h-[308px] w-[324px] overflow-hidden rounded-t-xl border-x border-t border-mahogany/20 bg-cream-paper p-2 shadow-[0_8px_32px_rgba(42,24,16,0.22)] will-change-transform sm:w-[480px]"
+      className="absolute flex h-[308px] w-[300px] overflow-hidden rounded-t-xl border-x border-t border-mahogany/20 bg-cream-paper p-2 shadow-[0_8px_32px_rgba(42,24,16,0.22)] will-change-transform sm:w-[400px]"
     >
       <DrinkCardContent contentType={card.contentType} />
     </motion.div>
   )
 }
 
-export default function AnimatedDrinkStack() {
-  const [cards, setCards] = useState(initialCards)
-  const [nextId, setNextId] = useState(4)
-
-  const handleNext = () => {
-    const nextContentType = (cards[2].contentType % TOTAL) + 1
-    setCards([...cards.slice(1), { id: nextId, contentType: nextContentType }])
-    setNextId((prev) => prev + 1)
-  }
-
+export default function AnimatedDrinkStack({ cards }: { cards: DrinkCard[] }) {
   return (
-    <div className="flex w-full flex-col items-center justify-center pt-2">
-      <div className="relative h-[408px] w-full overflow-hidden sm:w-[580px]">
-        <AnimatePresence initial={false}>
-          {cards.slice(0, 3).map((card, index) => (
-            <AnimatedDrinkCard key={card.id} card={card} index={index} isAnimating={false} />
-          ))}
-        </AnimatePresence>
-      </div>
-
-      <div className="relative z-10 -mt-px flex w-full items-center justify-center border-t border-cream-page/10 py-5">
-        <button
-          onClick={handleNext}
-          className="flex h-10 cursor-pointer select-none items-center justify-center gap-2 rounded-full border border-cream-page/20 bg-cream-page/10 px-6 font-editorial text-[10px] tracking-[0.2em] uppercase text-cream-page/70 transition-all hover:bg-cream-page/18 hover:text-cream-page active:scale-[0.98]"
-        >
-          Next Drink
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <path d="M12 5v14M5 12l7 7 7-7" />
-          </svg>
-        </button>
-      </div>
+    <div className="relative h-[380px] w-full overflow-visible sm:w-[480px]">
+      <AnimatePresence initial={false}>
+        {cards.slice(0, 3).map((card, index) => (
+          <AnimatedDrinkCard key={card.id} card={card} index={index} />
+        ))}
+      </AnimatePresence>
     </div>
   )
 }
