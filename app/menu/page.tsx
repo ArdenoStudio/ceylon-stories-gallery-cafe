@@ -260,16 +260,26 @@ function FlyingItem({ data, onDone }: { data: FlyItemData; onDone: () => void })
   const y0 = data.fromY - size / 2;
   const x1 = data.toX - size / 2;
   const y1 = data.toY - size / 2;
-  const midX = (x0 + x1) / 2;
-  const arcY = Math.min(y0, y1) - 130;
+
+  // Quadratic bezier control point — above both endpoints
+  const cx = (x0 + x1) / 2;
+  const cy = Math.min(y0, y1) - 160;
+
+  // Sample N+1 points along the bezier curve for smooth arc keyframes
+  const N = 24;
+  const ts = Array.from({ length: N + 1 }, (_, i) => i / N);
+  const bx = ts.map(t => (1 - t) ** 2 * x0 + 2 * t * (1 - t) * cx + t ** 2 * x1);
+  const by = ts.map(t => (1 - t) ** 2 * y0 + 2 * t * (1 - t) * cy + t ** 2 * y1);
+  const scales = ts.map(t => 1 - t * 0.65);
+  const opacities = ts.map(t => (t < 0.8 ? 1 : 1 - (t - 0.8) / 0.2));
 
   return (
     <motion.div
       className="fixed z-[200] rounded-full overflow-hidden border-2 border-cream-page shadow-ink pointer-events-none"
       style={{ left: 0, top: 0, width: size, height: size }}
       initial={{ x: x0, y: y0, scale: 1, opacity: 1 }}
-      animate={{ x: [x0, midX, x1], y: [y0, arcY, y1], scale: [1, 0.9, 0.35], opacity: [1, 1, 0] }}
-      transition={{ duration: 0.58, ease: 'easeIn', times: [0, 0.42, 1] }}
+      animate={{ x: bx, y: by, scale: scales, opacity: opacities }}
+      transition={{ duration: 0.62, ease: 'easeIn', times: ts }}
       onAnimationComplete={onDone}
     >
       <img src={data.imageUrl} alt="" className="w-full h-full object-cover" />
