@@ -209,7 +209,7 @@ export default function ReservationModal({
 
             <div
               data-lenis-prevent
-              className="relative grid max-h-[92vh] overflow-y-auto overscroll-contain lg:grid-cols-[1fr_1.2fr]"
+              className="modal-scroll relative grid max-h-[92vh] overflow-y-auto overscroll-contain lg:grid-cols-[1fr_1.2fr]"
             >
               {/* ── Left: live summary panel ── */}
               <div className="relative overflow-hidden border-b border-mahogany/10 px-6 pb-8 pt-16 sm:px-8 sm:pb-10 sm:pt-20 lg:border-b-0 lg:border-r lg:px-10 lg:pb-12 lg:pt-16">
