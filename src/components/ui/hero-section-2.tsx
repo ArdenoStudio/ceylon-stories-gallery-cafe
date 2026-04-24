@@ -5,6 +5,7 @@ import { cn } from '../../lib/utils';
 import { motion, type Variants, useReducedMotion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { Motif } from '@/src/components/heritage/Motif';
+import { TiltCard } from './tilt-card';
 
 const InfoIcon = ({ type }: { type: 'website' | 'phone' | 'address' }) => {
   const icons = {
@@ -275,9 +276,14 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
                 variants={badgeVariants}
               >
                 <div className="absolute inset-0 rounded-full bg-gold-leaf/30 blur-xl" />
-                <div className="relative h-full w-full overflow-hidden rounded-full border border-gold-leaf/45 bg-cream-paper p-2.5 shadow-[0_10px_26px_rgba(15,8,5,0.28)]">
+                <TiltCard
+                  tiltLimit={12}
+                  scale={1.06}
+                  effect="gravitate"
+                  className="relative h-full w-full rounded-full border border-gold-leaf/45 bg-cream-paper p-2.5 shadow-[0_10px_26px_rgba(15,8,5,0.28)]"
+                >
                   <img src={accentImage} alt="Dilmah reserve seal" className="h-full w-full object-contain" />
-                </div>
+                </TiltCard>
               </motion.div>
             ) : null}
           </div>
