@@ -64,7 +64,7 @@ export default function ShinyButton({
       <span className="pointer-events-none absolute inset-[1px] rounded-[inherit] bg-[radial-gradient(circle_at_50%_0%,rgba(184,146,74,0.16)_0%,rgba(184,146,74,0)_62%)]" />
       <span className="pointer-events-none absolute inset-0 rounded-[inherit] border border-white/8" />
 
-      <span className="relative z-10 flex items-center gap-3">
+      <span className="relative z-10 flex items-center">
         {icon ? (
           <motion.span layout className="flex size-5 shrink-0 items-center justify-center rounded-full border border-gold-leaf/35 bg-gold-leaf/8 text-gold-leaf">
             {icon}
@@ -75,10 +75,10 @@ export default function ShinyButton({
           {!collapsed && (
             <motion.span
               key="label"
-              initial={{ opacity: 0, width: 0 }}
-              animate={{ opacity: 1, width: 'auto' }}
-              exit={{ opacity: 0, width: 0 }}
-              transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0, maxWidth: 0, marginLeft: 0 }}
+              animate={{ opacity: 1, maxWidth: 140, marginLeft: 12 }}
+              exit={{ opacity: 0, maxWidth: 0, marginLeft: 0 }}
+              transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
               className="relative block overflow-hidden whitespace-nowrap text-cream-page"
               style={{
                 maskImage:
