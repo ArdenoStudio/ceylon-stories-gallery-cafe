@@ -63,6 +63,7 @@
 
   body {
     @apply bg-cream-page text-mahogany font-body;
+    zoom: 0.75;
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
