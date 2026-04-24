@@ -25,6 +25,11 @@ const primaryNav: NavItem[] = [
   { label: 'Gallery', href: '/gallery' },
 ];
 
+// These must exactly match --color-ink-deep and --color-cream-paper in globals.css
+const INK = '#0f0805';
+const CREAM = '#ebe0ca';
+const EAR = 36; // px — matches rounded-b-[36px] on the pill
+
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
@@ -52,37 +57,75 @@ export default function Navigation() {
     <>
       <motion.nav
         aria-label="Primary"
-        className="fixed inset-x-0 top-0 z-[45] flex justify-center pointer-events-none"
+        className="fixed inset-x-0 top-0 z-[45] flex flex-col items-center pointer-events-none"
         initial={{ y: -24, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="w-full pointer-events-auto">
+        {/* ── Full-width dark banner ── */}
+        <div className="w-full pointer-events-auto" style={{ background: INK }}>
+          <div className="mx-auto flex w-full max-w-[1180px] items-center justify-between px-6 py-2 md:px-8">
+            <span className="font-editorial text-[10px] uppercase tracking-[0.24em] text-cream-page/55">
+              Open daily · 8 AM — 10 PM
+            </span>
+            <span className="hidden font-editorial text-[10px] uppercase tracking-[0.24em] text-cream-page/35 sm:inline">
+              Kolpetty, Colombo
+            </span>
+            <a
+              href="tel:+94112345678"
+              className="font-editorial text-[10px] uppercase tracking-[0.24em] text-gold-leaf transition-colors hover:text-cream-page"
+            >
+              Reserve · +94 11 234 5678
+            </a>
+          </div>
+        </div>
+
+        {/* ── Cream pill with concave corner ears ── */}
+        <div className="w-full flex justify-center pointer-events-auto">
           <div
-            className={`relative mx-auto flex w-full max-w-[1180px] flex-col rounded-b-[36px] border border-t-0 border-mahogany/10 bg-cream-paper shadow-[0_14px_34px_-18px_rgba(42,24,16,0.35)]`}
+            className={`relative mx-auto flex w-full max-w-[1180px] items-center justify-between gap-4 rounded-b-[36px] pl-5 pr-2 shadow-[0_14px_34px_-18px_rgba(15,8,5,0.5)] transition-[padding] duration-500 md:pl-7 md:pr-3 ${
+              scrolled ? 'py-2.5' : 'py-3.5'
+            }`}
+            style={{ background: CREAM }}
           >
-            {/* Top banner row */}
-            <div className="flex w-full items-center justify-between gap-6 border-b border-mahogany/10 px-6 py-1.5 md:px-8">
-              <span className="font-editorial text-[10px] uppercase tracking-[0.24em] text-mahogany/65">
-                Open daily · 8 AM — 10 PM
-              </span>
-              <span className="hidden font-editorial text-[10px] uppercase tracking-[0.24em] text-mahogany/50 sm:inline">
-                Kolpetty, Colombo
-              </span>
-              <a
-                href="tel:+94112345678"
-                className="font-editorial text-[10px] uppercase tracking-[0.24em] text-gold-leaf transition-colors hover:text-mahogany"
-              >
-                Reserve +94 11 234 5678
-              </a>
+            {/* Left concave ear */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute overflow-hidden"
+              style={{ top: 0, left: -EAR, width: EAR, height: EAR, background: INK }}
+            >
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  right: 0,
+                  width: EAR,
+                  height: EAR,
+                  background: CREAM,
+                  borderTopLeftRadius: EAR,
+                }}
+              />
             </div>
 
-            {/* Main navbar row */}
+            {/* Right concave ear */}
             <div
-              className={`relative flex w-full items-center justify-between gap-4 pl-5 pr-2 transition-[padding] duration-500 md:pl-7 md:pr-3 ${
-                scrolled ? 'py-2.5' : 'py-3.5'
-              }`}
+              aria-hidden
+              className="pointer-events-none absolute overflow-hidden"
+              style={{ top: 0, right: -EAR, width: EAR, height: EAR, background: INK }}
             >
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                  width: EAR,
+                  height: EAR,
+                  background: CREAM,
+                  borderTopRightRadius: EAR,
+                }}
+              />
+            </div>
+
             {/* Left: nav links */}
             <div className="hidden min-w-0 flex-1 items-center gap-1 md:flex">
               {primaryNav.map((item) => {
@@ -186,17 +229,17 @@ export default function Navigation() {
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 rounded-full bg-ink-deep px-5 py-2.5 font-editorial text-[11px] uppercase tracking-[0.2em] text-cream-page transition-colors duration-400 hover:bg-mahogany"
+                className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-editorial text-[11px] uppercase tracking-[0.2em] text-cream-page transition-colors duration-300 hover:opacity-80"
+                style={{ background: INK }}
               >
                 Book a Table
               </Link>
-            </div>
             </div>
           </div>
         </div>
       </motion.nav>
 
-      {/* Full overlay menu — triggered via its own fixed toggle */}
+      {/* Full overlay menu */}
       <CurvedMenuHeader />
     </>
   );
