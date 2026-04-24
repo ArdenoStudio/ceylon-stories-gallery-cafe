@@ -64,18 +64,25 @@ export default function ReservationModal({
   useEffect(() => {
     if (!open) return;
 
-    const previousOverflow = document.body.style.overflow;
+    const scrollY = window.scrollY;
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         onOpenChange(false);
       }
     };
 
-    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = '100%';
+    document.body.style.overflowY = 'scroll';
     window.addEventListener('keydown', handleEscape);
 
     return () => {
-      document.body.style.overflow = previousOverflow;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflowY = '';
+      window.scrollTo(0, scrollY);
       window.removeEventListener('keydown', handleEscape);
     };
   }, [open, onOpenChange]);
@@ -151,7 +158,7 @@ export default function ReservationModal({
     <AnimatePresence>
       {open ? (
         <motion.div
-          className="fixed inset-0 z-[110] flex items-end justify-center bg-mahogany/55 p-3 backdrop-blur-[6px] sm:items-center sm:p-6"
+          className="fixed inset-0 z-[110] flex items-end justify-center bg-mahogany/55 p-3 backdrop-blur-[6px] overscroll-none sm:items-center sm:p-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
