@@ -29,10 +29,8 @@ export default function Navigation() {
         }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        {/* Far left: Logomark/Numeral */}
-        <div className="flex-1 flex justify-start pointer-events-auto">
-          <span className={`font-display italic text-lg md:text-xl transition-colors duration-500 ${scrolled ? 'text-mahogany' : 'text-cream-page md:text-cream-page text-mahogany mix-blend-difference'}`}>I</span>
-        </div>
+        {/* Far left: Spacer */}
+        <div className="flex-1" />
         
         {/* Centre: Logo */}
         <div className="flex-1 flex justify-center pointer-events-auto">
