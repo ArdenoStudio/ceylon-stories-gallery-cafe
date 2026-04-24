@@ -188,7 +188,7 @@ export default function ReservationModal({
           onClick={() => onOpenChange(false)}
         >
           <motion.div
-            className="relative w-full max-w-5xl overflow-hidden rounded-[30px] border border-mahogany/10 bg-cream-page text-mahogany shadow-[0_24px_100px_rgba(42,24,16,0.28)]"
+            className="relative w-full max-w-6xl overflow-hidden rounded-[30px] border border-mahogany/10 bg-cream-page text-mahogany shadow-[0_24px_100px_rgba(42,24,16,0.28)]"
             initial={{ opacity: 0, y: 30, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.98 }}
@@ -209,7 +209,7 @@ export default function ReservationModal({
 
             <div
               data-lenis-prevent
-              className="relative grid max-h-[92vh] overflow-y-auto overscroll-contain lg:grid-cols-[0.95fr_1.25fr]"
+              className="relative grid max-h-[92vh] overflow-y-auto overscroll-contain lg:grid-cols-[1fr_1.2fr]"
             >
               {/* ── Left: live summary panel ── */}
               <div className="relative overflow-hidden border-b border-mahogany/10 px-6 pb-8 pt-16 sm:px-8 sm:pb-10 sm:pt-20 lg:border-b-0 lg:border-r lg:px-10 lg:pb-12 lg:pt-16">
