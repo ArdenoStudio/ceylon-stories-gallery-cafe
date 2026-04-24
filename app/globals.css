@@ -53,6 +53,7 @@
   }
 
   html {
+    font-size: 75%;
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
@@ -63,7 +64,6 @@
 
   body {
     @apply bg-cream-page text-mahogany font-body;
-    zoom: 0.75;
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
