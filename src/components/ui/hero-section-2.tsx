@@ -263,19 +263,35 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
                 className="pointer-events-none absolute bottom-6 left-5 h-20 w-20 rotate-[12deg] text-cream-page/30 sm:h-24 sm:w-24"
               />
               <motion.div
-                className="absolute bottom-6 left-6 right-6 border border-cream-page/20 bg-ink-night/55 px-5 py-4 backdrop-blur-[3px]"
+                className="absolute bottom-6 left-6 right-6"
                 variants={itemVariants}
               >
-                <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <p className="font-editorial text-[9px] uppercase tracking-[0.3em] text-gold-leaf/90">Now Pouring</p>
-                    <p className="mt-2 font-display text-[clamp(20px,2.8vw,34px)] leading-none text-cream-page">Dilmah Reserve Pairings</p>
+                <div className="relative border border-gold-leaf/50 bg-gradient-to-b from-ink-night/72 via-ink-night/68 to-ink-deep/85 px-6 py-5 backdrop-blur-[4px] shadow-[0_22px_52px_rgba(10,6,4,0.55)]">
+                  <div aria-hidden className="pointer-events-none absolute inset-[5px] border border-cream-page/10" />
+                  <span aria-hidden className="pointer-events-none absolute -left-[3px] -top-[3px] h-2.5 w-2.5 border-l-2 border-t-2 border-gold-leaf" />
+                  <span aria-hidden className="pointer-events-none absolute -right-[3px] -top-[3px] h-2.5 w-2.5 border-r-2 border-t-2 border-gold-leaf" />
+                  <span aria-hidden className="pointer-events-none absolute -bottom-[3px] -left-[3px] h-2.5 w-2.5 border-b-2 border-l-2 border-gold-leaf" />
+                  <span aria-hidden className="pointer-events-none absolute -bottom-[3px] -right-[3px] h-2.5 w-2.5 border-b-2 border-r-2 border-gold-leaf" />
+
+                  <div className="relative flex items-center justify-between gap-4">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2.5">
+                        <span aria-hidden className="h-px w-5 bg-gradient-to-r from-transparent to-gold-leaf/80" />
+                        <p className="font-editorial text-[9px] uppercase tracking-[0.38em] text-gold-leaf/95">Now Pouring</p>
+                      </div>
+                      <p className="mt-2.5 font-display text-[clamp(20px,2.9vw,36px)] leading-[1.05] text-cream-page">
+                        Dilmah <span className="italic text-gold-leaf">Reserve</span> Pairings
+                      </p>
+                    </div>
+                    {accentImage && (
+                      <>
+                        <span aria-hidden className="hidden h-14 w-px bg-gradient-to-b from-transparent via-gold-leaf/45 to-transparent sm:block" />
+                        <TiltCard tiltLimit={10} scale={1.05} effect="gravitate" spotlight={false} className="flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16">
+                          <img src={accentImage} alt="Dilmah" className="w-full h-full object-contain drop-shadow-[0_6px_18px_rgba(184,146,74,0.45)]" />
+                        </TiltCard>
+                      </>
+                    )}
                   </div>
-                  {accentImage && (
-                    <TiltCard tiltLimit={10} scale={1.05} effect="gravitate" spotlight={false} className="flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16">
-                      <img src={accentImage} alt="Dilmah" className="w-full h-full object-contain drop-shadow-lg" />
-                    </TiltCard>
-                  )}
                 </div>
               </motion.div>
             </motion.div>
