@@ -5,6 +5,8 @@ import Cursor from './Cursor';
 import IntroSequence from './IntroSequence';
 import { useState } from 'react';
 import { ReservationProvider } from './ReservationProvider';
+import { CartProvider } from './CartContext';
+import { CartUI } from './CartUI';
 
 export default function ClientProviders({ children }: { children: React.ReactNode }) {
   const [introComplete, setIntroComplete] = useState(
@@ -15,14 +17,18 @@ export default function ClientProviders({ children }: { children: React.ReactNod
 
   return (
     <ReservationProvider>
-      <SmoothScroll>
-        <div className="noise-overlay" />
-        <Cursor />
-        {!introComplete && (
-          <IntroSequence onComplete={() => setIntroComplete(true)} />
-        )}
-        {children}
-      </SmoothScroll>
+      <CartProvider>
+        <CartUI>
+          <SmoothScroll>
+            <div className="noise-overlay" />
+            <Cursor />
+            {!introComplete && (
+              <IntroSequence onComplete={() => setIntroComplete(true)} />
+            )}
+            {children}
+          </SmoothScroll>
+        </CartUI>
+      </CartProvider>
     </ReservationProvider>
   );
 }

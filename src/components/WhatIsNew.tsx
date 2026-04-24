@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { MenuItemCard } from './ui/menu-item-card';
 import { BotanicalDivider } from './heritage/BotanicalDivider';
 import { MotifCorner } from './heritage/MotifCorner';
+import { useCart } from './CartContext';
+import { useCartUI } from './CartUI';
 
 const items = [
   {
@@ -50,6 +52,20 @@ const items = [
 ];
 
 export default function WhatIsNew() {
+  const { addItem } = useCart();
+  const { triggerFly } = useCartUI();
+
+  const handleAdd = (item: typeof items[0], rect: DOMRect) => {
+    addItem({
+      id: `featured-${item.name}`,
+      name: item.name,
+      price: item.price,
+      imageUrl: item.imageUrl,
+      category: 'Featured',
+    });
+    triggerFly(rect, item.imageUrl);
+  };
+
   return (
     <section className="relative w-full bg-cream-page py-[clamp(80px,12vh,160px)] px-6 overflow-hidden">
       <div className="batik-line absolute top-0 left-0" />
@@ -115,7 +131,7 @@ export default function WhatIsNew() {
                 quantity={item.quantity}
                 prepTimeInMinutes={item.prepTimeInMinutes}
                 tag={item.tag}
-                onAdd={() => {}}
+                onAdd={(rect) => handleAdd(item, rect)}
               />
             </motion.div>
           ))}

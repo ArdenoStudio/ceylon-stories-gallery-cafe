@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import Link from 'next/link';
 import AnimatedDrinkStack, { drinkData, TOTAL_DRINKS, type DrinkCard } from './ui/animate-card-animation';
 import { MotifCorner } from './heritage/MotifCorner';
+import { useCart } from './CartContext';
+import { useCartUI } from './CartUI';
 
 const initialCards: DrinkCard[] = [
   { id: 1, contentType: 1 },
@@ -15,6 +17,8 @@ const initialCards: DrinkCard[] = [
 export default function FeaturedDrinks() {
   const [cards, setCards] = useState(initialCards);
   const [nextId, setNextId] = useState(4);
+  const { addItem } = useCart();
+  const { triggerFly } = useCartUI();
 
   const handleNext = () => {
     const nextContentType = (cards[2].contentType % TOTAL_DRINKS) + 1;
@@ -115,6 +119,22 @@ export default function FeaturedDrinks() {
                 <p className="font-editorial text-[11px] tracking-[0.18em] text-gold-leaf">
                   LKR {currentItem.price.toLocaleString()}
                 </p>
+
+                <button
+                  onClick={(e) => {
+                    addItem({
+                      id: `special-${currentItem.name}`,
+                      name: currentItem.name,
+                      price: currentItem.price,
+                      imageUrl: currentItem.image,
+                      category: 'Special Items',
+                    });
+                    triggerFly(e.currentTarget.getBoundingClientRect(), currentItem.image);
+                  }}
+                  className="mt-2 w-fit px-6 py-2.5 font-editorial text-[9px] tracking-[0.25em] uppercase border border-cream-page/25 text-cream-page/80 rounded-full transition-all duration-300 hover:bg-cream-page/10 hover:text-cream-page hover:border-cream-page/50 active:scale-[0.97]"
+                >
+                  Add to Order
+                </button>
               </motion.div>
             </AnimatePresence>
 
