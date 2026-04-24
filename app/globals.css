@@ -73,6 +73,13 @@
   }
 }
 
+@layer base {
+  img:not([data-nimg="fill"]) {
+    max-width: 75%;
+    height: auto;
+  }
+}
+
 @layer utilities {
   .scrollbar-hide::-webkit-scrollbar { display: none; }
   .scrollbar-hide { scrollbar-width: none; -ms-overflow-style: none; }
