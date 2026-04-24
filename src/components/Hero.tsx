@@ -27,6 +27,7 @@ export default function Hero() {
         href: '#menu',
       }}
       backgroundImage="/dilmah-bg.png"
+      panelImage="/dilmah-drink.jpg"
       accentImage="/dilmah-logo.png"
       establishedYear="24"
       contactInfo={{

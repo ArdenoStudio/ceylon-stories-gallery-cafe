@@ -40,13 +40,14 @@ interface HeroSectionProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
   callToAction: { text: string; href?: string; onClick?: () => void };
   secondaryCallToAction?: { text: string; href: string };
   backgroundImage: string;
+  panelImage?: string;
   accentImage?: string;
   establishedYear?: string;
   contactInfo: { website: string; phone: string; address: string };
 }
 
 const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
-  ({ className, logo, slogan, title, subtitle, hours, callToAction, secondaryCallToAction, backgroundImage, accentImage, establishedYear, contactInfo, ...props }, ref) => {
+  ({ className, logo, slogan, title, subtitle, hours, callToAction, secondaryCallToAction, backgroundImage, panelImage, accentImage, establishedYear, contactInfo, ...props }, ref) => {
     const prefersReducedMotion = useReducedMotion();
     const shouldOpenExternally = (href: string) => href.startsWith('http');
     const containerVariants: Variants = {
@@ -242,10 +243,10 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
               <motion.div
                 className="pointer-events-none absolute inset-0"
                 style={{
-                  backgroundImage: `url(${backgroundImage})`,
+                  backgroundImage: `url(${panelImage ?? backgroundImage})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
-                  filter: 'sepia(0.28) saturate(0.85) contrast(1.05)',
+                  filter: 'sepia(0.18) saturate(0.9) contrast(1.05)',
                 }}
                 initial={prefersReducedMotion ? { scale: 1 } : { scale: 1.08 }}
                 animate={{ scale: 1 }}
@@ -265,27 +266,20 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
                 className="absolute bottom-6 left-6 right-6 border border-cream-page/20 bg-ink-night/55 px-5 py-4 backdrop-blur-[3px]"
                 variants={itemVariants}
               >
-                <p className="font-editorial text-[9px] uppercase tracking-[0.3em] text-gold-leaf/90">Now Pouring</p>
-                <p className="mt-2 font-display text-[clamp(20px,2.8vw,34px)] leading-none text-cream-page">Dilmah Reserve Pairings</p>
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <p className="font-editorial text-[9px] uppercase tracking-[0.3em] text-gold-leaf/90">Now Pouring</p>
+                    <p className="mt-2 font-display text-[clamp(20px,2.8vw,34px)] leading-none text-cream-page">Dilmah Reserve Pairings</p>
+                  </div>
+                  {accentImage && (
+                    <TiltCard tiltLimit={10} scale={1.05} effect="gravitate" spotlight={false} className="flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16">
+                      <img src={accentImage} alt="Dilmah" className="w-full h-full object-contain drop-shadow-lg" />
+                    </TiltCard>
+                  )}
+                </div>
               </motion.div>
             </motion.div>
 
-            {accentImage ? (
-              <motion.div
-                className="absolute -top-3 right-8 z-20 h-20 w-20 sm:h-24 sm:w-24 lg:-right-5 lg:bottom-16 lg:top-auto lg:h-28 lg:w-28"
-                variants={badgeVariants}
-              >
-                <TiltCard
-                  tiltLimit={12}
-                  scale={1.06}
-                  effect="gravitate"
-                  spotlight={false}
-                  className="relative h-full w-full"
-                >
-                  <img src={accentImage} alt="Dilmah reserve seal" className="h-full w-full object-contain drop-shadow-lg" />
-                </TiltCard>
-              </motion.div>
-            ) : null}
           </div>
         </div>
       </motion.section>
