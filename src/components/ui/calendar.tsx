@@ -130,6 +130,7 @@ export function Calendar({
         {monthDays.map((day) => {
           const inCurrentMonth = day.getMonth() === currentMonth.getMonth();
           const isSelected = isSameDay(day, selected);
+          const isToday = isSameDay(day, startOfDay(new Date()));
           const isDisabled = !inCurrentMonth || (minimumDay ? day < minimumDay : false);
 
           return (
@@ -143,12 +144,17 @@ export function Calendar({
                 isSelected
                   ? 'border-mahogany bg-mahogany text-cream-page shadow-[0_10px_24px_rgba(42,24,16,0.18)]'
                   : 'border-transparent text-mahogany hover:border-mahogany/12 hover:bg-mahogany/5',
+                isToday && !isSelected && 'ring-1 ring-clay-warm/50 font-medium',
                 isDisabled &&
                   'cursor-not-allowed text-mahogany/20 hover:border-transparent hover:bg-transparent'
               )}
               aria-pressed={isSelected}
+              aria-current={isToday ? 'date' : undefined}
             >
               {day.getDate()}
+              {isToday && !isSelected && (
+                <span className="absolute bottom-1 left-1/2 block size-1 -translate-x-1/2 rounded-full bg-clay-warm/60" />
+              )}
             </button>
           );
         })}
