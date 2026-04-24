@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { ReservationProvider } from './ReservationProvider';
 import { CartProvider } from './CartContext';
 import { CartUI } from './CartUI';
+import { NavMenuProvider } from './NavMenuContext';
 
 export default function ClientProviders({ children }: { children: React.ReactNode }) {
   const [introComplete, setIntroComplete] = useState(
@@ -16,6 +17,7 @@ export default function ClientProviders({ children }: { children: React.ReactNod
   );
 
   return (
+    <NavMenuProvider>
     <ReservationProvider>
       <CartProvider>
         <CartUI>
@@ -30,5 +32,6 @@ export default function ClientProviders({ children }: { children: React.ReactNod
         </CartUI>
       </CartProvider>
     </ReservationProvider>
+    </NavMenuProvider>
   );
 }

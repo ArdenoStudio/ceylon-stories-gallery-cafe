@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { motion, useMotionValue, AnimatePresence } from "motion/react";
 import { Instagram, MapPin, Mail, BookOpen } from "lucide-react";
+import { useNavMenu } from "@/src/components/NavMenuContext";
 
 interface iNavItem {
 	heading: string;
@@ -253,9 +254,15 @@ export default function CurvedMenuHeader({
 	navItems = defaultNavItems,
 	footer = <CustomFooter />,
 }: iHeaderProps) {
-	const [isActive, setIsActive] = useState(false);
+	const [isActive, setIsActiveLocal] = useState(false);
+	const { setIsNavOpen } = useNavMenu();
 	const openAudioRef = useRef<HTMLAudioElement | null>(null);
 	const closeAudioRef = useRef<HTMLAudioElement | null>(null);
+
+	const setIsActive = (val: boolean) => {
+		setIsActiveLocal(val);
+		setIsNavOpen(val);
+	};
 
 	useEffect(() => {
 		if (isActive) {
