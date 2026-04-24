@@ -57,14 +57,10 @@ export default function Navigation() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       >
-        <motion.div
-          animate={{ paddingTop: scrolled ? 12 : 20, paddingBottom: scrolled ? 12 : 20 }}
-          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full px-4 sm:px-6 lg:px-10 pointer-events-auto"
-        >
+        <div className="w-full pointer-events-auto">
           <div
-            className={`relative mx-auto flex w-full max-w-[1320px] items-center justify-between gap-4 rounded-full border border-mahogany/10 bg-cream-paper/95 pl-5 pr-2 py-2 shadow-[0_18px_40px_-18px_rgba(42,24,16,0.35)] backdrop-blur-md transition-colors duration-500 md:pl-7 md:pr-3 ${
-              scrolled ? 'bg-cream-paper' : 'bg-cream-paper/92'
+            className={`relative mx-auto flex w-full max-w-[1180px] items-center justify-between gap-4 rounded-b-[36px] border border-t-0 border-mahogany/10 bg-cream-paper pl-5 pr-2 py-3 shadow-[0_14px_34px_-18px_rgba(42,24,16,0.35)] transition-[padding] duration-500 md:pl-7 md:pr-3 ${
+              scrolled ? 'py-2.5' : 'py-3.5'
             }`}
           >
             {/* Left: nav links */}
@@ -176,7 +172,7 @@ export default function Navigation() {
               </Link>
             </div>
           </div>
-        </motion.div>
+        </div>
       </motion.nav>
 
       {/* Full overlay menu — triggered via its own fixed toggle */}
