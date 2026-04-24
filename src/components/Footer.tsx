@@ -18,15 +18,7 @@ export default function Footer() {
           {/* LEFT — monogram + social pinned to bottom */}
           <div className="md:w-[38%] flex flex-col justify-between">
             <div className="w-[130px] h-[130px] md:w-[150px] md:h-[150px]">
-              <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-                <circle cx="80" cy="80" r="76" stroke="#2a1810" strokeWidth="1.2" />
-                <circle cx="80" cy="80" r="68" stroke="#2a1810" strokeWidth="0.6" strokeDasharray="3 3" />
-                <text x="80" y="88" textAnchor="middle" fontFamily="'Fraunces Variable', Georgia, serif" fontSize="38" fontStyle="italic" fontWeight="300" fill="#2a1810" letterSpacing="-1">CS</text>
-                <path id="arc" d="M 26,80 A 54,54 0 0 0 134,80" fill="none" />
-                <text fontFamily="'Tenor Sans', Arial, sans-serif" fontSize="7" fill="#2a1810" letterSpacing="3" opacity="0.55">
-                  <textPath href="#arc" startOffset="8%">GALLERY CAFÉ · COLOMBO</textPath>
-                </text>
-              </svg>
+              <img src="/logo-black.png" alt="Ceylon Stories" className="w-full h-full object-contain" />
             </div>
 
             <a href="#" aria-label="Instagram" className="text-mahogany/50 hover:text-mahogany transition-colors w-max mt-8 md:mt-0">
