@@ -275,14 +275,14 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
                 className="absolute -top-3 right-8 z-20 h-20 w-20 sm:h-24 sm:w-24 lg:-right-5 lg:bottom-16 lg:top-auto lg:h-28 lg:w-28"
                 variants={badgeVariants}
               >
-                <div className="absolute inset-0 rounded-full bg-gold-leaf/30 blur-xl" />
                 <TiltCard
                   tiltLimit={12}
                   scale={1.06}
                   effect="gravitate"
-                  className="relative h-full w-full rounded-full border border-gold-leaf/45 bg-cream-paper p-2.5 shadow-[0_10px_26px_rgba(15,8,5,0.28)]"
+                  spotlight={false}
+                  className="relative h-full w-full"
                 >
-                  <img src={accentImage} alt="Dilmah reserve seal" className="h-full w-full object-contain" />
+                  <img src={accentImage} alt="Dilmah reserve seal" className="h-full w-full object-contain drop-shadow-lg" />
                 </TiltCard>
               </motion.div>
             ) : null}
