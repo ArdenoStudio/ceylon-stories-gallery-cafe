@@ -4,17 +4,20 @@ import { CalendarDays } from 'lucide-react';
 import { motion } from 'motion/react';
 
 import { useReservation } from './ReservationProvider';
+import { useCart } from './CartContext';
 import ShinyButton from './ui/shiny-button';
 
 export default function WhatsAppFloat() {
   const { openReservation } = useReservation();
+  const { isOpen: isCartOpen } = useCart();
 
   return (
     <motion.div
       className="fixed bottom-6 right-6 z-[90]"
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      animate={{ opacity: isCartOpen ? 0 : 1, y: isCartOpen ? 20 : 0 }}
+      style={{ pointerEvents: isCartOpen ? 'none' : 'auto' }}
+      transition={{ delay: isCartOpen ? 0 : 2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       whileHover={{ y: -2 }}
     >
       <ShinyButton
