@@ -229,9 +229,9 @@ function MenuPageContent() {
 
           {/* Filter Tabs */}
           <div className="mb-16">
-            <motion.div layout className={`glass-filter-bar rounded-2xl px-3 py-3 flex items-center gap-1 ${activeTier === 'All' ? 'justify-center' : ''}`}>
+            <div className={`glass-filter-bar rounded-2xl px-3 py-3 flex items-center gap-1 ${activeTier === 'All' ? 'justify-center' : ''}`}>
               {/* Tier 1 */}
-              <motion.div layout="position" className="flex gap-1.5 flex-shrink-0">
+              <motion.div layout="position" transition={{ duration: 0.3, ease: 'easeInOut' }} className="flex gap-1.5 flex-shrink-0">
                 {TIERS.map(({ label, Icon }) => (
                   <button
                     key={label}
@@ -253,11 +253,11 @@ function MenuPageContent() {
                 {activeTier !== 'All' && (
                   <motion.div
                     key="tier2"
-                    initial={{ opacity: 0, width: 0 }}
-                    animate={{ opacity: 1, width: 'auto' }}
-                    exit={{ opacity: 0, width: 0 }}
-                    transition={{ duration: 0.3, ease: 'easeInOut' }}
-                    className="flex items-center gap-1 flex-1 min-w-0 overflow-hidden"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -10 }}
+                    transition={{ duration: 0.25, ease: 'easeOut' }}
+                    className="flex items-center gap-1 flex-1 min-w-0"
                   >
                     <div className="w-px h-4 bg-mahogany/15 mx-1.5 flex-shrink-0" />
                     <div className="relative flex-1 min-w-0">
@@ -286,7 +286,7 @@ function MenuPageContent() {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </motion.div>
+            </div>
             <div className="mt-4 border-b border-mahogany/10" />
           </div>
 
