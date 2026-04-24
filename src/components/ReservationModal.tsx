@@ -177,7 +177,7 @@ export default function ReservationModal({
               <X className="size-4" strokeWidth={1.8} />
             </button>
 
-            <div className="relative grid max-h-[92vh] overflow-y-auto lg:grid-cols-[0.95fr_1.25fr]">
+            <div className="relative grid max-h-[92vh] overflow-y-auto overscroll-contain lg:grid-cols-[0.95fr_1.25fr]">
               <div className="relative overflow-hidden border-b border-mahogany/10 px-6 pb-8 pt-16 sm:px-8 sm:pb-10 sm:pt-20 lg:border-b-0 lg:border-r lg:px-10 lg:pb-12 lg:pt-16">
                 <div className="absolute -right-16 bottom-0 select-none text-[140px] leading-none text-mahogany/5">
                   RSVP

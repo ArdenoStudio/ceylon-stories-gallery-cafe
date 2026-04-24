@@ -69,7 +69,7 @@ export default function Cursor() {
 
       {/* Ring */}
       <motion.div
-        className="fixed top-0 left-0 rounded-full border border-mahogany/40 pointer-events-none z-[100]"
+        className="fixed top-0 left-0 rounded-full border border-mahogany/40 pointer-events-none z-[200]"
         style={{ x: ringX, y: ringY, translateX: '-50%', translateY: '-50%' }}
         animate={{
           width: isHovering ? 48 : 28,
@@ -81,7 +81,7 @@ export default function Cursor() {
 
       {/* Dot */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[100] flex items-center"
+        className="fixed top-0 left-0 pointer-events-none z-[200] flex items-center"
         style={{ x: dotX, y: dotY, translateX: '-50%', translateY: '-50%' }}
       >
         <motion.div
