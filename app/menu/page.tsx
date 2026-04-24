@@ -229,7 +229,7 @@ function MenuPageContent() {
 
           {/* Filter Tabs */}
           <div className="mb-16">
-            <div className="glass-filter-bar rounded-2xl px-3 py-3 flex items-center gap-1">
+            <div className={`glass-filter-bar rounded-2xl px-3 py-3 flex items-center gap-1 transition-all duration-300 ${activeTier === 'All' ? 'justify-center' : ''}`}>
               {/* Tier 1 */}
               <div className="flex gap-1.5 flex-shrink-0">
                 {TIERS.map(({ label, Icon }) => (
