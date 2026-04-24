@@ -58,6 +58,23 @@ export default function Navigation() {
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="w-full pointer-events-auto">
+          {/* Top banner strip */}
+          <div className="w-full bg-ink-deep text-cream-page">
+            <div className="mx-auto flex w-full max-w-[1180px] items-center justify-between gap-6 px-5 py-1.5 md:px-8">
+              <span className="font-editorial text-[10px] uppercase tracking-[0.24em] text-cream-page/80">
+                Open daily · 8 AM — 10 PM
+              </span>
+              <span className="hidden font-editorial text-[10px] uppercase tracking-[0.24em] text-cream-page/60 sm:inline">
+                Kolpetty, Colombo
+              </span>
+              <a
+                href="tel:+94112345678"
+                className="font-editorial text-[10px] uppercase tracking-[0.24em] text-gold-leaf transition-colors hover:text-cream-page"
+              >
+                Reserve +94 11 234 5678
+              </a>
+            </div>
+          </div>
           <div
             className={`relative mx-auto flex w-full max-w-[1180px] items-center justify-between gap-4 rounded-b-[36px] border border-t-0 border-mahogany/10 bg-cream-paper pl-5 pr-2 py-3 shadow-[0_14px_34px_-18px_rgba(42,24,16,0.35)] transition-[padding] duration-500 md:pl-7 md:pr-3 ${
               scrolled ? 'py-2.5' : 'py-3.5'
