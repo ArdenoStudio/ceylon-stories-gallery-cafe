@@ -38,9 +38,9 @@ export default function WhatsAppFloat() {
       <ShinyButton
         onClick={openReservation}
         aria-label="Open reservation popup"
-        icon={<CalendarDays className="size-3.5" strokeWidth={1.7} />}
+        icon={<CalendarDays className={collapsed ? 'size-4' : 'size-3.5'} strokeWidth={1.7} />}
         collapsed={collapsed}
-        className={`bg-[#24130d] py-2.5 shadow-[0_14px_28px_rgba(0,0,0,0.22)] focus-visible:ring-offset-cream-page ${collapsed ? 'px-3' : 'px-4'}`}
+        className={`bg-[#24130d] focus-visible:ring-offset-cream-page ${collapsed ? 'p-3 shadow-[0_8px_24px_rgba(0,0,0,0.28),0_0_14px_rgba(184,146,74,0.18)]' : 'px-4 py-2.5 shadow-[0_14px_28px_rgba(0,0,0,0.22)]'}`}
       >
         Reserve
       </ShinyButton>

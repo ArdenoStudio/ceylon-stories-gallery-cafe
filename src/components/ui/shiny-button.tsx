@@ -66,7 +66,15 @@ export default function ShinyButton({
 
       <span className="relative z-10 flex items-center">
         {icon ? (
-          <motion.span layout className="flex size-5 shrink-0 items-center justify-center rounded-full border border-gold-leaf/35 bg-gold-leaf/8 text-gold-leaf">
+          <motion.span
+            layout
+            className={cn(
+              'flex shrink-0 items-center justify-center rounded-full border text-gold-leaf transition-[width,height,border-color,background-color] duration-300',
+              collapsed
+                ? 'size-7 border-gold-leaf/55 bg-gold-leaf/14'
+                : 'size-5 border-gold-leaf/35 bg-gold-leaf/8'
+            )}
+          >
             {icon}
           </motion.span>
         ) : null}
