@@ -53,7 +53,6 @@
   }
 
   html {
-    font-size: 75%;
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
@@ -70,13 +69,6 @@
 
   body::-webkit-scrollbar {
     display: none;
-  }
-}
-
-@layer base {
-  img:not([data-nimg="fill"]) {
-    max-width: 75%;
-    height: auto;
   }
 }
 
