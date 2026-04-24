@@ -18,6 +18,21 @@ interface MenuItemCardProps extends React.HTMLAttributes<HTMLDivElement> {
   onCardClick?: () => void;
 }
 
+// Defined outside the component so references are stable across renders —
+// changing these inside the component causes Framer Motion to re-run animations.
+const cardVariants = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } },
+  hover: { scale: 1.02, transition: { duration: 0.25 } },
+};
+
+const buttonVariants = { tap: { scale: 0.95 } };
+
+const vegIconVariants = {
+  initial: { scale: 0 },
+  animate: { scale: 1, transition: { delay: 0.3, type: 'spring' as const, stiffness: 200 } },
+};
+
 const MenuItemCard = React.forwardRef<HTMLDivElement, MenuItemCardProps>(
   (
     {
@@ -38,21 +53,6 @@ const MenuItemCard = React.forwardRef<HTMLDivElement, MenuItemCardProps>(
   ) => {
     const savings = originalPrice != null ? originalPrice - price : 0;
 
-    const cardVariants = {
-      initial: { opacity: 0, y: 20 },
-      animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] } },
-      hover: { scale: 1.02, transition: { duration: 0.25 } },
-    };
-
-    const buttonVariants = {
-      tap: { scale: 0.95 },
-    };
-
-    const vegIconVariants = {
-      initial: { scale: 0 },
-      animate: { scale: 1, transition: { delay: 0.3, type: 'spring' as const, stiffness: 200 } },
-    };
-
     return (
       <motion.div
         ref={ref}
@@ -66,7 +66,6 @@ const MenuItemCard = React.forwardRef<HTMLDivElement, MenuItemCardProps>(
         initial="initial"
         animate="animate"
         whileHover="hover"
-        layout
       >
         {/* Image */}
         <div className="relative overflow-hidden rounded-t-lg">
