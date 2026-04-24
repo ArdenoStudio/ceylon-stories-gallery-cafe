@@ -158,7 +158,7 @@ export default function ReservationModal({
           onClick={() => onOpenChange(false)}
         >
           <motion.div
-            className="relative max-h-[92vh] w-full max-w-5xl overflow-hidden rounded-[30px] border border-mahogany/10 bg-cream-page text-mahogany shadow-[0_24px_100px_rgba(42,24,16,0.28)]"
+            className="relative w-full max-w-5xl overflow-hidden rounded-[30px] border border-mahogany/10 bg-cream-page text-mahogany shadow-[0_24px_100px_rgba(42,24,16,0.28)]"
             initial={{ opacity: 0, y: 30, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.98 }}
