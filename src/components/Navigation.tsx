@@ -55,19 +55,14 @@ export default function Navigation() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       >
-        {/* Full-width dark backdrop — the equivalent of Caladan's blue zone */}
+        {/* Full-width hairline that the pill hangs from */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-[88px] bg-mahogany md:h-[100px]"
-        />
-        {/* Top hairline that runs across the page above pill + backdrop */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-cream-paper/25"
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-mahogany/25"
         />
 
         <div
-          className="relative mx-auto mt-[10px] flex w-[88%] max-w-[1180px] items-center justify-between gap-4 rounded-[40px] border border-cream-paper/15 bg-cream-paper px-4 py-3 shadow-[0_18px_42px_-22px_rgba(15,8,5,0.55)] pointer-events-auto md:px-6 md:py-3.5"
+          className="relative mx-auto mt-[6px] flex w-[88%] max-w-[1180px] items-center justify-between gap-4 rounded-[44px] border border-mahogany/20 bg-cream-paper px-4 py-3.5 shadow-[0_18px_42px_-22px_rgba(15,8,5,0.55)] pointer-events-auto md:px-6 md:py-4"
         >
           {/* Left: nav links */}
           <div className="hidden min-w-0 flex-1 items-center gap-1 md:flex">
