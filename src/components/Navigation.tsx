@@ -55,8 +55,14 @@ export default function Navigation() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       >
+        {/* Full-width hairline that the pill hangs from */}
         <div
-          className="relative mx-auto flex w-[92%] max-w-[1320px] items-center justify-between gap-4 rounded-b-[44px] border border-t-0 border-mahogany/12 bg-cream-paper px-4 py-3.5 shadow-[0_18px_42px_-22px_rgba(15,8,5,0.55)] pointer-events-auto md:px-6 md:py-4"
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-mahogany/20"
+        />
+
+        <div
+          className="relative mx-auto flex w-[92%] max-w-[1320px] items-center justify-between gap-4 rounded-b-[44px] border border-t-0 border-mahogany/20 bg-cream-paper px-4 py-3.5 shadow-[0_18px_42px_-22px_rgba(15,8,5,0.55)] pointer-events-auto md:px-6 md:py-4"
         >
           {/* Left: nav links */}
           <div className="hidden min-w-0 flex-1 items-center gap-1 md:flex">
