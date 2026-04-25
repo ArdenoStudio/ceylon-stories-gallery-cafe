@@ -177,13 +177,17 @@ export default function Navigation() {
                     </div>
                   </div>
 
-                  {/* Featured image */}
-                  <div className="relative overflow-hidden rounded-xl">
-                    <Image
-                      src="/dilmah-drink.jpg"
-                      alt="Ceylon Stories"
-                      fill
-                      className="object-cover"
+                  {/* Map */}
+                  <div className="overflow-hidden rounded-xl">
+                    <iframe
+                      src="https://maps.google.com/maps?q=9%2F6+A%2C+16th+Lane%2C+Marine+Drive%2C+Kolpetty%2C+Colombo%2C+Sri+Lanka+00300&z=16&output=embed"
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0, minHeight: '220px' }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title="Ceylon Stories location"
                     />
                   </div>
                 </div>
