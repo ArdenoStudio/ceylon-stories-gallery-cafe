@@ -156,7 +156,7 @@ export default function Navigation() {
                     <p className="mb-4 font-editorial text-[10px] uppercase tracking-[0.22em] text-mahogany/40">
                       Explore
                     </p>
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-1 lg:grid-cols-3">
+                    <div className="flex flex-col">
                       {exploreItem.children!.map((child) => (
                         <Link
                           key={child.href}
