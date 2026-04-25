@@ -2,7 +2,7 @@
 @import "@fontsource-variable/fraunces";
 @import "@fontsource/tenor-sans";
 @import "@fontsource/inter";
-@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&display=swap");
+@import "@fontsource/instrument-serif/400-italic.css";
 
 @theme {
   --color-clay-deep: #8b3a1f;
