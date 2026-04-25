@@ -7,6 +7,7 @@ import { motion, type Variants, useReducedMotion } from 'motion/react';
 import { ArrowRight, ChevronDown, Globe, MapPin, Phone } from 'lucide-react';
 import { Motif } from '@/src/components/heritage/Motif';
 import { TiltCard } from './tilt-card';
+import { Button06 } from './button06';
 
 const InfoIcon = ({ type }: { type: 'website' | 'phone' | 'address' }) => {
   const Icon = { website: Globe, phone: Phone, address: MapPin }[type];
@@ -245,27 +246,12 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
               ) : null}
 
               <motion.div className="mt-10 flex flex-wrap items-center gap-4" variants={itemVariants}>
-                {callToAction.href ? (
-                  <a
-                    href={callToAction.href}
-                    onClick={callToAction.onClick}
-                    target={shouldOpenExternally(callToAction.href) ? '_blank' : undefined}
-                    rel={shouldOpenExternally(callToAction.href) ? 'noreferrer' : undefined}
-                    className="group inline-flex items-center gap-3 border border-gold-leaf/80 bg-gold-leaf px-7 py-3.5 font-editorial text-[11px] uppercase tracking-[0.24em] text-ink-deep transition-colors duration-500 hover:bg-mahogany hover:text-cream-page"
-                  >
-                    <span>{callToAction.text}</span>
-                    <ArrowRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover:translate-x-1" />
-                  </a>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={callToAction.onClick}
-                    className="group inline-flex items-center gap-3 border border-gold-leaf/80 bg-gold-leaf px-7 py-3.5 font-editorial text-[11px] uppercase tracking-[0.24em] text-ink-deep transition-colors duration-500 hover:bg-mahogany hover:text-cream-page"
-                  >
-                    <span>{callToAction.text}</span>
-                    <ArrowRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover:translate-x-1" />
-                  </button>
-                )}
+                <Button06
+                  text={callToAction.text}
+                  href={callToAction.href}
+                  onClick={callToAction.onClick}
+                />
+
                 {secondaryCallToAction ? (
                   <a
                     href={secondaryCallToAction.href}
