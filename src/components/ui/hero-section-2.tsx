@@ -275,7 +275,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
                         <p className="font-editorial text-[9px] uppercase tracking-[0.38em] text-gold-leaf/95">Now Pouring</p>
                       </div>
                       <p className="mt-2.5 font-display text-[clamp(20px,2.9vw,36px)] leading-[1.05] text-cream-page">
-                        Dilmah <span className="italic text-gold-leaf">Reserve</span> Pairings
+                        Dilmah <span style={{ fontStyle: 'italic' }} className="text-gold-leaf">Reserve</span> Pairings
                       </p>
                     </div>
                     {accentImage && (
