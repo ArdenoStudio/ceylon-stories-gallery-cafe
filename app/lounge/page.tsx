@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X } from 'lucide-react';
 import { Motif } from '@/src/components/heritage/Motif';
+import { FallingPattern } from '@/src/components/ui/falling-pattern';
+import { Button06 } from '@/src/components/ui/button06';
 
 type Blend = {
   id: number;
@@ -117,340 +118,334 @@ const blends: Blend[] = [
   },
 ];
 
-const IntensityDots = ({ level }: { level: number }) => (
+const IntensityRule = ({ level }: { level: number }) => (
   <div className="flex items-center gap-1.5">
     {[1, 2, 3].map(i => (
       <span
         key={i}
-        className="w-2 h-2 rounded-full"
-        style={{ background: i <= level ? '#00FF88' : 'rgba(235,224,202,0.1)' }}
+        className="block h-px w-5 md:w-6 transition-colors"
+        style={{ background: i <= level ? 'var(--color-gold-leaf)' : 'rgba(235,224,202,0.14)' }}
       />
     ))}
   </div>
 );
 
-const ExpandIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
-  </svg>
-);
+const HOURS = ['05', '06', '07', '08', '09', '10', '11', '12'];
 
 export default function LoungePage() {
-  const [selected, setSelected] = useState<Blend | null>(null);
+  const [openId, setOpenId] = useState<number | null>(1);
 
   return (
     <>
-      {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="relative w-full min-h-[100svh] bg-ink-deep text-cream-page flex flex-col justify-end pb-24 px-6 overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2000&auto=format&fit=crop"
-            alt=""
-            aria-hidden="true"
-            className="w-full h-full object-cover photo-heritage-deep opacity-35"
-          />
-        </div>
-        <div className="absolute inset-0 shadow-[inset_0_0_300px_rgba(0,0,0,0.85)] pointer-events-none z-10" />
-        <div className="absolute bottom-0 left-0 right-0 h-[65%] bg-gradient-to-t from-ink-deep via-ink-deep/70 to-transparent z-10 pointer-events-none" />
-
-        <Motif name="frangipani" className="pointer-events-none absolute -top-6 -right-6 h-80 w-80 text-clay-warm/10 z-10 hidden md:block" />
-        <Motif name="fern-frond" className="pointer-events-none absolute top-20 left-10 h-44 w-44 text-gold-leaf/8 z-10 hidden md:block" />
-
+      {/* ── Hero ─────────────────────────────────────────────────────────── */}
+      <section className="relative w-full min-h-[100svh] bg-ink-deep text-cream-page overflow-hidden flex items-end">
+        {/* Background photo with slow zoom */}
         <motion.div
-          className="absolute top-40 right-6 md:right-14 z-20 text-right"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.2, delay: 1 }}
+          className="absolute inset-0"
+          initial={{ scale: 1.06 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 18, ease: 'easeOut' }}
         >
-          <p className="font-editorial text-[8px] tracking-[0.28em] uppercase text-cream-page/25 mb-1">Opens at</p>
-          <p className="font-display text-[80px] leading-none text-cream-page/10 tracking-tight select-none">6PM</p>
+          <img
+            src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2400&auto=format&fit=crop"
+            alt=""
+            aria-hidden
+            className="w-full h-full object-cover photo-heritage-deep opacity-30"
+          />
         </motion.div>
 
-        <div className="absolute bottom-8 right-0 whitespace-nowrap opacity-[0.04] pointer-events-none overflow-hidden z-10 select-none">
-          <span className="font-display italic text-[140px] text-clay-warm">Kolpetty Nights</span>
+        {/* Falling embers */}
+        <div className="absolute inset-0 opacity-[0.22] mix-blend-screen pointer-events-none z-[1]">
+          <FallingPattern color="#c9a25a" backgroundColor="transparent" duration={260} blurIntensity="0px" density={1} />
         </div>
 
-        <div className="relative z-20 max-w-7xl mx-auto w-full">
+        {/* Vignettes & grain */}
+        <div className="absolute inset-0 shadow-[inset_0_0_400px_rgba(0,0,0,0.92)] pointer-events-none z-10" />
+        <div className="absolute bottom-0 left-0 right-0 h-[72%] bg-gradient-to-t from-ink-deep via-ink-deep/75 to-transparent z-10 pointer-events-none" />
+        <div className="paper-texture z-10" />
+
+        {/* Heritage motifs */}
+        <Motif name="frangipani" className="pointer-events-none absolute -top-8 -right-8 h-80 w-80 text-clay-warm/[0.07] z-10 hidden md:block" />
+        <Motif name="fern-frond" className="pointer-events-none absolute top-24 left-12 h-48 w-48 text-gold-leaf/[0.06] z-10 hidden md:block" />
+
+        {/* Vertical chapter rail (left edge) */}
+        <div className="absolute left-6 top-1/2 -translate-y-1/2 z-20 hidden md:flex flex-col items-center gap-6">
+          <span
+            className="font-editorial text-[8px] tracking-[0.42em] uppercase text-cream-page/30"
+            style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
+          >
+            Ceylon Stories — Vol. IV
+          </span>
+          <span className="block w-px h-24 bg-gold-leaf/35" />
+          <span
+            className="font-editorial text-[8px] tracking-[0.42em] uppercase text-gold-leaf/65"
+            style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
+          >
+            The Lounge — Kolpetty
+          </span>
+        </div>
+
+        {/* Hour-tick rail (right edge) */}
+        <div className="absolute right-8 top-1/2 -translate-y-1/2 z-20 hidden lg:flex flex-col items-end gap-4">
+          <p className="font-editorial text-[7px] tracking-[0.32em] uppercase text-cream-page/25 mb-1">— Hours of Service</p>
+          {HOURS.map(h => {
+            const active = h === '06';
+            return (
+              <div key={h} className="flex items-center gap-3">
+                {active && (
+                  <span className="font-editorial text-[8px] tracking-[0.28em] uppercase text-gold-leaf">
+                    Lights drop
+                  </span>
+                )}
+                <span className={`font-display ${active ? 'text-gold-leaf text-base' : 'text-cream-page/22 text-xs'}`}>
+                  {h}
+                </span>
+                <span
+                  className="block h-px"
+                  style={{
+                    width: active ? 32 : 14,
+                    background: active ? 'var(--color-gold-leaf)' : 'rgba(235,224,202,0.18)',
+                  }}
+                />
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Tonight plaque (top right) */}
+        <motion.aside
+          className="absolute top-28 right-32 z-20 hidden xl:block max-w-[260px] border-l border-gold-leaf/35 pl-5"
+          initial={{ opacity: 0, x: 12 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1.4, delay: 1.1 }}
+        >
+          <p className="font-editorial text-[8px] tracking-[0.32em] uppercase text-cream-page/30 mb-3">Tonight at the Lounge</p>
+          <p className="font-editorial text-[8px] tracking-[0.24em] uppercase text-gold-leaf/75 mb-1">Nº 01 — Signature</p>
+          <p className="font-display italic font-light text-cream-page text-2xl leading-tight mb-3">Ceylon Spice</p>
+          <p className="font-body text-[11px] text-cream-page/45 leading-[1.75]">
+            Black tea tobacco · cardamom · star anise · cinnamon.
+          </p>
+        </motion.aside>
+
+        {/* Headline cluster (bottom-left) */}
+        <div className="relative z-20 max-w-7xl mx-auto w-full px-6 pb-24 md:pb-32">
           <motion.div
             initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+            className="max-w-[60ch]"
           >
-            <p className="font-editorial text-[9px] md:text-[10px] tracking-[0.3em] uppercase text-gold-leaf mb-8 flex items-center gap-4">
-              <span className="w-10 h-[1px] bg-gold-leaf/50" /> 04 — THE LOUNGE
+            <p className="font-editorial text-[9px] md:text-[10px] tracking-[0.36em] uppercase text-gold-leaf mb-8 flex items-center gap-4">
+              <span className="w-12 h-px bg-gold-leaf/55" /> Chapter IV — The Lounge
             </p>
-            <h1 className="font-display italic font-light text-cream-page text-[clamp(54px,9vw,128px)] leading-[0.85] tracking-[-0.02em] mb-10">
+            <h1 className="font-display italic font-light text-cream-page text-[clamp(54px,9.5vw,140px)] leading-[0.85] tracking-[-0.025em] mb-10">
               After six,<br />
               <span className="text-gold-leaf not-italic font-normal">the room</span><br />
               turns amber.
             </h1>
-            <p className="font-body text-sm text-cream-page/50 leading-[1.95] max-w-[44ch] border-l border-gold-leaf/20 pl-6">
-              Our evening lounge pairs imported shisha blends with an understated, slow ambiance. The lights drop at six. The music settles to a low register. The rest is up to you.
+            <p className="font-body text-sm md:text-[15px] text-cream-page/55 leading-[1.95] max-w-[44ch]">
+              An evening lounge for slow hours. Imported shisha blends, our signature Ceylon Spice, and a drinks list built for lingering.
             </p>
           </motion.div>
         </div>
+
+        {/* Bottom hairline + editorial caption */}
+        <div className="absolute bottom-6 left-0 right-0 z-20 px-6 hidden md:block">
+          <div className="max-w-7xl mx-auto flex items-center justify-between border-t border-cream-page/8 pt-4">
+            <span className="font-editorial text-[8px] tracking-[0.32em] uppercase text-cream-page/22">
+              Photographed in the Lounge · Friday, 11:42 PM
+            </span>
+            <span className="font-editorial text-[8px] tracking-[0.32em] uppercase text-cream-page/22">
+              Kolpetty · Colombo 03
+            </span>
+          </div>
+        </div>
       </section>
 
-      {/* ── The Blends ────────────────────────────────────────────────────── */}
-      <section className="relative w-full bg-ink-night py-[clamp(80px,10vh,140px)] px-6 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-ink-deep/50 to-transparent pointer-events-none z-0" />
-        <Motif name="laurel-half" className="absolute top-0 left-0 h-72 w-36 text-clay-warm/6 pointer-events-none z-0" />
-        <Motif name="fern-frond" className="absolute bottom-12 right-4 h-56 w-56 text-gold-leaf/5 pointer-events-none z-0" />
+      {/* ── The Tasting Card ─────────────────────────────────────────────── */}
+      <section className="relative w-full bg-ink-night overflow-hidden">
+        <Motif name="laurel-half" className="absolute top-12 left-0 h-72 w-36 text-clay-warm/[0.05] pointer-events-none" />
+        <Motif name="fern-frond" className="absolute bottom-32 right-0 h-72 w-72 text-gold-leaf/[0.04] pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="max-w-6xl mx-auto px-6 py-[clamp(80px,10vh,140px)] relative z-10">
           <motion.div
-            initial={{ opacity: 0, x: -24 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-10%' }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="mb-16"
+            transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+            className="grid grid-cols-1 md:grid-cols-12 gap-8 items-end mb-16 md:mb-20"
           >
-            <p className="font-editorial text-[9px] tracking-[0.3em] uppercase text-clay-warm mb-4 flex items-center gap-3">
-              <span className="w-8 h-[1px] bg-clay-warm/60" /> The Blends
-            </p>
-            <h2 className="font-display font-light text-cream-page text-[clamp(32px,4.5vw,64px)] leading-[0.95] tracking-tight">
-              Eight blends.<br />
-              <i className="text-gold-leaf">One pipe at a time.</i>
-            </h2>
+            <div className="md:col-span-7">
+              <p className="font-editorial text-[9px] tracking-[0.36em] uppercase text-clay-warm/85 mb-5 flex items-center gap-3">
+                <span className="w-8 h-px bg-clay-warm/55" /> The Tasting Card
+              </p>
+              <h2 className="font-display font-light text-cream-page text-[clamp(34px,5vw,72px)] leading-[0.95] tracking-[-0.02em]">
+                Eight blends.<br />
+                <i className="text-gold-leaf">One pipe at a time.</i>
+              </h2>
+            </div>
+            <div className="md:col-span-5 md:pl-8">
+              <p className="font-body text-sm text-cream-page/45 leading-[1.95] max-w-[40ch] border-l border-gold-leaf/20 pl-5">
+                Two profiles built in-house, six imported. All served with natural coconut charcoal. Custom mixes at the host's discretion.
+              </p>
+            </div>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {blends.map((blend, i) => (
-              <motion.div
-                key={blend.id}
-                className="group relative flex flex-col border border-cream-page/8 bg-ink-deep/50 p-6 hover:border-cream-page/16 transition-colors duration-500"
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-5%' }}
-                transition={{ duration: 0.55, delay: i * 0.055, ease: [0.16, 1, 0.3, 1] }}
-              >
-                {blend.tag && (
-                  <span
-                    className="font-editorial text-[7px] tracking-[0.28em] uppercase border px-2 py-0.5 mb-4 inline-block w-fit"
-                    style={{ color: 'rgba(0,255,136,0.65)', borderColor: 'rgba(0,255,136,0.18)' }}
-                  >
-                    {blend.tag}
-                  </span>
-                )}
-                {!blend.tag && <div className="mb-4 h-[18px]" />}
-
-                <h3 className="font-display font-light text-cream-page text-xl leading-tight mb-1">{blend.name}</h3>
-                <p className="font-editorial text-[8px] tracking-[0.18em] uppercase text-cream-page/25 mb-5">{blend.origin}</p>
-                <p className="font-body text-xs text-cream-page/38 leading-[1.75] mb-6 flex-1">
-                  {blend.notes.join(' · ')}
-                </p>
-
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <IntensityDots level={blend.intensity} />
-                    <span className="font-editorial text-[7px] tracking-[0.18em] uppercase text-cream-page/22">{blend.intensityLabel}</span>
-                  </div>
-
-                  {/* Skeuomorphic detail button */}
+          <ul className="border-t border-cream-page/12">
+            {blends.map((b, i) => {
+              const isOpen = openId === b.id;
+              const num = String(i + 1).padStart(2, '0');
+              return (
+                <li key={b.id} className="border-b border-cream-page/12">
                   <button
-                    onClick={() => setSelected(blend)}
-                    className="lnt-button !w-8 !h-8 !rounded-[8px] shrink-0"
-                    aria-label={`Details for ${blend.name}`}
+                    onClick={() => setOpenId(isOpen ? null : b.id)}
+                    aria-expanded={isOpen}
+                    className="w-full grid grid-cols-12 gap-4 md:gap-6 items-baseline py-7 md:py-9 text-left group hover:bg-cream-page/[0.025] transition-colors duration-300 px-2 md:px-3"
                   >
-                    <div className="lnt-frame">
-                      <ExpandIcon />
+                    <span className="col-span-2 md:col-span-1 font-display italic font-light text-gold-leaf/60 text-2xl md:text-3xl leading-none">
+                      Nº {num}
+                    </span>
+                    <div className="col-span-10 md:col-span-4">
+                      <h3 className="font-display font-light text-cream-page text-2xl md:text-[34px] leading-[1] tracking-[-0.015em]">
+                        {b.name}
+                      </h3>
+                      {b.tag && (
+                        <span className="font-editorial text-[8px] tracking-[0.28em] uppercase text-gold-leaf/75 mt-2 inline-block">
+                          — {b.tag}
+                        </span>
+                      )}
                     </div>
+                    <p className="col-span-12 md:col-span-4 font-editorial text-[10px] md:text-[11px] tracking-[0.18em] uppercase text-cream-page/45 leading-[1.95]">
+                      {b.notes.join(' · ')}
+                    </p>
+                    <div className="col-span-8 md:col-span-2 flex items-center gap-2 md:justify-end">
+                      <IntensityRule level={b.intensity} />
+                      <span className="font-editorial text-[8px] tracking-[0.22em] uppercase text-cream-page/35 ml-1">
+                        {b.intensityLabel}
+                      </span>
+                    </div>
+                    <span className="col-span-4 md:col-span-1 md:text-right font-editorial text-[10px] tracking-[0.28em] uppercase text-cream-page/35 group-hover:text-gold-leaf transition-colors">
+                      {isOpen ? '— Close' : '+ Read'}
+                    </span>
                   </button>
-                </div>
-              </motion.div>
-            ))}
-          </div>
 
-          <p className="font-editorial text-[8px] tracking-[0.2em] uppercase text-cream-page/18 mt-10 text-right">
-            All blends served with natural coconut charcoal · Custom mixes available on request
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                        className="overflow-hidden"
+                      >
+                        <div className="grid grid-cols-12 gap-6 md:gap-8 px-2 md:px-3 pb-12 pt-2">
+                          <div className="hidden md:block md:col-span-1" />
+                          <div className="col-span-12 md:col-span-7">
+                            <p className="font-body text-[15px] text-cream-page/65 leading-[1.95] mb-7 max-w-[58ch]">
+                              {b.description}
+                            </p>
+                            <p className="font-editorial text-[8px] tracking-[0.32em] uppercase text-gold-leaf/65 mb-2">Pairs With</p>
+                            <p className="font-body text-sm text-cream-page/50 leading-[1.85] border-l border-gold-leaf/20 pl-4 max-w-[44ch]">
+                              {b.pairsWith}
+                            </p>
+                          </div>
+                          <div className="col-span-12 md:col-span-4 md:border-l border-cream-page/10 md:pl-8">
+                            <p className="font-editorial text-[8px] tracking-[0.32em] uppercase text-cream-page/35 mb-2">Server's Note</p>
+                            <p className="font-body text-[13px] text-cream-page/55 leading-[1.85] mb-7">{b.session}</p>
+                            <p className="font-editorial text-[8px] tracking-[0.32em] uppercase text-cream-page/35 mb-2">Origin</p>
+                            <p className="font-body text-[13px] text-cream-page/55">{b.origin}</p>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </li>
+              );
+            })}
+          </ul>
+
+          <p className="font-editorial text-[8px] tracking-[0.28em] uppercase text-cream-page/25 mt-10 text-right">
+            Custom mixes available · Ask the host
           </p>
         </div>
       </section>
 
-      {/* ── Blend Detail Modal ─────────────────────────────────────────────── */}
-      <AnimatePresence>
-        {selected && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              className="fixed inset-0 bg-ink-deep/80 backdrop-blur-sm z-50"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              onClick={() => setSelected(null)}
-            />
-
-            {/* Panel */}
-            <motion.div
-              className="fixed bottom-0 left-0 right-0 md:inset-y-0 md:left-auto md:right-0 md:w-[480px] bg-ink-deep border-t md:border-t-0 md:border-l border-cream-page/10 z-50 flex flex-col overflow-y-auto modal-scroll"
-              initial={{ y: '100%', opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: '100%', opacity: 0 }}
-              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-              style={{ maxHeight: '90svh' }}
-            >
-              {/* Panel header */}
-              <div className="flex items-start justify-between p-8 pb-6 border-b border-cream-page/8 sticky top-0 bg-ink-deep z-10">
-                <div>
-                  {selected.tag && (
-                    <span
-                      className="font-editorial text-[7px] tracking-[0.28em] uppercase border px-2 py-0.5 mb-3 inline-block"
-                      style={{ color: 'rgba(0,255,136,0.65)', borderColor: 'rgba(0,255,136,0.18)' }}
-                    >
-                      {selected.tag}
-                    </span>
-                  )}
-                  <h3 className="font-display font-light text-cream-page text-3xl leading-tight">{selected.name}</h3>
-                  <p className="font-editorial text-[8px] tracking-[0.2em] uppercase text-cream-page/30 mt-1">{selected.origin}</p>
-                </div>
-                <button
-                  onClick={() => setSelected(null)}
-                  className="lnt-button !w-9 !h-9 !rounded-[10px] shrink-0 mt-1"
-                  aria-label="Close"
-                >
-                  <div className="lnt-frame">
-                    <X size={14} strokeWidth={1.5} />
-                  </div>
-                </button>
-              </div>
-
-              {/* Panel body */}
-              <div className="p-8 flex flex-col gap-8">
-                {/* Description */}
-                <p className="font-body text-sm text-cream-page/55 leading-[1.9]">{selected.description}</p>
-
-                {/* Notes */}
-                <div>
-                  <p className="font-editorial text-[8px] tracking-[0.28em] uppercase text-gold-leaf/60 mb-4">Flavour Notes</p>
-                  <div className="flex flex-wrap gap-2">
-                    {selected.notes.map(note => (
-                      <span
-                        key={note}
-                        className="font-editorial text-[8px] tracking-[0.16em] uppercase text-cream-page/50 border border-cream-page/10 px-3 py-1.5"
-                      >
-                        {note}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Intensity */}
-                <div>
-                  <p className="font-editorial text-[8px] tracking-[0.28em] uppercase text-gold-leaf/60 mb-4">Intensity</p>
-                  <div className="flex items-center gap-4">
-                    <IntensityDots level={selected.intensity} />
-                    <span className="font-body text-sm text-cream-page/45">{selected.intensityLabel}</span>
-                  </div>
-                </div>
-
-                {/* Pairs with */}
-                <div>
-                  <p className="font-editorial text-[8px] tracking-[0.28em] uppercase text-gold-leaf/60 mb-3">Pairs With</p>
-                  <p className="font-body text-sm text-cream-page/50 leading-[1.8] border-l border-gold-leaf/15 pl-4">{selected.pairsWith}</p>
-                </div>
-
-                {/* Session note */}
-                <div className="bg-cream-page/4 border border-cream-page/8 px-5 py-4">
-                  <p className="font-editorial text-[8px] tracking-[0.22em] uppercase text-cream-page/30 mb-1">Server's Note</p>
-                  <p className="font-body text-xs text-cream-page/45 leading-[1.8]">{selected.session}</p>
-                </div>
-
-                {/* CTA */}
-                <a
-                  href="https://wa.me/94770000000?text=I%20would%20like%20to%20order%20the%20shisha%20blend%20at%20the%20evening%20lounge."
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-editorial text-[10px] tracking-[0.22em] uppercase text-mahogany bg-cream-page px-6 py-4 hover:bg-gold-leaf transition-colors duration-300 text-center"
-                >
-                  Reserve a Table →
-                </a>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-
-      {/* ── The Atmosphere ────────────────────────────────────────────────── */}
+      {/* ── Atmosphere — full bleed ──────────────────────────────────────── */}
       <section className="relative w-full bg-ink-deep overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 py-[clamp(80px,10vh,140px)]">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-4 items-center">
-            <motion.div
-              className="md:col-span-5 overflow-hidden"
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-10%' }}
-              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <div className="aspect-[3/4] overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=800&auto=format&fit=crop"
-                  alt="The evening lounge at Ceylon Stories"
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover photo-heritage-deep transition-transform duration-700 hover:scale-[1.03]"
-                />
-              </div>
-            </motion.div>
+        <div className="relative h-[88vh] min-h-[620px] w-full overflow-hidden">
+          <img
+            src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=2400&auto=format&fit=crop"
+            alt="Kolpetty nights at Ceylon Stories"
+            referrerPolicy="no-referrer"
+            className="absolute inset-0 w-full h-full object-cover photo-heritage-deep"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-ink-deep/95 via-ink-deep/55 to-ink-deep/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink-deep via-ink-deep/40 to-transparent" />
 
-            <motion.div
-              className="md:col-span-7 md:pl-16"
-              initial={{ opacity: 0, x: 24 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: '-10%' }}
-              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-            >
-              <p className="font-editorial text-[9px] tracking-[0.3em] uppercase text-clay-warm mb-8">The Evening</p>
-              <blockquote className="font-display italic font-light text-cream-page/75 text-[clamp(26px,3.2vw,50px)] leading-[1.1] tracking-tight mb-10">
-                "The lights drop, the music settles to a low register, and the shisha lounge opens."
-              </blockquote>
-              <p className="font-body text-sm text-cream-page/40 leading-[1.95] max-w-[44ch] border-l border-gold-leaf/15 pl-5 mb-10">
-                Kolpetty nights are slower than the rest of Colombo. Imported tobacco blends, our signature Ceylon Spice, and a drinks list built for lingering. No rush. No last-call announcement. Just the amber light and the smoke.
-              </p>
-              <a
-                href="https://wa.me/94770000000?text=I%20would%20like%20to%20reserve%20a%20table%20for%20the%20evening%20lounge."
-                target="_blank"
-                rel="noreferrer"
-                className="font-editorial text-[10px] tracking-[0.22em] uppercase text-cream-page/60 inline-flex items-center gap-3 border border-cream-page/15 px-6 py-3 hover:bg-cream-page/5 hover:border-cream-page/30 transition-colors duration-300 w-fit"
+          <div className="absolute inset-0 flex items-end">
+            <div className="max-w-7xl mx-auto px-6 pb-20 md:pb-28 w-full">
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-15%' }}
+                transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+                className="max-w-3xl"
               >
-                Reserve a Table <span>→</span>
-              </a>
-            </motion.div>
+                <p className="font-editorial text-[9px] tracking-[0.36em] uppercase text-clay-warm mb-8 flex items-center gap-3">
+                  <span className="w-8 h-px bg-clay-warm/55" /> II — Kolpetty Nights
+                </p>
+                <blockquote className="font-display italic font-light text-cream-page text-[clamp(28px,4vw,58px)] leading-[1.05] tracking-[-0.015em] mb-10">
+                  "The lights drop at six. The music settles to a low register. The rest is up to you."
+                </blockquote>
+                <p className="font-body text-sm text-cream-page/60 leading-[1.95] max-w-[48ch] border-l border-gold-leaf/25 pl-5">
+                  Kolpetty nights are slower than the rest of Colombo. No rush. No last-call. Just the amber light and the smoke.
+                </p>
+              </motion.div>
+            </div>
           </div>
+
+          <span className="absolute top-8 right-8 font-editorial text-[8px] tracking-[0.32em] uppercase text-cream-page/30 hidden md:block">
+            Photo · The House
+          </span>
         </div>
       </section>
 
-      {/* ── Hours & Info ──────────────────────────────────────────────────── */}
-      <section className="relative w-full bg-ink-night py-[clamp(60px,8vh,120px)] px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+      {/* ── Visiting — colophon ──────────────────────────────────────────── */}
+      <section className="relative w-full bg-ink-night py-[clamp(70px,9vh,130px)] px-6">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-10%' }}
+            transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <p className="font-editorial text-[9px] tracking-[0.36em] uppercase text-gold-leaf/70 mb-5 flex items-center gap-3">
+              <span className="w-8 h-px bg-gold-leaf/45" /> Visiting
+            </p>
+            <h3 className="font-display font-light text-cream-page text-3xl md:text-5xl tracking-[-0.015em] leading-[1.05] mb-16 md:mb-20">
+              <i>Practical notes</i> for the evening.
+            </h3>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-20 border-t border-gold-leaf/20 pt-12">
             {[
-              {
-                label: 'Opening Hours',
-                lines: ['Monday – Friday', '6:00 PM — 12:00 AM', '', 'Saturday – Sunday', '6:00 PM — 1:00 AM'],
-              },
-              {
-                label: 'Location',
-                lines: ['9/6A, Marine Drive', 'Kolpetty, Colombo 03', 'Sri Lanka'],
-              },
-              {
-                label: 'Good to Know',
-                lines: ['Evening only — strictly after 6 PM.', 'Reservations recommended', 'on Fridays & weekends.', 'WhatsApp for bookings.'],
-              },
+              { label: 'Opening Hours', lines: ['Monday — Friday', '6:00 PM — 12:00 AM', '', 'Saturday — Sunday', '6:00 PM — 1:00 AM'] },
+              { label: 'Location', lines: ['9/6A, Marine Drive', 'Kolpetty, Colombo 03', 'Sri Lanka'] },
+              { label: 'Good to Know', lines: ['Strictly after 6 PM.', 'Reservations recommended on Fridays & weekends.', 'WhatsApp for bookings.'] },
             ].map((item, i) => (
               <motion.div
                 key={i}
-                className="border-t border-cream-page/10 pt-8"
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.9, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
               >
-                <p className="font-editorial text-[8px] tracking-[0.28em] uppercase text-gold-leaf/65 mb-5">{item.label}</p>
+                <p className="font-editorial text-[8px] tracking-[0.32em] uppercase text-gold-leaf/70 mb-6">{item.label}</p>
                 {item.lines.map((line, j) =>
                   line === '' ? (
                     <div key={j} className="h-3" />
                   ) : (
-                    <p key={j} className="font-body text-sm text-cream-page/45 leading-[1.9]">{line}</p>
+                    <p key={j} className="font-body text-sm text-cream-page/55 leading-[1.95]">{line}</p>
                   )
                 )}
               </motion.div>
@@ -459,23 +454,31 @@ export default function LoungePage() {
         </div>
       </section>
 
-      {/* ── Reserve CTA ───────────────────────────────────────────────────── */}
-      <section className="w-full bg-mahogany py-20 px-6">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-          <div>
-            <p className="font-editorial text-[9px] tracking-[0.25em] uppercase text-gold-leaf mb-3">Reserve Your Evening</p>
-            <h2 className="font-display font-light text-cream-page text-3xl md:text-5xl leading-[1.1]">
-              The smoke starts at six.
-            </h2>
+      {/* ── Reserve CTA — quiet & confident ──────────────────────────────── */}
+      <section className="relative w-full bg-ink-deep py-[clamp(90px,12vh,160px)] px-6 overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.14] mix-blend-screen pointer-events-none">
+          <FallingPattern color="#c9a25a" backgroundColor="transparent" duration={320} blurIntensity="0px" density={1} />
+        </div>
+        <div className="absolute inset-0 shadow-[inset_0_0_240px_rgba(0,0,0,0.7)] pointer-events-none" />
+        <Motif name="frangipani" className="absolute -top-12 -right-12 h-72 w-72 text-clay-warm/[0.06] pointer-events-none" />
+        <Motif name="fern-frond" className="absolute -bottom-16 -left-12 h-64 w-64 text-gold-leaf/[0.05] pointer-events-none" />
+
+        <div className="max-w-4xl mx-auto relative z-10 text-center">
+          <p className="font-editorial text-[9px] tracking-[0.36em] uppercase text-gold-leaf/75 mb-8 inline-flex items-center gap-3">
+            <span className="w-8 h-px bg-gold-leaf/45" /> Reserve Your Evening <span className="w-8 h-px bg-gold-leaf/45" />
+          </p>
+          <h2 className="font-display italic font-light text-cream-page text-[clamp(34px,5.5vw,82px)] leading-[1.05] tracking-[-0.02em] mb-12">
+            The smoke starts at six.
+          </h2>
+          <p className="font-body text-sm text-cream-page/50 leading-[1.95] max-w-[44ch] mx-auto mb-12">
+            Tables fill quickly on Fridays and weekends. A short message on WhatsApp is the fastest way to hold one.
+          </p>
+          <div className="flex justify-center">
+            <Button06
+              text="Reserve via WhatsApp"
+              href="https://wa.me/94770000000?text=I%20would%20like%20to%20reserve%20a%20table%20for%20the%20evening%20lounge."
+            />
           </div>
-          <a
-            href="https://wa.me/94770000000?text=I%20would%20like%20to%20reserve%20a%20table%20for%20the%20evening%20lounge."
-            target="_blank"
-            rel="noreferrer"
-            className="font-editorial text-[10px] tracking-[0.2em] uppercase text-mahogany bg-cream-page px-10 py-5 hover:bg-gold-leaf transition-colors duration-300 shrink-0 whitespace-nowrap"
-          >
-            Reserve via WhatsApp →
-          </a>
         </div>
       </section>
     </>
