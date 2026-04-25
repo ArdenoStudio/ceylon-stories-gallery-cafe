@@ -46,6 +46,8 @@ export default function Navigation() {
     };
   }, []);
 
+  const exploreItem = primaryNav.find((i) => i.label === 'Explore')!;
+
   return (
     <>
       <motion.nav
@@ -57,6 +59,7 @@ export default function Navigation() {
       >
         <div
           className="relative flex w-[92%] max-w-[1320px] items-center justify-between gap-4 rounded-b-[44px] border border-t-0 border-mahogany/20 bg-cream-paper px-4 py-3.5 shadow-[0_18px_42px_-22px_rgba(15,8,5,0.55)] pointer-events-auto md:px-6 md:py-4"
+          onMouseLeave={scheduleClose}
         >
           {/* Left: nav links */}
           <div className="hidden min-w-0 flex-1 items-center gap-1 md:flex">
@@ -70,8 +73,8 @@ export default function Navigation() {
                   onMouseEnter={() => {
                     cancelClose();
                     if (hasChildren) setOpenMenu(item.label);
+                    else setOpenMenu(null);
                   }}
-                  onMouseLeave={hasChildren ? scheduleClose : undefined}
                 >
                   {hasChildren ? (
                     <button
@@ -94,38 +97,6 @@ export default function Navigation() {
                       {item.label}
                     </Link>
                   )}
-
-                  <AnimatePresence>
-                    {hasChildren && isOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 6 }}
-                        transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-                        className="absolute left-0 top-full mt-3 w-[320px] rounded-2xl border border-mahogany/10 bg-cream-paper p-2 shadow-[0_22px_50px_-20px_rgba(42,24,16,0.45)]"
-                        onMouseEnter={cancelClose}
-                        onMouseLeave={scheduleClose}
-                      >
-                        {item.children!.map((child) => (
-                          <Link
-                            key={child.href}
-                            href={child.href}
-                            onClick={() => setOpenMenu(null)}
-                            className="group flex flex-col gap-0.5 rounded-xl px-4 py-3 transition-colors hover:bg-cream-page"
-                          >
-                            <span className="font-display text-[17px] leading-tight tracking-[-0.01em] text-mahogany group-hover:italic">
-                              {child.label}
-                            </span>
-                            {child.description && (
-                              <span className="font-editorial text-[10px] uppercase tracking-[0.18em] text-mahogany/50">
-                                {child.description}
-                              </span>
-                            )}
-                          </Link>
-                        ))}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
                 </div>
               );
             })}
@@ -166,6 +137,59 @@ export default function Navigation() {
               Book a Table
             </Link>
           </div>
+
+          {/* Mega menu — spans full width of the pill */}
+          <AnimatePresence>
+            {openMenu === 'Explore' && (
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 8 }}
+                transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                className="absolute inset-x-0 top-full mt-2 rounded-2xl border border-mahogany/10 bg-cream-paper p-5 shadow-[0_22px_50px_-20px_rgba(42,24,16,0.45)]"
+                onMouseEnter={cancelClose}
+                onMouseLeave={scheduleClose}
+              >
+                <div className="grid grid-cols-[1fr_260px] gap-5">
+                  {/* Links */}
+                  <div>
+                    <p className="mb-4 font-editorial text-[10px] uppercase tracking-[0.22em] text-mahogany/40">
+                      Explore
+                    </p>
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-1 lg:grid-cols-3">
+                      {exploreItem.children!.map((child) => (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          onClick={() => setOpenMenu(null)}
+                          className="group flex flex-col gap-0.5 rounded-xl px-4 py-3 transition-colors hover:bg-cream-page"
+                        >
+                          <span className="font-display text-[18px] leading-tight tracking-[-0.01em] text-mahogany group-hover:italic">
+                            {child.label}
+                          </span>
+                          {child.description && (
+                            <span className="font-editorial text-[10px] uppercase tracking-[0.18em] text-mahogany/50">
+                              {child.description}
+                            </span>
+                          )}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Featured image */}
+                  <div className="relative overflow-hidden rounded-xl">
+                    <Image
+                      src="/dilmah-drink.jpg"
+                      alt="Ceylon Stories"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </motion.nav>
 
