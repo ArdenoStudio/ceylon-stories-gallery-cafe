@@ -231,7 +231,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
 
           <div className="relative flex min-h-[48vh] items-center px-6 pb-10 sm:px-10 lg:col-span-5 lg:min-h-[100svh] lg:px-[clamp(16px,2.5vw,52px)] lg:pb-10 lg:pt-20">
             <motion.div
-              className="relative isolate w-full overflow-hidden border border-gold-leaf/35 bg-ink-deep/65 shadow-[0_24px_70px_rgba(25,14,9,0.32)] -translate-y-[50px]"
+              className="relative isolate w-full overflow-hidden border border-gold-leaf/35 bg-ink-deep/65 shadow-[0_24px_70px_rgba(25,14,9,0.32)] -translate-y-[47px]"
               variants={panelVariants}
             >
               <div className="aspect-[16/10] w-full sm:aspect-[5/4] lg:aspect-[3/4]" />
