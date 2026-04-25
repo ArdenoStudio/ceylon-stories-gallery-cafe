@@ -146,49 +146,91 @@ export default function Navigation() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 8 }}
                 transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-                className="absolute inset-x-0 top-full mt-2 rounded-2xl border border-mahogany/10 bg-cream-paper p-5 shadow-[0_22px_50px_-20px_rgba(42,24,16,0.45)]"
+                className="absolute inset-x-0 top-full mt-2 rounded-2xl border border-mahogany/10 bg-cream-paper p-6 shadow-[0_22px_50px_-20px_rgba(42,24,16,0.45)]"
                 onMouseEnter={cancelClose}
                 onMouseLeave={scheduleClose}
               >
-                <div className="grid grid-cols-[240px_1fr] gap-5">
-                  {/* Links */}
+                <div className="grid grid-cols-[260px_1fr] gap-7">
+                  {/* Links — numbered editorial list */}
                   <div>
-                    <p className="mb-4 font-editorial text-[10px] uppercase tracking-[0.22em] text-mahogany/40">
-                      Explore
-                    </p>
+                    <div className="mb-4 flex items-baseline gap-3">
+                      <p className="font-editorial text-[10px] uppercase tracking-[0.28em] text-mahogany/45">
+                        Explore
+                      </p>
+                      <span className="h-px flex-1 bg-mahogany/15" />
+                    </div>
                     <div className="flex flex-col">
-                      {exploreItem.children!.map((child) => (
+                      {exploreItem.children!.map((child, i) => (
                         <Link
                           key={child.href}
                           href={child.href}
                           onClick={() => setOpenMenu(null)}
-                          className="group flex flex-col gap-0.5 rounded-xl px-4 py-3 transition-colors hover:bg-cream-page"
+                          className="group flex items-baseline gap-4 border-b border-mahogany/10 py-3 last:border-b-0"
                         >
-                          <span className="font-display text-[18px] leading-tight tracking-[-0.01em] text-mahogany group-hover:italic">
-                            {child.label}
+                          <span className="font-editorial text-[10px] tracking-[0.22em] text-mahogany/35 tabular-nums">
+                            0{i + 1}
                           </span>
-                          {child.description && (
-                            <span className="font-editorial text-[10px] uppercase tracking-[0.18em] text-mahogany/50">
-                              {child.description}
+                          <div className="flex flex-1 flex-col gap-1">
+                            <span className="font-display text-[20px] leading-none tracking-[-0.01em] text-mahogany transition-transform duration-300 ease-out group-hover:translate-x-1 group-hover:italic">
+                              {child.label}
                             </span>
-                          )}
+                            {child.description && (
+                              <span className="font-editorial text-[9px] uppercase tracking-[0.2em] text-mahogany/45">
+                                {child.description}
+                              </span>
+                            )}
+                          </div>
                         </Link>
                       ))}
                     </div>
                   </div>
 
-                  {/* Map */}
-                  <div className="overflow-hidden rounded-xl">
+                  {/* Map — branded card with desaturated tile, custom overlay */}
+                  <div className="relative overflow-hidden rounded-xl border border-mahogany/15">
                     <iframe
-                      src="https://maps.google.com/maps?q=9%2F6+A%2C+16th+Lane%2C+Marine+Drive%2C+Kolpetty%2C+Colombo%2C+Sri+Lanka+00300&z=16&output=embed"
+                      src="https://maps.google.com/maps?q=9%2F6+A%2C+16th+Lane%2C+Marine+Drive%2C+Kolpetty%2C+Colombo%2C+Sri+Lanka+00300&z=17&output=embed"
                       width="100%"
                       height="100%"
-                      style={{ border: 0, minHeight: '300px' }}
-                      allowFullScreen
+                      style={{
+                        border: 0,
+                        minHeight: '340px',
+                        filter:
+                          'sepia(0.35) saturate(0.55) hue-rotate(-18deg) brightness(0.96) contrast(1.05)',
+                      }}
                       loading="lazy"
                       referrerPolicy="no-referrer-when-downgrade"
                       title="Ceylon Stories location"
                     />
+                    {/* Soften Google's bottom UI bar */}
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-cream-paper via-cream-paper/80 to-transparent" />
+                    {/* Inner ring */}
+                    <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-mahogany/10" />
+
+                    {/* Branded address card */}
+                    <div className="absolute left-4 top-4 max-w-[260px] rounded-xl border border-mahogany/15 bg-cream-paper/95 p-4 shadow-[0_10px_30px_-12px_rgba(42,24,16,0.4)] backdrop-blur-sm">
+                      <p className="font-editorial text-[9px] uppercase tracking-[0.26em] text-mahogany/50">
+                        Find Us
+                      </p>
+                      <p className="mt-2 font-display text-[15px] italic leading-snug text-mahogany">
+                        9/6A, 16th Lane
+                        <br />
+                        Marine Drive · Kolpetty
+                      </p>
+                      <a
+                        href="https://www.google.com/maps/dir/?api=1&destination=9%2F6+A%2C+16th+Lane%2C+Marine+Drive%2C+Kolpetty%2C+Colombo%2C+Sri+Lanka+00300"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="group mt-3 inline-flex items-center gap-2 font-editorial text-[10px] uppercase tracking-[0.22em] text-mahogany transition-colors hover:text-clay-warm"
+                      >
+                        Get Directions
+                        <span
+                          aria-hidden
+                          className="transition-transform duration-300 group-hover:translate-x-0.5"
+                        >
+                          →
+                        </span>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </motion.div>
