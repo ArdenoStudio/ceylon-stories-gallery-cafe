@@ -150,7 +150,7 @@ export default function Navigation() {
                 onMouseEnter={cancelClose}
                 onMouseLeave={scheduleClose}
               >
-                <div className="grid grid-cols-[1fr_380px] gap-5">
+                <div className="grid grid-cols-[240px_1fr] gap-5">
                   {/* Links */}
                   <div>
                     <p className="mb-4 font-editorial text-[10px] uppercase tracking-[0.22em] text-mahogany/40">
@@ -183,7 +183,7 @@ export default function Navigation() {
                       src="https://maps.google.com/maps?q=9%2F6+A%2C+16th+Lane%2C+Marine+Drive%2C+Kolpetty%2C+Colombo%2C+Sri+Lanka+00300&z=16&output=embed"
                       width="100%"
                       height="100%"
-                      style={{ border: 0, minHeight: '220px' }}
+                      style={{ border: 0, minHeight: '300px' }}
                       allowFullScreen
                       loading="lazy"
                       referrerPolicy="no-referrer-when-downgrade"
