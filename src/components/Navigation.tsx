@@ -50,31 +50,14 @@ export default function Navigation() {
     <>
       <motion.nav
         aria-label="Primary"
-        className="fixed inset-x-0 top-0 z-[45] flex flex-col items-center pointer-events-none"
+        className="fixed inset-x-0 top-0 z-[45] pointer-events-none"
         initial={{ y: -16, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       >
-        {/* Full-width cream band above the pill (empty) */}
         <div
-          aria-hidden
-          className="w-full h-4 bg-cream-paper pointer-events-none"
-        />
-
-        <div
-          className="relative mx-auto flex w-[92%] max-w-[1320px] items-center justify-between gap-4 rounded-b-[44px] border border-t-0 border-mahogany/20 bg-cream-paper px-4 py-3.5 shadow-[0_18px_42px_-22px_rgba(15,8,5,0.55)] pointer-events-auto md:px-6 md:py-4"
+          className="relative flex w-full items-center justify-between gap-4 rounded-b-[44px] border border-t-0 border-mahogany/20 bg-cream-paper px-6 py-3.5 shadow-[0_18px_42px_-22px_rgba(15,8,5,0.55)] pointer-events-auto md:px-10 md:py-4"
         >
-          {/* Notches that carve the band → pill junction with a curve */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -top-3 -left-3 h-6 w-6 rounded-full"
-            style={{ background: 'var(--color-cream-page)' }}
-          />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -top-3 -right-3 h-6 w-6 rounded-full"
-            style={{ background: 'var(--color-cream-page)' }}
-          />
           {/* Left: nav links */}
           <div className="hidden min-w-0 flex-1 items-center gap-1 md:flex">
             {primaryNav.map((item) => {
