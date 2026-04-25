@@ -142,11 +142,6 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
                   </p>
                 ) : null}
               </div>
-
-              <div className="hidden items-center gap-3 rounded-full border border-gold-leaf/35 bg-cream-paper/70 px-5 py-2.5 backdrop-blur-sm md:inline-flex">
-                <span className="h-2 w-2 rounded-full bg-forest/80" />
-                <span className="font-editorial text-[10px] uppercase tracking-[0.24em] text-mahogany/65">Open Today</span>
-              </div>
             </motion.header>
 
             <motion.div className="relative max-w-[900px]" variants={containerVariants}>
