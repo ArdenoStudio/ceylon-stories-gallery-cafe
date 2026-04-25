@@ -150,7 +150,7 @@ export default function Navigation() {
                 onMouseEnter={cancelClose}
                 onMouseLeave={scheduleClose}
               >
-                <div className="grid grid-cols-[1fr_260px] gap-5">
+                <div className="grid grid-cols-[1fr_380px] gap-5">
                   {/* Links */}
                   <div>
                     <p className="mb-4 font-editorial text-[10px] uppercase tracking-[0.22em] text-mahogany/40">
