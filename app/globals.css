@@ -71,15 +71,15 @@
   body::-webkit-scrollbar {
     display: none;
   }
+}
 
-  em,
-  i,
-  .italic,
-  [class*=" italic"],
-  [class^="italic"] {
-    font-family: "Instrument Serif", Georgia, serif;
-    font-style: italic;
-  }
+em,
+i,
+.italic,
+[class*=" italic"],
+[class^="italic"] {
+  font-family: "Instrument Serif", Georgia, serif !important;
+  font-style: italic !important;
 }
 
 @layer utilities {
