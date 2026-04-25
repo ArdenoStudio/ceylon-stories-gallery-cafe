@@ -2,9 +2,19 @@
 
 import { useReservation } from './ReservationProvider';
 import ShinyButton from './ui/shiny-button';
+import { FlickeringGrid } from './ui/flickering-grid';
+import { useEffect, useState } from 'react';
 
 export default function Footer() {
   const { openReservation } = useReservation();
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)');
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
 
   return (
     <footer id="contact" className="w-full bg-cream-page text-mahogany px-5 py-5 md:px-8 md:py-8">
@@ -72,6 +82,24 @@ export default function Footer() {
             </div>
           </div>
 
+        </div>
+      </div>
+
+      {/* Flickering grid watermark */}
+      <div className="w-full h-40 md:h-56 relative mt-6 z-0">
+        <div className="absolute inset-0 bg-gradient-to-t from-transparent to-cream-page z-10" style={{ background: 'linear-gradient(to top, transparent 0%, #f4ecdc 55%)' }} />
+        <div className="absolute inset-0">
+          <FlickeringGrid
+            text={isMobile ? 'Ceylon Stories' : 'Ceylon Stories'}
+            fontSize={isMobile ? 52 : 88}
+            fontWeight={300}
+            className="h-full w-full"
+            squareSize={2}
+            gridGap={isMobile ? 2 : 3}
+            color="#2a1810"
+            maxOpacity={0.22}
+            flickerChance={0.08}
+          />
         </div>
       </div>
     </footer>
