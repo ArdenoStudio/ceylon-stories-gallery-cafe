@@ -50,15 +50,15 @@ export default function Navigation() {
     <>
       <motion.nav
         aria-label="Primary"
-        className="fixed inset-x-0 top-0 z-[45] flex justify-center pointer-events-none"
+        className="fixed inset-x-0 top-0 z-[45] flex flex-col items-center pointer-events-none"
         initial={{ y: -16, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       >
-        {/* Full-width hairline that the pill hangs from */}
+        {/* Full-width cream band above the pill (empty) */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-mahogany/20"
+          className="w-full h-3 bg-cream-paper pointer-events-none md:h-4"
         />
 
         <div
