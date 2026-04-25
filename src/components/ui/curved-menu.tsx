@@ -289,7 +289,7 @@ export default function CurvedMenuHeader({
 			<div className="relative pointer-events-auto">
 				<div
 					onClick={handleClick}
-					className="fixed right-6 top-6 md:right-12 md:top-8 z-50 w-14 h-14 rounded-full flex items-center justify-center cursor-pointer bg-cream-paper border border-mahogany/20 hover:bg-cream-page transition-colors duration-300 shadow-ink"
+					className="fixed right-6 top-6 md:right-12 md:top-8 z-50 w-14 h-14 rounded-full flex items-center justify-center cursor-pointer bg-cream-paper border border-mahogany/20 hover:bg-cream-page transition-colors duration-300 shadow-ink lg:hidden"
 				>
 					<div className="relative w-6 h-4 flex flex-col justify-between items-center">
 						<span
