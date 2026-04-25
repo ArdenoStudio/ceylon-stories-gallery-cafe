@@ -188,7 +188,7 @@ export default function Navigation() {
                   {/* Map — branded card with desaturated tile, custom overlay */}
                   <div className="relative overflow-hidden rounded-xl border border-mahogany/15">
                     <iframe
-                      src="https://maps.google.com/maps?q=9%2F6+A%2C+16th+Lane%2C+Marine+Drive%2C+Kolpetty%2C+Colombo%2C+Sri+Lanka+00300&z=17&output=embed"
+                      src="https://maps.google.com/maps?ll=6.892,79.853&q=9%2F6+A%2C+16th+Lane%2C+Marine+Drive%2C+Kolpetty%2C+Colombo%2C+Sri+Lanka+00300&z=17&output=embed"
                       width="100%"
                       height="100%"
                       style={{
@@ -201,13 +201,18 @@ export default function Navigation() {
                       referrerPolicy="no-referrer-when-downgrade"
                       title="Ceylon Stories location"
                     />
-                    {/* Soften Google's bottom UI bar */}
-                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-cream-paper via-cream-paper/80 to-transparent" />
+
+                    {/* Cover Google's bottom logo bar */}
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-cream-paper via-cream-paper/85 to-transparent" />
+
+                    {/* Cover Google's streetview thumbnail (bottom-left) */}
+                    <div className="pointer-events-none absolute bottom-0 left-0 h-20 w-24 bg-gradient-to-tr from-cream-paper via-cream-paper/90 to-transparent" />
+
                     {/* Inner ring */}
                     <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-mahogany/10" />
 
-                    {/* Branded address card */}
-                    <div className="absolute left-4 top-4 max-w-[260px] rounded-xl border border-mahogany/15 bg-cream-paper/95 p-4 shadow-[0_10px_30px_-12px_rgba(42,24,16,0.4)] backdrop-blur-sm">
+                    {/* Branded address card — sized & positioned to cover Google's auto info window */}
+                    <div className="absolute left-3 top-3 w-[300px] rounded-xl border border-mahogany/15 bg-cream-paper p-4 shadow-[0_10px_30px_-12px_rgba(42,24,16,0.4)]">
                       <p className="font-editorial text-[9px] uppercase tracking-[0.26em] text-mahogany/50">
                         Find Us
                       </p>
