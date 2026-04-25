@@ -58,11 +58,11 @@ export default function Navigation() {
         {/* Full-width hairline that the pill hangs from */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-mahogany/25"
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-mahogany/20"
         />
 
         <div
-          className="relative mx-auto mt-[6px] flex w-[88%] max-w-[1180px] items-center justify-between gap-4 rounded-[44px] border border-mahogany/20 bg-cream-paper px-4 py-3.5 shadow-[0_18px_42px_-22px_rgba(15,8,5,0.55)] pointer-events-auto md:px-6 md:py-4"
+          className="relative mx-auto flex w-[92%] max-w-[1320px] items-center justify-between gap-4 rounded-b-[44px] border border-t-0 border-mahogany/20 bg-cream-paper px-4 py-3.5 shadow-[0_18px_42px_-22px_rgba(15,8,5,0.55)] pointer-events-auto md:px-6 md:py-4"
         >
           {/* Left: nav links */}
           <div className="hidden min-w-0 flex-1 items-center gap-1 md:flex">
