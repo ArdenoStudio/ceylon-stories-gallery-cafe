@@ -58,12 +58,29 @@ export default function Navigation() {
         {/* Full-width cream band above the pill (empty) */}
         <div
           aria-hidden
-          className="w-full h-3 bg-cream-paper pointer-events-none md:h-4"
+          className="w-full h-4 bg-cream-paper pointer-events-none"
         />
 
         <div
           className="relative mx-auto flex w-[92%] max-w-[1320px] items-center justify-between gap-4 rounded-b-[44px] border border-t-0 border-mahogany/20 bg-cream-paper px-4 py-3.5 shadow-[0_18px_42px_-22px_rgba(15,8,5,0.55)] pointer-events-auto md:px-6 md:py-4"
         >
+          {/* Concave fillets that curve the band → pill junction */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -left-4 top-0 h-4 w-4"
+            style={{
+              background:
+                'radial-gradient(circle at top right, var(--color-cream-paper) 16px, transparent 16px)',
+            }}
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -right-4 top-0 h-4 w-4"
+            style={{
+              background:
+                'radial-gradient(circle at top left, var(--color-cream-paper) 16px, transparent 16px)',
+            }}
+          />
           {/* Left: nav links */}
           <div className="hidden min-w-0 flex-1 items-center gap-1 md:flex">
             {primaryNav.map((item) => {
