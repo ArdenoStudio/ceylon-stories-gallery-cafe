@@ -64,22 +64,16 @@ export default function Navigation() {
         <div
           className="relative mx-auto flex w-[92%] max-w-[1320px] items-center justify-between gap-4 rounded-b-[44px] border border-t-0 border-mahogany/20 bg-cream-paper px-4 py-3.5 shadow-[0_18px_42px_-22px_rgba(15,8,5,0.55)] pointer-events-auto md:px-6 md:py-4"
         >
-          {/* Concave fillets that curve the band → pill junction */}
+          {/* Notches that carve the band → pill junction with a curve */}
           <div
             aria-hidden
-            className="pointer-events-none absolute -left-4 top-0 h-4 w-4"
-            style={{
-              background:
-                'radial-gradient(circle at top right, var(--color-cream-paper) 16px, transparent 16px)',
-            }}
+            className="pointer-events-none absolute -top-3 -left-3 h-6 w-6 rounded-full"
+            style={{ background: 'var(--color-cream-page)' }}
           />
           <div
             aria-hidden
-            className="pointer-events-none absolute -right-4 top-0 h-4 w-4"
-            style={{
-              background:
-                'radial-gradient(circle at top left, var(--color-cream-paper) 16px, transparent 16px)',
-            }}
+            className="pointer-events-none absolute -top-3 -right-3 h-6 w-6 rounded-full"
+            style={{ background: 'var(--color-cream-page)' }}
           />
           {/* Left: nav links */}
           <div className="hidden min-w-0 flex-1 items-center gap-1 md:flex">
