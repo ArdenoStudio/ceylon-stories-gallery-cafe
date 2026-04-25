@@ -258,7 +258,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
                 className="pointer-events-none absolute bottom-6 left-5 h-20 w-20 rotate-[12deg] text-cream-page/30 sm:h-24 sm:w-24"
               />
               <motion.div
-                className="absolute bottom-[74px] left-6 right-6"
+                className="absolute bottom-6 left-6 right-6"
                 variants={itemVariants}
               >
                 <div className="relative border border-gold-leaf/50 bg-gradient-to-b from-ink-night/72 via-ink-night/68 to-ink-deep/85 px-6 py-5 backdrop-blur-[4px] shadow-[0_22px_52px_rgba(10,6,4,0.55)]">
