@@ -202,12 +202,6 @@ export default function Navigation() {
                       title="Ceylon Stories location"
                     />
 
-                    {/* Cover Google's bottom logo bar */}
-                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-cream-paper via-cream-paper/85 to-transparent" />
-
-                    {/* Cover Google's streetview thumbnail (bottom-left) */}
-                    <div className="pointer-events-none absolute bottom-0 left-0 h-20 w-24 bg-gradient-to-tr from-cream-paper via-cream-paper/90 to-transparent" />
-
                     {/* Inner ring */}
                     <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-mahogany/10" />
 
