@@ -1,105 +1,198 @@
-'use client';
+"use client"
 
-import type { ReactNode } from 'react';
-import { motion, AnimatePresence, type HTMLMotionProps } from 'motion/react';
+import type React from "react"
 
-import { cn } from '@/src/lib/utils';
+interface ShinyButtonProps {
+  children: React.ReactNode
+  onClick?: () => void
+  className?: string
+}
 
-type ShinyButtonProps = Omit<HTMLMotionProps<'button'>, 'children'> & {
-  children: ReactNode;
-  className?: string;
-  icon?: ReactNode;
-  collapsed?: boolean;
-};
-
-export default function ShinyButton({
-  children,
-  className,
-  icon,
-  collapsed = false,
-  type = 'button',
-  ...props
-}: ShinyButtonProps) {
+export default function ShinyButton({ children, onClick, className = "" }: ShinyButtonProps) {
   return (
-    <motion.button
-      layout
-      type={type}
-      initial={{ ['--x' as string]: '100%', scale: 0.98 }}
-      animate={{ ['--x' as string]: '-100%', scale: 1 }}
-      whileTap={{ scale: 0.96 }}
-      transition={{
-        repeat: Infinity,
-        repeatType: 'loop',
-        repeatDelay: 1.1,
-        type: 'spring',
-        stiffness: 22,
-        damping: 16,
-        mass: 2,
-        scale: {
-          type: 'spring',
-          stiffness: 280,
-          damping: 18,
-          mass: 0.6,
-        },
-        layout: {
-          type: 'spring',
-          stiffness: 260,
-          damping: 28,
-        },
-      }}
-      {...props}
-      className={cn(
-        'group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-[2px] border border-[#6e4d37] bg-[#2a1810] px-5 py-3 font-editorial text-[10px] tracking-[0.34em] uppercase text-cream-page shadow-[0_16px_36px_rgba(42,24,16,0.16)] transition-shadow duration-300 ease-out hover:shadow-[0_18px_46px_rgba(42,24,16,0.24)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-leaf/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cream-page active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60',
-        !collapsed && 'min-w-[170px]',
-        className
-      )}
-    >
-      <span
-        className="pointer-events-none absolute inset-0 opacity-80"
-        style={{
-          background:
-            'linear-gradient(-75deg, rgba(184,146,74,0) calc(var(--x) + 18%), rgba(184,146,74,0.34) calc(var(--x) + 25%), rgba(184,146,74,0.08) calc(var(--x) + 46%), rgba(184,146,74,0) calc(var(--x) + 64%))',
-        }}
-      />
-      <span className="pointer-events-none absolute inset-[1px] rounded-[inherit] bg-[radial-gradient(circle_at_50%_0%,rgba(184,146,74,0.16)_0%,rgba(184,146,74,0)_62%)]" />
-      <span className="pointer-events-none absolute inset-0 rounded-[inherit] border border-white/8" />
+    <>
+      <style jsx>{`
+        @property --gradient-angle {
+          syntax: "<angle>";
+          initial-value: 0deg;
+          inherits: false;
+        }
 
-      <span className="relative z-10 flex items-center">
-        {icon ? (
-          <motion.span
-            layout
-            className={cn(
-              'flex shrink-0 items-center justify-center rounded-full border text-gold-leaf transition-[width,height,border-color,background-color] duration-300',
-              collapsed
-                ? 'size-7 border-gold-leaf/55 bg-gold-leaf/14'
-                : 'size-5 border-gold-leaf/35 bg-gold-leaf/8'
-            )}
-          >
-            {icon}
-          </motion.span>
-        ) : null}
+        @property --gradient-angle-offset {
+          syntax: "<angle>";
+          initial-value: 0deg;
+          inherits: false;
+        }
 
-        <AnimatePresence>
-          {!collapsed && (
-            <motion.span
-              key="label"
-              initial={{ opacity: 0, maxWidth: 0, marginLeft: 0 }}
-              animate={{ opacity: 1, maxWidth: 140, marginLeft: 12 }}
-              exit={{ opacity: 0, maxWidth: 0, marginLeft: 0 }}
-              transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
-              className="relative block overflow-hidden whitespace-nowrap text-cream-page"
-              style={{
-                maskImage:
-                  'linear-gradient(-75deg, rgba(0,0,0,1) calc(var(--x) + 18%), rgba(0,0,0,0.28) calc(var(--x) + 28%), rgba(0,0,0,1) calc(var(--x) + 92%))',
-                WebkitMaskImage:
-                  'linear-gradient(-75deg, rgba(0,0,0,1) calc(var(--x) + 18%), rgba(0,0,0,0.28) calc(var(--x) + 28%), rgba(0,0,0,1) calc(var(--x) + 92%))',
-              }}
-            >
-              {children}
-            </motion.span>
-          )}
-        </AnimatePresence>
-      </span>
-    </motion.button>
-  );
+        @property --gradient-percent {
+          syntax: "<percentage>";
+          initial-value: 5%;
+          inherits: false;
+        }
+
+        @property --gradient-shine {
+          syntax: "<color>";
+          initial-value: white;
+          inherits: false;
+        }
+
+        .shiny-cta {
+          --shiny-cta-bg: #1a0e08;
+          --shiny-cta-bg-subtle: #2a1810;
+          --shiny-cta-fg: #f5ede4;
+          --shiny-cta-highlight: #8b5e3c;
+          --shiny-cta-highlight-subtle: #c4956a;
+          --animation: gradient-angle linear infinite;
+          --duration: 3s;
+          --shadow-size: 2px;
+          --transition: 800ms cubic-bezier(0.25, 1, 0.5, 1);
+
+          isolation: isolate;
+          position: relative;
+          overflow: hidden;
+          cursor: pointer;
+          outline-offset: 4px;
+          padding: 1.25rem 2.5rem;
+          font-size: 1.125rem;
+          line-height: 1.2;
+          font-weight: 500;
+          border: 1px solid transparent;
+          border-radius: 360px;
+          color: var(--shiny-cta-fg);
+          background: linear-gradient(var(--shiny-cta-bg), var(--shiny-cta-bg)) padding-box,
+            conic-gradient(
+              from calc(var(--gradient-angle) - var(--gradient-angle-offset)),
+              transparent,
+              var(--shiny-cta-highlight) var(--gradient-percent),
+              var(--gradient-shine) calc(var(--gradient-percent) * 2),
+              var(--shiny-cta-highlight) calc(var(--gradient-percent) * 3),
+              transparent calc(var(--gradient-percent) * 4)
+            ) border-box;
+          box-shadow: inset 0 0 0 1px var(--shiny-cta-bg-subtle);
+          transition: var(--transition);
+          transition-property: --gradient-angle-offset, --gradient-percent, --gradient-shine;
+        }
+
+        .shiny-cta::before,
+        .shiny-cta::after,
+        .shiny-cta span::before {
+          content: "";
+          pointer-events: none;
+          position: absolute;
+          inset-inline-start: 50%;
+          inset-block-start: 50%;
+          translate: -50% -50%;
+          z-index: -1;
+        }
+
+        .shiny-cta:active {
+          translate: 0 1px;
+        }
+
+        /* Dots pattern */
+        .shiny-cta::before {
+          --size: calc(100% - var(--shadow-size) * 3);
+          --position: 2px;
+          --space: calc(var(--position) * 2);
+          width: var(--size);
+          height: var(--size);
+          background: radial-gradient(
+            circle at var(--position) var(--position),
+            white calc(var(--position) / 4),
+            transparent 0
+          ) padding-box;
+          background-size: var(--space) var(--space);
+          background-repeat: space;
+          mask-image: conic-gradient(
+            from calc(var(--gradient-angle) + 45deg),
+            black,
+            transparent 10% 90%,
+            black
+          );
+          border-radius: inherit;
+          opacity: 0.4;
+          z-index: -1;
+        }
+
+        /* Inner shimmer */
+        .shiny-cta::after {
+          --animation: shimmer linear infinite;
+          width: 100%;
+          aspect-ratio: 1;
+          background: linear-gradient(
+            -50deg,
+            transparent,
+            var(--shiny-cta-highlight),
+            transparent
+          );
+          mask-image: radial-gradient(circle at bottom, transparent 40%, black);
+          opacity: 0.6;
+        }
+
+        .shiny-cta span {
+          z-index: 1;
+        }
+
+        .shiny-cta span::before {
+          --size: calc(100% + 1rem);
+          width: var(--size);
+          height: var(--size);
+          box-shadow: inset 0 -1ex 2rem 4px var(--shiny-cta-highlight);
+          opacity: 0;
+          transition: opacity var(--transition);
+          animation: calc(var(--duration) * 1.5) breathe linear infinite;
+        }
+
+        /* Animate */
+        .shiny-cta,
+        .shiny-cta::before,
+        .shiny-cta::after {
+          animation: var(--animation) var(--duration),
+            var(--animation) calc(var(--duration) / 0.4) reverse paused;
+          animation-composition: add;
+        }
+
+        .shiny-cta:is(:hover, :focus-visible) {
+          --gradient-percent: 20%;
+          --gradient-angle-offset: 95deg;
+          --gradient-shine: var(--shiny-cta-highlight-subtle);
+        }
+
+        .shiny-cta:is(:hover, :focus-visible),
+        .shiny-cta:is(:hover, :focus-visible)::before,
+        .shiny-cta:is(:hover, :focus-visible)::after {
+          animation-play-state: running;
+        }
+
+        .shiny-cta:is(:hover, :focus-visible) span::before {
+          opacity: 1;
+        }
+
+        @keyframes gradient-angle {
+          to {
+            --gradient-angle: 360deg;
+          }
+        }
+
+        @keyframes shimmer {
+          to {
+            rotate: 360deg;
+          }
+        }
+
+        @keyframes breathe {
+          from, to {
+            scale: 1;
+          }
+          50% {
+            scale: 1.2;
+          }
+        }
+      `}</style>
+
+      <button className={`shiny-cta ${className}`} onClick={onClick}>
+        <span>{children}</span>
+      </button>
+    </>
+  )
 }
