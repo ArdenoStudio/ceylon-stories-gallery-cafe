@@ -1,7 +1,5 @@
 'use client';
 
-import { CalendarDays } from 'lucide-react';
-
 import { useReservation } from './ReservationProvider';
 import ShinyButton from './ui/shiny-button';
 
@@ -65,8 +63,7 @@ export default function Footer() {
                 <div className="pt-3">
                   <ShinyButton
                     onClick={openReservation}
-                    icon={<CalendarDays className="size-3.5" strokeWidth={1.7} />}
-                    className="min-w-[158px] bg-[#24130d] px-4 py-2.5 shadow-[0_14px_28px_rgba(0,0,0,0.16)]"
+                    className="min-w-[158px] px-4 py-2.5 shadow-[0_14px_28px_rgba(0,0,0,0.16)]"
                   >
                     Reserve
                   </ShinyButton>
