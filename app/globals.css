@@ -2,6 +2,7 @@
 @import "@fontsource-variable/fraunces";
 @import "@fontsource/tenor-sans";
 @import "@fontsource/inter";
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,400;1,500;1,600;1,700&display=swap");
 
 @theme {
   --color-clay-deep: #8b3a1f;
@@ -69,6 +70,15 @@
 
   body::-webkit-scrollbar {
     display: none;
+  }
+
+  em,
+  i,
+  .italic,
+  [class*=" italic"],
+  [class^="italic"] {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-style: italic;
   }
 }
 
