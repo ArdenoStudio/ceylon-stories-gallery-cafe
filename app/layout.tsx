@@ -3,7 +3,6 @@ import './globals.css';
 import Navigation from '@/src/components/Navigation';
 import Footer from '@/src/components/Footer';
 import ClientProviders from '@/src/components/ClientProviders';
-import WhatsAppFloat from '@/src/components/WhatsAppFloat';
 import { DottedGlowBackground } from '@/src/components/ui/dotted-glow-background';
 
 export const metadata: Metadata = {
@@ -58,7 +57,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               speedScale={1}
             />
           </div>
-          <WhatsAppFloat />
         </ClientProviders>
       </body>
     </html>

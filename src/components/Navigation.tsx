@@ -4,6 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'motion/react';
 import CurvedMenuHeader from './ui/curved-menu';
+import ShinyButton from './ui/shiny-button';
+import { useReservation } from './ReservationProvider';
 
 const leftLinks = [
   { label: 'Our Story', href: '/our-story' },
@@ -22,6 +24,8 @@ const linkClass =
   'inline-flex items-center rounded-full px-2.5 py-2 font-editorial text-[11px] uppercase tracking-[0.18em] text-mahogany/80 transition-colors hover:text-mahogany xl:px-3 xl:text-[12px]';
 
 export default function Navigation() {
+  const { openReservation } = useReservation();
+
   return (
     <>
       {/* Desktop nav — pill bar with all destinations */}
@@ -63,12 +67,11 @@ export default function Navigation() {
                 {item.label}
               </Link>
             ))}
-            <Link
-              href="/contact"
-              className="ml-2 inline-flex items-center rounded-full bg-ink-deep px-4 py-2.5 font-editorial text-[11px] uppercase tracking-[0.2em] text-cream-page transition-colors duration-300 hover:bg-mahogany xl:ml-3 xl:px-5"
-            >
-              Book a Table
-            </Link>
+            <div className="ml-2 xl:ml-3">
+              <ShinyButton onClick={openReservation} className="!px-4 !py-2 !text-[11px] !rounded-full !font-editorial !tracking-[0.2em] !uppercase">
+                Book a Table
+              </ShinyButton>
+            </div>
           </div>
         </div>
       </motion.nav>
