@@ -211,8 +211,11 @@ export default function Navigation() {
                     {/* Inner ring */}
                     <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-mahogany/10" />
 
-                    {/* Branded address card — sized & positioned to cover Google's auto info window */}
-                    <div className="absolute left-3 top-3 w-[300px] rounded-xl border border-mahogany/15 bg-cream-paper p-4 shadow-[0_10px_30px_-12px_rgba(42,24,16,0.4)]">
+                    {/* Solid backdrop to fully mask Google's auto info window */}
+                    <div className="pointer-events-none absolute left-2 top-2 h-[170px] w-[360px] rounded-xl bg-cream-paper" />
+
+                    {/* Branded address card */}
+                    <div className="absolute left-2 top-2 w-[360px] rounded-xl border border-mahogany/15 bg-cream-paper p-5 shadow-[0_10px_30px_-12px_rgba(42,24,16,0.4)]">
                       <p className="font-editorial text-[9px] uppercase tracking-[0.26em] text-mahogany/50">
                         Find Us
                       </p>
