@@ -12,6 +12,7 @@ const leftLinks = [
   { label: 'Menu', href: '/menu' },
   { label: 'Dilmah', href: '/dilmah' },
   { label: 'Experience', href: '/experience' },
+  { label: 'The Lounge', href: '/lounge' },
 ];
 
 const rightLinks = [
