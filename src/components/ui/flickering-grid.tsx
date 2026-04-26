@@ -67,43 +67,27 @@ export function FlickeringGrid({
       cols: number,
       rows: number,
       squares: Float32Array,
-      dpr: number,
+      textMask: Uint8Array,
     ) => {
       ctx.clearRect(0, 0, w, h);
-
-      const maskCanvas = document.createElement('canvas');
-      maskCanvas.width = w;
-      maskCanvas.height = h;
-      const maskCtx = maskCanvas.getContext('2d', { willReadFrequently: true });
-      if (!maskCtx) return;
-
-      if (text) {
-        maskCtx.save();
-        maskCtx.scale(dpr, dpr);
-        maskCtx.fillStyle = 'white';
-        maskCtx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
-        maskCtx.textAlign = 'center';
-        maskCtx.textBaseline = 'middle';
-        maskCtx.fillText(text, w / (2 * dpr), h / (2 * dpr));
-        maskCtx.restore();
-      }
+      const dpr = window.devicePixelRatio || 1;
+      const sw = squareSize * dpr;
+      const sh = squareSize * dpr;
+      const step = (squareSize + gridGap) * dpr;
 
       for (let i = 0; i < cols; i++) {
         for (let j = 0; j < rows; j++) {
-          const x = i * (squareSize + gridGap) * dpr;
-          const y = j * (squareSize + gridGap) * dpr;
-          const sw = squareSize * dpr;
-          const sh = squareSize * dpr;
-          const maskData = maskCtx.getImageData(x, y, Math.max(1, sw), Math.max(1, sh)).data;
-          const hasText = maskData.some((v, idx) => idx % 4 === 0 && v > 0);
-          const opacity = squares[i * rows + j];
-          const finalOpacity = hasText ? Math.min(1, opacity * 3 + 0.4) : opacity;
+          const idx = i * rows + j;
+          const opacity = squares[idx];
+          const finalOpacity = textMask[idx]
+            ? Math.min(1, opacity * 3 + 0.4)
+            : opacity;
           ctx.fillStyle = withOpacity(parsedColor, finalOpacity);
-          ctx.fillRect(x, y, sw, sh);
+          ctx.fillRect(i * step, j * step, sw, sh);
         }
       }
     },
-    [parsedColor, squareSize, gridGap, text, fontSize, fontWeight, fontFamily],
+    [parsedColor, squareSize, gridGap],
   );
 
   const setupCanvas = useCallback(
@@ -113,13 +97,57 @@ export function FlickeringGrid({
       canvas.height = h * dpr;
       canvas.style.width = `${w}px`;
       canvas.style.height = `${h}px`;
+
       const cols = Math.ceil(w / (squareSize + gridGap));
       const rows = Math.ceil(h / (squareSize + gridGap));
-      const squares = new Float32Array(cols * rows);
-      for (let i = 0; i < squares.length; i++) squares[i] = Math.random() * maxOpacity;
-      return { cols, rows, squares, dpr };
+      const total = cols * rows;
+
+      const squares = new Float32Array(total);
+      for (let i = 0; i < total; i++) squares[i] = Math.random() * maxOpacity;
+
+      // Build text mask once — one getImageData call total
+      const textMask = new Uint8Array(total);
+      if (text) {
+        const maskCanvas = document.createElement('canvas');
+        maskCanvas.width = canvas.width;
+        maskCanvas.height = canvas.height;
+        const maskCtx = maskCanvas.getContext('2d', { willReadFrequently: true });
+        if (maskCtx) {
+          maskCtx.save();
+          maskCtx.scale(dpr, dpr);
+          maskCtx.fillStyle = 'white';
+          maskCtx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
+          maskCtx.textAlign = 'center';
+          maskCtx.textBaseline = 'middle';
+          maskCtx.fillText(text, w / 2, h / 2);
+          maskCtx.restore();
+
+          // Read entire mask in one call
+          const allPixels = maskCtx.getImageData(0, 0, canvas.width, canvas.height).data;
+          const sw = Math.max(1, Math.round(squareSize * dpr));
+          const sh = Math.max(1, Math.round(squareSize * dpr));
+          const step = Math.round((squareSize + gridGap) * dpr);
+
+          for (let i = 0; i < cols; i++) {
+            for (let j = 0; j < rows; j++) {
+              const px = i * step;
+              const py = j * step;
+              let hasText = false;
+              outer: for (let dy = 0; dy < sh; dy++) {
+                for (let dx = 0; dx < sw; dx++) {
+                  const pixelIdx = ((py + dy) * canvas.width + (px + dx)) * 4;
+                  if (allPixels[pixelIdx] > 0) { hasText = true; break outer; }
+                }
+              }
+              textMask[i * rows + j] = hasText ? 1 : 0;
+            }
+          }
+        }
+      }
+
+      return { cols, rows, squares, textMask, dpr };
     },
-    [squareSize, gridGap, maxOpacity],
+    [squareSize, gridGap, maxOpacity, text, fontSize, fontWeight, fontFamily],
   );
 
   const updateSquares = useCallback(
@@ -163,7 +191,7 @@ export function FlickeringGrid({
         gridParams.cols,
         gridParams.rows,
         gridParams.squares,
-        gridParams.dpr,
+        gridParams.textMask,
       );
       animationFrameId = requestAnimationFrame(animate);
     };
