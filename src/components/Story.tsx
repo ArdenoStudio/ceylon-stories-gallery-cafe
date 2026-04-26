@@ -1,21 +1,10 @@
-'use client';
-
-import { useRef } from 'react';
 import Link from 'next/link';
-import { motion, useScroll, useTransform } from 'motion/react';
+import { motion } from 'motion/react';
 import { Motif } from './heritage/Motif';
 
 export default function Story() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"]
-  });
-  
-  const yImage = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-
   return (
-    <section ref={sectionRef} id="story" className="relative w-full bg-mahogany text-cream-page py-[clamp(120px,20vh,300px)] px-6 overflow-hidden">
+    <section id="story" className="relative w-full bg-mahogany text-cream-page py-[clamp(120px,20vh,300px)] px-6 overflow-hidden">
       <div className="absolute inset-0 bg-mahogany mix-blend-multiply opacity-50 z-0" />
       <div className="batik-line absolute top-0 left-0 bg-white/20 z-0" />
       
@@ -81,12 +70,11 @@ export default function Story() {
             viewport={{ once: true, margin: "-10%" }}
             transition={{ duration: 1.6, ease: [0.76, 0, 0.24, 1] }}
           >
-            <motion.img
+            <img
               src="https://images.unsplash.com/photo-1556881286-fc6915169721?q=80&w=1000&auto=format&fit=crop"
               alt="Colonial verandah space with terracotta floor tiles"
               referrerPolicy="no-referrer"
-              className="w-full h-full object-cover photo-heritage-deep"
-              style={{ y: yImage, scale: 1.1 }}
+              className="w-full h-full object-cover photo-heritage-deep scale-110"
             />
           </motion.div>
           {/* Vertical Text Element */}

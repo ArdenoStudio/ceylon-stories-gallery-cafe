@@ -1,21 +1,12 @@
 'use client';
 
-import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'motion/react';
+import { motion } from 'motion/react';
 import { Motif } from './heritage/Motif';
 
 export default function Lounge() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-
-  const y1 = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-  const y2 = useTransform(scrollYProgress, [0, 1], ["0%", "-20%"]);
 
   return (
-    <section ref={containerRef} id="experience" className="relative w-full min-h-[90svh] bg-ink-night overflow-hidden flex items-center justify-center py-32 px-6">
+    <section id="experience" className="relative w-full min-h-[90svh] bg-ink-night overflow-hidden flex items-center justify-center py-32 px-6">
 
       {/* Background Ambience */}
       <div className="absolute inset-0 bg-ink-deep mix-blend-multiply pointer-events-none z-10" />
@@ -66,12 +57,11 @@ export default function Lounge() {
             viewport={{ once: true, margin: "-10%" }}
             transition={{ duration: 1.5, ease: [0.76, 0, 0.24, 1] }}
           >
-            <motion.img
+            <img
               src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop"
               alt="Shisha lounge at night glowing in amber light"
               referrerPolicy="no-referrer"
-              className="w-full h-full object-cover photo-heritage-deep"
-              style={{ y: y2, scale: 1.2 }}
+              className="w-full h-full object-cover photo-heritage-deep scale-110"
             />
             {/* Edge mask for the image block to softly blend */}
             <div className="absolute inset-0 bg-gradient-to-l from-transparent to-ink-night mix-blend-multiply opacity-50" />
@@ -80,15 +70,12 @@ export default function Lounge() {
 
       </div>
 
-      {/* Atmospheric Text Drift */}
-      <motion.div 
-        className="absolute bottom-10 right-10 whitespace-nowrap opacity-10 pointer-events-none"
-        style={{ x: y1 }}
-      >
+      {/* Atmospheric Text */}
+      <div className="absolute bottom-10 right-10 whitespace-nowrap opacity-10 pointer-events-none">
         <span className="font-display italic text-[160px] text-clay-warm select-none">
           Kolpetty Nights
         </span>
-      </motion.div>
+      </div>
 
     </section>
   );
