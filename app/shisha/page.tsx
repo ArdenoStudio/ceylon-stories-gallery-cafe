@@ -156,7 +156,7 @@ export default function LoungePage() {
 
         {/* Falling embers */}
         <div className="absolute inset-0 opacity-[0.22] mix-blend-screen pointer-events-none z-[1]">
-          <FallingPattern color="#c9a25a" backgroundColor="transparent" duration={260} blurIntensity="0px" density={1} />
+          <FallingPattern color="#c9a25a" backgroundColor="rgba(0,0,0,0.85)" duration={260} blurIntensity="1em" density={1} />
         </div>
 
         {/* Vignettes & grain */}
@@ -457,7 +457,7 @@ export default function LoungePage() {
       {/* ── Reserve CTA — quiet & confident ──────────────────────────────── */}
       <section className="relative w-full bg-ink-deep py-[clamp(90px,12vh,160px)] px-6 overflow-hidden">
         <div className="absolute inset-0 opacity-[0.14] mix-blend-screen pointer-events-none">
-          <FallingPattern color="#c9a25a" backgroundColor="transparent" duration={320} blurIntensity="0px" density={1} />
+          <FallingPattern color="#c9a25a" backgroundColor="rgba(0,0,0,0.85)" duration={320} blurIntensity="1em" density={1} />
         </div>
         <div className="absolute inset-0 shadow-[inset_0_0_240px_rgba(0,0,0,0.7)] pointer-events-none" />
         <Motif name="frangipani" className="absolute -top-12 -right-12 h-72 w-72 text-clay-warm/[0.06] pointer-events-none" />

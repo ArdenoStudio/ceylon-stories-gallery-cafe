@@ -16,7 +16,7 @@ const leftLinks = [
 
 const rightLinks = [
   { label: 'Gallery', href: '/gallery' },
-  { label: 'Shisha', href: '/lounge' },
+  { label: 'Shisha', href: '/shisha' },
   { label: 'Visit Us', href: '/visit' },
 ];
 

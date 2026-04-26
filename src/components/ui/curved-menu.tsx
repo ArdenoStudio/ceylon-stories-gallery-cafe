@@ -44,7 +44,7 @@ const defaultNavItems: iNavItem[] = [
 	{ heading: "Dilmah", href: "/dilmah", subheading: "Ceylon tea — brand & story" },
 	{ heading: "The Gallery", href: "/gallery", subheading: "Monthly rotating artist feature" },
 	{ heading: "Experience", href: "/experience", subheading: "Tea tastings & cultural events" },
-	{ heading: "Shisha", href: "/lounge", subheading: "Premium shisha lounge" },
+	{ heading: "Shisha", href: "/shisha", subheading: "Premium shisha lounge" },
 	{ heading: "Visit Us", href: "/visit", subheading: "Location, hours & reservations" },
 	{ heading: "Contact", href: "/contact", subheading: "Inquiry form & social links" },
 ];
