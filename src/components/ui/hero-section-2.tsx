@@ -292,7 +292,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
               className="relative isolate w-full overflow-hidden border border-gold-leaf/35 bg-ink-deep/65 shadow-[0_24px_70px_rgba(25,14,9,0.32)]"
               variants={panelVariants}
             >
-              <div className="aspect-[16/10] w-full sm:aspect-[5/4] lg:aspect-[3/4]" />
+              <div className="aspect-[4/3] w-full sm:aspect-[5/4] lg:aspect-[3/4]" />
               {panelImage ? (
                 <motion.div
                   className="pointer-events-none absolute inset-0"
@@ -334,27 +334,27 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
                 className="absolute bottom-6 left-6 right-6"
                 variants={itemVariants}
               >
-                <div className="relative border border-gold-leaf/50 bg-gradient-to-b from-ink-night/72 via-ink-night/68 to-ink-deep/85 px-6 py-5 backdrop-blur-[4px] shadow-[0_22px_52px_rgba(10,6,4,0.55)]">
+                <div className="relative border border-gold-leaf/50 bg-gradient-to-b from-ink-night/72 via-ink-night/68 to-ink-deep/85 px-4 py-4 sm:px-6 sm:py-5 backdrop-blur-[4px] shadow-[0_22px_52px_rgba(10,6,4,0.55)]">
                   <div aria-hidden className="pointer-events-none absolute inset-[5px] border border-cream-page/10" />
                   <span aria-hidden className="pointer-events-none absolute -left-[3px] -top-[3px] h-2.5 w-2.5 border-l-2 border-t-2 border-gold-leaf" />
                   <span aria-hidden className="pointer-events-none absolute -right-[3px] -top-[3px] h-2.5 w-2.5 border-r-2 border-t-2 border-gold-leaf" />
                   <span aria-hidden className="pointer-events-none absolute -bottom-[3px] -left-[3px] h-2.5 w-2.5 border-b-2 border-l-2 border-gold-leaf" />
                   <span aria-hidden className="pointer-events-none absolute -bottom-[3px] -right-[3px] h-2.5 w-2.5 border-b-2 border-r-2 border-gold-leaf" />
 
-                  <div className="relative flex items-center justify-between gap-4">
+                  <div className="relative flex items-center justify-between gap-3 sm:gap-4">
                     <div className="flex-1">
                       <div className="flex items-center gap-2.5">
                         <span aria-hidden className="h-px w-5 bg-gradient-to-r from-transparent to-gold-leaf/80" />
                         <p className="font-editorial text-[9px] uppercase tracking-[0.38em] text-gold-leaf/95">Now Pouring</p>
                       </div>
-                      <p className="mt-2.5 font-display text-[clamp(20px,2.9vw,36px)] leading-[1.05] text-cream-page">
+                      <p className="mt-2.5 font-display text-[clamp(15px,4vw,36px)] leading-[1.05] text-cream-page">
                         Dilmah <span style={{ fontStyle: 'italic' }} className="text-gold-leaf">Reserve</span> Pairings
                       </p>
                     </div>
                     {accentImage && (
                       <>
                         <span aria-hidden className="hidden h-14 w-px bg-gradient-to-b from-transparent via-gold-leaf/45 to-transparent sm:block" />
-                        <TiltCard tiltLimit={10} scale={1.05} effect="gravitate" spotlight={false} className="flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16">
+                        <TiltCard tiltLimit={10} scale={1.05} effect="gravitate" spotlight={false} className="flex-shrink-0 w-11 h-11 sm:w-14 sm:h-14 lg:w-16 lg:h-16">
                           <Image
                             src={accentImage}
                             alt={accentImageAlt ?? 'Featured brand'}
