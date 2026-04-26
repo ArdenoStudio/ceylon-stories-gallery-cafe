@@ -1,8 +1,11 @@
 import Hero from '@/src/components/Hero';
-import Story from '@/src/components/Story';
-import WhatIsNew from '@/src/components/WhatIsNew';
-import FeaturedDrinks from '@/src/components/FeaturedDrinks';
-import Lounge from '@/src/components/Lounge';
+import dynamic from 'next/dynamic';
+
+const WhatIsNew = dynamic(() => import('@/src/components/WhatIsNew'));
+const FeaturedDrinks = dynamic(() => import('@/src/components/FeaturedDrinks'));
+const Lounge = dynamic(() => import('@/src/components/Lounge'));
+const Story = dynamic(() => import('@/src/components/Story'));
+
 export default function HomePage() {
   return (
     <>

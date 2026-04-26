@@ -1,16 +1,19 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'motion/react';
 import { Motif } from './heritage/Motif';
+import { useReveal } from '@/src/hooks/useReveal';
 
 export default function Story() {
+  const textRef = useReveal('-10%');
+  const imgRef = useReveal('-10%');
+
   return (
     <section id="story" className="relative w-full bg-mahogany text-cream-page py-[clamp(120px,20vh,300px)] px-6 overflow-hidden">
       <div className="absolute inset-0 bg-mahogany mix-blend-multiply opacity-50 z-0" />
       <div className="batik-line absolute top-0 left-0 bg-white/20 z-0" />
-      
-      {/* Oversized Background Text - Brutalist touch */}
+
+      {/* Oversized Background Text */}
       <div className="absolute top-10 left-[-5%] font-display italic text-[30vw] text-clay-rust/25 pointer-events-none select-none z-0">
         1926
       </div>
@@ -26,15 +29,10 @@ export default function Story() {
       />
 
       <div className="max-w-7xl mx-auto w-full relative z-10 grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-6 items-center">
-        
+
         {/* Left Content / Typography */}
         <div className="md:col-span-5 md:col-start-2 flex flex-col justify-center items-start pt-10 md:pt-20">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          >
+          <div ref={textRef} className="reveal-up">
             <p className="font-editorial text-[10px] md:text-[11px] tracking-[0.25em] uppercase text-gold-leaf mb-12 flex items-center gap-4">
               <span className="w-8 h-[1px] bg-gold-leaf/50" /> 02 — THE FOUNDATION
             </p>
@@ -49,7 +47,7 @@ export default function Story() {
                 Every month a new artist takes our walls. Every cup of Dilmah is poured deliberately, served at the pace it deserves.
               </p>
             </div>
-            
+
             <div className="mt-16">
               <Link href="/our-story" className="text-link-arrow text-cream-page group flex items-center gap-2">
                 <span className="w-10 h-10 rounded-full border border-gold-leaf/30 flex items-center justify-center group-hover:bg-gold-leaf/10 transition-colors">
@@ -60,17 +58,14 @@ export default function Story() {
                 </span>
               </Link>
             </div>
-          </motion.div>
+          </div>
         </div>
 
-        {/* Right Image Container overlapping */}
+        {/* Right Image Container */}
         <div className="md:col-span-5 relative mt-12 md:mt-0 lg:-ml-6">
-          <motion.div
-            className="w-full aspect-[3/4] md:aspect-[4/5] relative overflow-hidden"
-            initial={{ clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)" }}
-            whileInView={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)" }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 1.6, ease: [0.76, 0, 0.24, 1] }}
+          <div
+            ref={imgRef}
+            className="reveal-clip w-full aspect-[3/4] md:aspect-[4/5] relative overflow-hidden"
           >
             <img
               src="https://images.unsplash.com/photo-1556881286-fc6915169721?q=80&w=1000&auto=format&fit=crop"
@@ -78,7 +73,7 @@ export default function Story() {
               referrerPolicy="no-referrer"
               className="w-full h-full object-cover photo-heritage-deep scale-110"
             />
-          </motion.div>
+          </div>
           {/* Vertical Text Element */}
           <div className="absolute top-10 -right-6 md:-right-12 hidden md:block">
             <p className="font-editorial text-[9px] tracking-[0.3em] uppercase text-gold-leaf/80 mix-blend-screen" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>

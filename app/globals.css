@@ -105,6 +105,65 @@ i,
   .hero-panel-drift, .chevron-bounce { animation: none; }
 }
 
+/* === Scroll reveal === */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal-up.in-view { opacity: 1; transform: translateY(0); }
+
+.reveal-fade {
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.reveal-fade.in-view { opacity: 1; }
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: opacity 1.2s cubic-bezier(0.16,1,0.3,1), transform 1.2s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal-left.in-view { opacity: 1; transform: translateX(0); }
+
+.reveal-clip {
+  clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+  transition: clip-path 1.6s cubic-bezier(0.76,0,0.24,1);
+}
+.reveal-clip.in-view { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+
+.reveal-inset {
+  clip-path: inset(15% 0% 0% 0%);
+  transition: clip-path 1.5s cubic-bezier(0.76,0,0.24,1);
+}
+.reveal-inset.in-view { clip-path: inset(0% 0% 0% 0%); }
+
+.reveal-scale-x {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.2s;
+}
+.reveal-scale-x.in-view { transform: scaleX(1); }
+
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal-stagger.in-view > *:nth-child(1) { opacity:1; transform:none; transition-delay:0s; }
+.reveal-stagger.in-view > *:nth-child(2) { opacity:1; transform:none; transition-delay:0.1s; }
+.reveal-stagger.in-view > *:nth-child(3) { opacity:1; transform:none; transition-delay:0.2s; }
+.reveal-stagger.in-view > *:nth-child(4) { opacity:1; transform:none; transition-delay:0.3s; }
+.reveal-stagger.in-view > *:nth-child(5) { opacity:1; transform:none; transition-delay:0.4s; }
+.reveal-stagger.in-view > *:nth-child(6) { opacity:1; transform:none; transition-delay:0.5s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-up, .reveal-fade, .reveal-left, .reveal-clip, .reveal-inset, .reveal-scale-x {
+    opacity: 1; transform: none; clip-path: none; transition: none;
+  }
+  .reveal-stagger > * { opacity: 1; transform: none; transition: none; }
+}
+
 @layer utilities {
   .scrollbar-hide::-webkit-scrollbar { display: none; }
   .scrollbar-hide { scrollbar-width: none; -ms-overflow-style: none; }

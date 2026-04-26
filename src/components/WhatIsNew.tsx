@@ -1,12 +1,12 @@
 'use client';
 
-import { motion } from 'motion/react';
 import Link from 'next/link';
 import { MenuItemCard } from './ui/menu-item-card';
 import { BotanicalDivider } from './heritage/BotanicalDivider';
 import { MotifCorner } from './heritage/MotifCorner';
 import { useCart } from './CartContext';
 import { useCartUI } from './CartUI';
+import { useReveal } from '@/src/hooks/useReveal';
 
 const items = [
   {
@@ -55,6 +55,10 @@ export default function WhatIsNew() {
   const { addItem } = useCart();
   const { triggerFly } = useCartUI();
 
+  const headingRef = useReveal();
+  const descRef = useReveal();
+  const gridRef = useReveal('-8%');
+
   const handleAdd = (item: typeof items[0], rect: DOMRect) => {
     addItem({
       id: `featured-${item.name}`,
@@ -76,12 +80,7 @@ export default function WhatIsNew() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-20 gap-6">
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          >
+          <div ref={headingRef} className="reveal-up">
             <p className="font-editorial text-[10px] tracking-[0.25em] uppercase text-clay-warm mb-4">
               On The Menu Now
             </p>
@@ -89,15 +88,9 @@ export default function WhatIsNew() {
               What&apos;s <br className="hidden md:block" />
               <i>New</i>
             </h2>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3, duration: 1 }}
-            className="flex flex-col items-start md:items-end gap-3"
-          >
+          <div ref={descRef} className="reveal-fade flex flex-col items-start md:items-end gap-3">
             <p className="font-body text-sm text-mahogany/60 leading-relaxed max-w-[260px] md:text-right">
               New additions, seasonal specials, and featured items — updated as the kitchen evolves.
             </p>
@@ -107,21 +100,18 @@ export default function WhatIsNew() {
             >
               VIEW FULL MENU <span>→</span>
             </Link>
-          </motion.div>
+          </div>
         </div>
 
         <BotanicalDivider motif="tea-leaf" tone="warm" className="mb-12 md:mb-16" />
 
         {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+        <div
+          ref={gridRef}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 reveal-stagger"
+        >
           {items.map((item, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-8%' }}
-              transition={{ duration: 0.9, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
-            >
+            <div key={idx}>
               <MenuItemCard
                 imageUrl={item.imageUrl}
                 isVegetarian={item.isVegetarian}
@@ -133,7 +123,7 @@ export default function WhatIsNew() {
                 tag={item.tag}
                 onAdd={(rect) => handleAdd(item, rect)}
               />
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

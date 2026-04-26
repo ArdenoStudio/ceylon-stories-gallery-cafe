@@ -7,6 +7,7 @@ import AnimatedDrinkStack, { drinkData, TOTAL_DRINKS, type DrinkCard } from './u
 import { MotifCorner } from './heritage/MotifCorner';
 import { useCart } from './CartContext';
 import { useCartUI } from './CartUI';
+import { useReveal } from '@/src/hooks/useReveal';
 
 const initialCards: DrinkCard[] = [
   { id: 1, contentType: 1 },
@@ -19,6 +20,9 @@ export default function FeaturedDrinks() {
   const [nextId, setNextId] = useState(4);
   const { addItem } = useCart();
   const { triggerFly } = useCartUI();
+
+  const stackRef = useReveal();
+  const textRef = useReveal();
 
   const handleNext = () => {
     const nextContentType = (cards[2].contentType % TOTAL_DRINKS) + 1;
@@ -39,14 +43,8 @@ export default function FeaturedDrinks() {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col lg:flex-row items-center lg:items-end gap-16 lg:gap-20 xl:gap-28">
 
-          {/* Left — Interactive Card Stack + Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full lg:w-auto flex-shrink-0 flex flex-col items-center gap-0"
-          >
+          {/* Left — Interactive Card Stack */}
+          <div ref={stackRef} className="reveal-up w-full lg:w-auto flex-shrink-0 flex flex-col items-center gap-0">
             <AnimatedDrinkStack cards={cards} />
             <div className="relative z-10 flex w-full items-center justify-center border-t border-cream-page/10 py-5">
               <button
@@ -59,43 +57,25 @@ export default function FeaturedDrinks() {
                 </svg>
               </button>
             </div>
-          </motion.div>
+          </div>
 
           {/* Vertical rule — desktop only */}
           <div className="hidden lg:block w-px self-stretch bg-gradient-to-b from-transparent via-gold-leaf/25 to-transparent flex-shrink-0" />
 
           {/* Right — Text Panel */}
-          <div className="flex-1 flex flex-col min-w-0 pb-4">
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="font-editorial text-[10px] tracking-[0.3em] uppercase text-gold-leaf mb-7"
-            >
+          <div ref={textRef} className="reveal-up flex-1 flex flex-col min-w-0 pb-4" style={{ transitionDelay: '0.15s' }}>
+            <p className="font-editorial text-[10px] tracking-[0.3em] uppercase text-gold-leaf mb-7">
               Curated Selection
-            </motion.p>
+            </p>
 
-            <motion.h2
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-              className="font-display font-light text-cream-page text-[clamp(44px,5.5vw,82px)] leading-[0.88] tracking-[-0.02em] mb-10"
-            >
+            <h2 className="font-display font-light text-cream-page text-[clamp(44px,5.5vw,82px)] leading-[0.88] tracking-[-0.02em] mb-10">
               Special <br /><i className="text-clay-warm">Items</i>
-            </motion.h2>
+            </h2>
 
             {/* Gold rule */}
-            <motion.div
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="w-14 h-px bg-gold-leaf/50 mb-10 origin-left"
-            />
+            <div className="reveal-scale-x w-14 h-px bg-gold-leaf/50 mb-10 origin-left in-view" />
 
-            {/* Reactive current item details */}
+            {/* Reactive current item details — keep AnimatePresence for interaction */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
