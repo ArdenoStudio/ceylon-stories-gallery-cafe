@@ -179,11 +179,9 @@ export function FlickeringGrid({
     updateCanvasSize();
 
     let lastTime = 0;
-    const FRAME_MS = 1000 / 30;
     const animate = (time: number) => {
       if (!isInView) return;
       animationFrameId = requestAnimationFrame(animate);
-      if (time - lastTime < FRAME_MS) return;
       const deltaTime = (time - lastTime) / 1000;
       lastTime = time;
       updateSquares(gridParams.squares, deltaTime);

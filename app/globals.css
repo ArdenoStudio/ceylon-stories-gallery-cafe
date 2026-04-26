@@ -82,6 +82,29 @@ i,
   font-style: italic !important;
 }
 
+@keyframes hero-drift {
+  0%, 100% { transform: scale(1.04) translate(0, 0); }
+  50% { transform: scale(1.09) translate(-6px, -3px); }
+}
+
+@keyframes chevron-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+.hero-panel-drift {
+  animation: hero-drift 22s ease-in-out infinite;
+}
+
+.chevron-bounce {
+  display: inline-flex;
+  animation: chevron-bounce 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-panel-drift, .chevron-bounce { animation: none; }
+}
+
 @layer utilities {
   .scrollbar-hide::-webkit-scrollbar { display: none; }
   .scrollbar-hide { scrollbar-width: none; -ms-overflow-style: none; }

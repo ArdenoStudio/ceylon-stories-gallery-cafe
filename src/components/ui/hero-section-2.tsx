@@ -294,20 +294,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
             >
               <div className="aspect-[4/3] w-full sm:aspect-[5/4] lg:aspect-[3/4]" />
               {panelImage ? (
-                <motion.div
-                  className="pointer-events-none absolute inset-0"
-                  initial={prefersReducedMotion ? { scale: 1 } : { scale: 1.08 }}
-                  animate={
-                    prefersReducedMotion
-                      ? { scale: 1 }
-                      : { scale: [1.04, 1.09, 1.04], x: [0, -6, 0], y: [0, -3, 0] }
-                  }
-                  transition={
-                    prefersReducedMotion
-                      ? { duration: 0 }
-                      : { duration: 22, ease: 'easeInOut', repeat: Infinity, repeatType: 'mirror' }
-                  }
-                >
+                <div className={cn('pointer-events-none absolute inset-0', !prefersReducedMotion && 'hero-panel-drift')}>
                   <Image
                     src={panelImage}
                     alt=""
@@ -318,7 +305,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
                     className="object-cover"
                     style={{ filter: 'sepia(0.18) saturate(0.9) contrast(1.05)' }}
                   />
-                </motion.div>
+                </div>
               ) : null}
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_15%_15%,rgba(248,240,221,0.14)_0%,rgba(31,18,12,0.72)_100%)]" />
               <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(15,8,5,0.12)_0%,rgba(15,8,5,0.6)_70%,rgba(15,8,5,0.82)_100%)]" />
@@ -384,13 +371,9 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
             transition={{ delay: 1.6, duration: 0.8 }}
           >
             <span className="font-editorial text-[9px] uppercase tracking-[0.32em]">Scroll</span>
-            <motion.span
-              aria-hidden
-              animate={{ y: [0, 6, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-            >
+            <span aria-hidden className="chevron-bounce">
               <ChevronDown className="h-4 w-4 text-gold-leaf" />
-            </motion.span>
+            </span>
           </motion.button>
         )}
       </motion.section>

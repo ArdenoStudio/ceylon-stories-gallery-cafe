@@ -39,12 +39,8 @@ export function FallingLines({ color = '#c9a25a', count = 18, className }: Props
       }));
     };
 
-    const FRAME_MS = 1000 / 30;
-    let lastTime = 0;
-    const draw = (time: number) => {
+    const draw = () => {
       raf = requestAnimationFrame(draw);
-      if (time - lastTime < FRAME_MS) return;
-      lastTime = time;
       ctx.clearRect(0, 0, w, h);
       for (const l of lines) {
         const grad = ctx.createLinearGradient(l.x, l.y, l.x, l.y + l.len);
@@ -65,7 +61,7 @@ export function FallingLines({ color = '#c9a25a', count = 18, className }: Props
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
     resize();
-    draw();
+    raf = requestAnimationFrame(draw);
 
     return () => {
       cancelAnimationFrame(raf);
