@@ -12,12 +12,11 @@ const leftLinks = [
   { label: 'Menu', href: '/menu' },
   { label: 'Dilmah', href: '/dilmah' },
   { label: 'Experience', href: '/experience' },
-  { label: 'The Lounge', href: '/lounge' },
 ];
 
 const rightLinks = [
   { label: 'Gallery', href: '/gallery' },
-  { label: 'Stories', href: '/stories' },
+  { label: 'Shisha', href: '/lounge' },
   { label: 'Visit Us', href: '/visit' },
 ];
 
