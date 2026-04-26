@@ -10,6 +10,11 @@ export const metadata: Metadata = {
     default: 'Ceylon Stories — Gallery Café & Tea House | Colombo',
     template: '%s | Ceylon Stories',
   },
+  icons: {
+    icon: '/logo-color.png',
+    shortcut: '/logo-color.png',
+    apple: '/logo-color.png',
+  },
   description:
     'A gallery café and tea house on the Kolpetty coast of Colombo. Rotating exhibitions, Dilmah reserve teas, and artisanal menus.',
   keywords: ['gallery cafe Colombo', 'Sri Lankan heritage cafe', 'Dilmah tea experience Colombo', 'Kolpetty cafe'],
