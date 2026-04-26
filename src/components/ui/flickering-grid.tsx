@@ -17,10 +17,14 @@ function parseColorToRGB(cssColor: string): string {
   }
 }
 
-function withOpacity(rgb: string, opacity: number): string {
+function withOpacity(r: number, g: number, b: number, opacity: number): string {
+  return `rgba(${r},${g},${b},${opacity})`;
+}
+
+function parseRGB(rgb: string): [number, number, number] {
   const m = rgb.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-  if (!m) return rgb;
-  return `rgba(${m[1]},${m[2]},${m[3]},${opacity})`;
+  if (!m) return [0, 0, 0];
+  return [+m[1], +m[2], +m[3]];
 }
 
 interface FlickeringGridProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -35,6 +39,7 @@ interface FlickeringGridProps extends React.HTMLAttributes<HTMLDivElement> {
   fontSize?: number;
   fontWeight?: number | string;
   fontFamily?: string;
+  fps?: number;
 }
 
 export function FlickeringGrid({
@@ -50,6 +55,7 @@ export function FlickeringGrid({
   fontSize = 120,
   fontWeight = 400,
   fontFamily = '"Fraunces Variable", Georgia, serif',
+  fps = 60,
   ...props
 }: FlickeringGridProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -58,6 +64,7 @@ export function FlickeringGrid({
   const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
 
   const parsedColor = useMemo(() => parseColorToRGB(color), [color]);
+  const parsedRGB = useMemo(() => parseRGB(parsedColor), [parsedColor]);
 
   const drawGrid = useCallback(
     (
@@ -74,6 +81,7 @@ export function FlickeringGrid({
       const sw = squareSize * dpr;
       const sh = squareSize * dpr;
       const step = (squareSize + gridGap) * dpr;
+      const [r, g, b] = parsedRGB;
 
       for (let i = 0; i < cols; i++) {
         for (let j = 0; j < rows; j++) {
@@ -82,12 +90,12 @@ export function FlickeringGrid({
           const finalOpacity = textMask[idx]
             ? Math.min(1, opacity * 3 + 0.4)
             : opacity;
-          ctx.fillStyle = withOpacity(parsedColor, finalOpacity);
+          ctx.fillStyle = withOpacity(r, g, b, finalOpacity);
           ctx.fillRect(i * step, j * step, sw, sh);
         }
       }
     },
-    [parsedColor, squareSize, gridGap],
+    [parsedRGB, squareSize, gridGap],
   );
 
   const setupCanvas = useCallback(
@@ -178,13 +186,15 @@ export function FlickeringGrid({
 
     updateCanvasSize();
 
+    const interval = 1000 / fps;
     let lastTime = 0;
     const animate = (time: number) => {
       if (!isInView) return;
       animationFrameId = requestAnimationFrame(animate);
-      const deltaTime = (time - lastTime) / 1000;
-      lastTime = time;
-      updateSquares(gridParams.squares, deltaTime);
+      const deltaTime = time - lastTime;
+      if (deltaTime < interval) return;
+      lastTime = time - (deltaTime % interval);
+      updateSquares(gridParams.squares, deltaTime / 1000);
       drawGrid(
         ctx,
         canvas.width,
