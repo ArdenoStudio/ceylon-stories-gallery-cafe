@@ -87,17 +87,17 @@ export default function Footer() {
 
       {/* Flickering grid watermark */}
       <div className="w-full h-40 md:h-56 relative mt-6 z-0">
-        <div className="absolute inset-0 bg-gradient-to-t from-transparent to-cream-page z-10" style={{ background: 'linear-gradient(to top, transparent 0%, #f4ecdc 55%)' }} />
+        <div className="absolute inset-0 z-10 pointer-events-none" style={{ background: 'linear-gradient(to top, transparent 0%, transparent 35%, #f4ecdc 85%)' }} />
         <div className="absolute inset-0">
           <FlickeringGrid
             text={isMobile ? 'Ceylon Stories' : 'Ceylon Stories'}
             fontSize={isMobile ? 52 : 88}
-            fontWeight={400}
+            fontWeight={600}
             className="h-full w-full"
             squareSize={2}
             gridGap={isMobile ? 2 : 3}
             color="#2a1810"
-            maxOpacity={0.1}
+            maxOpacity={0.12}
             flickerChance={0.05}
           />
         </div>
