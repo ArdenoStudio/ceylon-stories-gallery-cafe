@@ -146,9 +146,16 @@ const MenuItemCard = React.forwardRef<HTMLDivElement, MenuItemCardProps>(
           </h3>
 
           {/* Prep time */}
-          <div className="flex items-center gap-1.5 mt-auto pt-3 font-editorial text-[9px] tracking-[0.1em] uppercase text-mahogany/50">
-            <Clock className="w-3 h-3" />
-            <span>{prepTimeInMinutes} mins</span>
+          <div className="flex items-center justify-between mt-auto pt-3">
+            <div className="flex items-center gap-1.5 font-editorial text-[9px] tracking-[0.1em] uppercase text-mahogany/50">
+              <Clock className="w-3 h-3" />
+              <span>{prepTimeInMinutes} mins</span>
+            </div>
+            {onCardClick && (
+              <span className="font-editorial text-[8px] tracking-[0.15em] uppercase text-mahogany/35 group-hover:text-clay-warm transition-colors duration-300">
+                Details →
+              </span>
+            )}
           </div>
         </div>
       </motion.div>

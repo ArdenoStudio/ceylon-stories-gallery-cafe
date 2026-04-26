@@ -1,17 +1,21 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { MenuItemCard } from './ui/menu-item-card';
+import { MenuItemModal, type MenuItemDetail } from './ui/menu-item-modal';
 import { BotanicalDivider } from './heritage/BotanicalDivider';
 import { MotifCorner } from './heritage/MotifCorner';
 import { useCart } from './CartContext';
 import { useCartUI } from './CartUI';
 import { useReveal } from '@/src/hooks/useReveal';
 
-const items = [
+const items: MenuItemDetail[] = [
   {
     tag: 'NEW',
+    category: 'Beverages',
     name: 'Cardamom Cold Brew',
+    description: 'Single-origin cold brew steeped for 18 hours, finished with hand-crushed green cardamom and a touch of palm sugar. Served over hand-chipped ice.',
     imageUrl: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?q=80&w=600&auto=format&fit=crop',
     isVegetarian: true,
     price: 850,
@@ -21,7 +25,9 @@ const items = [
   },
   {
     tag: 'SEASONAL',
+    category: 'Desserts',
     name: 'Mango & Chilli Granita',
+    description: 'Alphonso mango granita layered with a slow-heat bird\'s eye chilli syrup and a pinch of Himalayan salt. A fleeting summer special, made fresh each morning.',
     imageUrl: 'https://images.unsplash.com/photo-1488900128323-21503983a07e?q=80&w=600&auto=format&fit=crop',
     isVegetarian: true,
     price: 950,
@@ -31,7 +37,9 @@ const items = [
   },
   {
     tag: 'FEATURED',
+    category: 'Tea',
     name: 'Dilmah Silver Tips Reserve',
+    description: 'Rare white tea handpicked at dawn from the high-altitude gardens of Nuwara Eliya. Brewed at 75°C to preserve its delicate honeyed florals and a long, clean finish.',
     imageUrl: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?q=80&w=600&auto=format&fit=crop',
     isVegetarian: true,
     price: 1450,
@@ -41,7 +49,9 @@ const items = [
   },
   {
     tag: 'NEW',
+    category: 'Mains',
     name: 'Terracotta Shakshuka',
+    description: 'Farm eggs poached in a slow-simmered tomato and roasted pepper sauce, spiced with cumin and smoked paprika, served in a clay pot with toasted sourdough.',
     imageUrl: 'https://images.unsplash.com/photo-1590412200988-a436970781fa?q=80&w=600&auto=format&fit=crop',
     isVegetarian: true,
     price: 1650,
@@ -54,19 +64,22 @@ const items = [
 export default function WhatIsNew() {
   const { addItem } = useCart();
   const { triggerFly } = useCartUI();
+  const [selectedItem, setSelectedItem] = useState<MenuItemDetail | null>(null);
 
   const headingRef = useReveal();
   const descRef = useReveal();
   const gridRef = useReveal('-8%');
 
-  const handleAdd = (item: typeof items[0], rect: DOMRect) => {
-    addItem({
-      id: `featured-${item.name}`,
-      name: item.name,
-      price: item.price,
-      imageUrl: item.imageUrl,
-      category: 'Featured',
-    });
+  const handleAdd = (item: MenuItemDetail, qty: number, rect: DOMRect) => {
+    for (let i = 0; i < qty; i++) {
+      addItem({
+        id: `featured-${item.name}`,
+        name: item.name,
+        price: item.price,
+        imageUrl: item.imageUrl,
+        category: item.category,
+      });
+    }
     triggerFly(rect, item.imageUrl);
   };
 
@@ -121,12 +134,19 @@ export default function WhatIsNew() {
                 quantity={item.quantity}
                 prepTimeInMinutes={item.prepTimeInMinutes}
                 tag={item.tag}
-                onAdd={(rect) => handleAdd(item, rect)}
+                onCardClick={() => setSelectedItem(item)}
+                onAdd={(rect) => handleAdd(item, 1, rect)}
               />
             </div>
           ))}
         </div>
       </div>
+
+      <MenuItemModal
+        item={selectedItem}
+        onClose={() => setSelectedItem(null)}
+        onAddToCart={(qty, rect) => selectedItem && handleAdd(selectedItem, qty, rect)}
+      />
     </section>
   );
 }
