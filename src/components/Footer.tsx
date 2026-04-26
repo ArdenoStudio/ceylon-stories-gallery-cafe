@@ -97,8 +97,8 @@ export default function Footer() {
             squareSize={2}
             gridGap={isMobile ? 2 : 3}
             color="#2a1810"
-            maxOpacity={0.12}
-            flickerChance={0.05}
+            maxOpacity={0.22}
+            flickerChance={0.06}
           />
         </div>
       </div>
