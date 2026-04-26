@@ -92,13 +92,13 @@ export default function Footer() {
           <FlickeringGrid
             text={isMobile ? 'Ceylon Stories' : 'Ceylon Stories'}
             fontSize={isMobile ? 52 : 88}
-            fontWeight={300}
+            fontWeight={400}
             className="h-full w-full"
             squareSize={2}
             gridGap={isMobile ? 2 : 3}
             color="#2a1810"
-            maxOpacity={0.22}
-            flickerChance={0.08}
+            maxOpacity={0.1}
+            flickerChance={0.05}
           />
         </div>
       </div>
