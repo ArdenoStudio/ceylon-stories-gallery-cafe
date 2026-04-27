@@ -96,8 +96,8 @@ export function MenuItemModal({ item, onClose, onAddToCart }: MenuItemModalProps
               <X className="w-3.5 h-3.5" />
             </button>
 
-            {/* Scrollable body */}
-            <div className="overflow-y-auto flex-1 min-h-0">
+            {/* Scrollable body — padded so content clears the absolute CTA */}
+            <div className={cn('overflow-y-auto flex-1 min-h-0', onAddToCart ? 'pb-24' : 'pb-4')}>
               {/* Image */}
               <div className="relative mx-4 mt-1 mb-5 h-44 rounded-xl overflow-hidden bg-mahogany/10">
                 <img
@@ -184,9 +184,12 @@ export function MenuItemModal({ item, onClose, onAddToCart }: MenuItemModalProps
               </div>
             </div>
 
-            {/* Sticky bottom CTA */}
+            {/* CTA — absolutely pinned to bottom, always visible */}
             {onAddToCart && (
-              <div className="flex-shrink-0 px-4 pt-4 pb-4 border-t border-mahogany/10 bg-cream-page">
+              <div
+                className="absolute bottom-0 left-0 right-0 px-4 pt-4 border-t border-mahogany/10 bg-cream-page"
+                style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom, 0px))' }}
+              >
                 <div className="flex items-center gap-3">
                   <div className="flex items-center rounded-md bg-mahogany/5 border border-mahogany/8 px-1 py-2 gap-1">
                     <button

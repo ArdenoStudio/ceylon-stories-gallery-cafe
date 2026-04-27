@@ -554,8 +554,8 @@ i,
 
 /* Mobile bottom-sheet — progressively use svh/dvh; fall back to vh */
 .mobile-sheet {
-  max-height: 92vh;
-  max-height: 92svh;
-  max-height: 92dvh;
-  padding-bottom: env(safe-area-inset-bottom, 0px);
+  max-height: 90vh;
+  max-height: 90svh;
+  max-height: 90dvh;
+  overflow: hidden;
 }
