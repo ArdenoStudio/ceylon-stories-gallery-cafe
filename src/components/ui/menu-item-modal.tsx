@@ -65,7 +65,7 @@ export function MenuItemModal({ item, onClose, onAddToCart }: MenuItemModalProps
           {/* ── MOBILE: draggable bottom sheet ─────────────────── */}
           <motion.div
             className="sm:hidden relative z-10 w-full bg-cream-page rounded-t-[24px] flex flex-col"
-            style={{ maxHeight: '92vh', boxShadow: '0 -12px 48px rgba(42,24,16,0.22)' }}
+            style={{ maxHeight: 'min(92svh, 92dvh)', boxShadow: '0 -12px 48px rgba(42,24,16,0.22)' }}
             drag="y"
             dragControls={dragControls}
             dragListener={false}
@@ -99,7 +99,7 @@ export function MenuItemModal({ item, onClose, onAddToCart }: MenuItemModalProps
             {/* Scrollable body */}
             <div className="overflow-y-auto flex-1 min-h-0">
               {/* Image */}
-              <div className="relative mx-4 mt-1 mb-5 h-52 rounded-xl overflow-hidden bg-mahogany/10">
+              <div className="relative mx-4 mt-1 mb-5 h-44 rounded-xl overflow-hidden bg-mahogany/10">
                 <img
                   src={item.imageUrl}
                   alt={item.name}
@@ -186,7 +186,7 @@ export function MenuItemModal({ item, onClose, onAddToCart }: MenuItemModalProps
 
             {/* Sticky bottom CTA */}
             {onAddToCart && (
-              <div className="flex-shrink-0 px-4 py-4 border-t border-mahogany/10 bg-cream-page">
+              <div className="flex-shrink-0 px-4 pt-4 border-t border-mahogany/10 bg-cream-page" style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}>
                 <div className="flex items-center gap-3">
                   <div className="flex items-center rounded-md bg-mahogany/5 border border-mahogany/8 px-1 py-2 gap-1">
                     <button
