@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useReveal } from '@/src/hooks/useReveal';
 
 export default function Lounge() {
@@ -70,22 +71,20 @@ export default function Lounge() {
             ))}
           </div>
 
-          <a
-            href="https://wa.me/94770000000?text=I%20would%20like%20to%20reserve%20a%20table%20for%20the%20evening%20lounge."
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/shisha"
             className="group inline-flex items-center gap-4 border-b border-gold-leaf/40 pb-2 hover:border-gold-leaf transition-colors"
           >
             <span className="font-editorial text-[10px] tracking-[0.4em] uppercase text-cream-page/90">
-              Reserve a Table
+              Visit the Lounge
             </span>
             <span
               aria-hidden="true"
               className="font-display italic text-gold-leaf transition-transform duration-200 group-hover:translate-x-1"
             >
-              ↗
+              →
             </span>
-          </a>
+          </Link>
         </div>
       </div>
     </section>
