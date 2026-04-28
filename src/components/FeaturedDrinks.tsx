@@ -2,12 +2,13 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Clock, ArrowLeft, ArrowRight, X } from 'lucide-react';
-import { AnimatePresence, motion } from 'motion/react';
+import { Clock, ArrowLeft, ArrowRight } from 'lucide-react';
+import { motion } from 'motion/react';
 import { drinkData, TOTAL_DRINKS } from './ui/animate-card-animation';
 import { MotifCorner } from './heritage/MotifCorner';
 import { useCart } from './CartContext';
 import { useCartUI } from './CartUI';
+import { MenuItemModal, type MenuItemDetail } from './ui/menu-item-modal';
 import { useReveal } from '@/src/hooks/useReveal';
 
 const meta: Record<number, { tag: string; quantity: string; mins: number; isVegetarian: boolean }> = {
@@ -115,29 +116,29 @@ export default function FeaturedDrinks() {
   const prev = () => goTo(Math.max(0, active - 1));
   const next = () => goTo(Math.min(items.length - 1, active + 1));
 
-  const handleAdd = (item: Item, rect: DOMRect) => {
+  const toMenuItemDetail = (item: Item): MenuItemDetail => ({
+    imageUrl: item.image,
+    isVegetarian: item.isVegetarian,
+    name: item.name,
+    description: item.description,
+    price: item.price,
+    originalPrice: null,
+    quantity: item.quantity,
+    prepTimeInMinutes: item.mins,
+    tag: item.tag,
+    category: 'Special Items',
+  });
+
+  const handleAdd = (item: Item, rect: DOMRect, qty = 1) => {
     addItem({
       id: `special-${item.name}`,
       name: item.name,
       price: item.price,
       imageUrl: item.image,
       category: 'Special Items',
-    });
+    }, qty);
     triggerFly(rect, item.image);
   };
-
-  useEffect(() => {
-    if (openIndex === null) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpenIndex(null);
-    };
-    document.body.style.overflow = 'hidden';
-    window.addEventListener('keydown', onKey);
-    return () => {
-      document.body.style.overflow = '';
-      window.removeEventListener('keydown', onKey);
-    };
-  }, [openIndex]);
 
   const openItem = openIndex !== null ? items[openIndex] : null;
 
@@ -331,117 +332,15 @@ export default function FeaturedDrinks() {
         </div>
       </div>
 
-      {/* Modal */}
-      <AnimatePresence>
-        {openItem && (
-          <div className="fixed inset-0 z-[100] flex items-start md:items-center justify-center overflow-y-auto p-4 md:p-8">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              onClick={() => setOpenIndex(null)}
-              className="fixed inset-0 bg-ink-night/85 backdrop-blur-md"
-            />
-            <motion.div
-              layoutId={`card-${openItem.id}`}
-              className="relative z-[110] w-full max-w-3xl my-8 rounded-2xl overflow-hidden bg-cream-paper text-mahogany shadow-ink"
-            >
-              <button
-                onClick={() => setOpenIndex(null)}
-                aria-label="Close"
-                className="absolute top-4 right-4 z-20 h-9 w-9 rounded-full bg-mahogany text-cream-page hover:bg-mahogany-soft transition-colors flex items-center justify-center"
-              >
-                <X className="h-4 w-4" />
-              </button>
-
-              <motion.div
-                layoutId={`card-image-${openItem.id}`}
-                className="relative aspect-[16/9] md:aspect-[2/1] w-full overflow-hidden"
-              >
-                <img
-                  src={openItem.image}
-                  alt={openItem.name}
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover photo-heritage"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-mahogany/45 to-transparent" />
-                {openItem.tag && (
-                  <div className="absolute top-5 left-5">
-                    <span className="font-editorial text-[10px] tracking-[0.22em] uppercase text-cream-page border border-cream-page/40 px-2.5 py-1 bg-mahogany/60 backdrop-blur-sm">
-                      {openItem.tag}
-                    </span>
-                  </div>
-                )}
-              </motion.div>
-
-              <div className="p-7 md:p-10 flex flex-col gap-6">
-                <div className="flex items-baseline justify-between gap-4 flex-wrap">
-                  <p className="font-editorial text-[10px] tracking-[0.32em] uppercase text-mahogany/55">
-                    Curated Selection &mdash; {openItem.n}
-                  </p>
-                  <span className="font-display font-light text-mahogany text-[34px] md:text-[42px] leading-none tabular-nums">
-                    Rs. {openItem.price.toLocaleString()}
-                  </span>
-                </div>
-
-                <motion.h3
-                  layoutId={`card-title-${openItem.id}`}
-                  className="font-display text-mahogany text-[40px] md:text-[64px] leading-[0.95] tracking-[-0.02em] text-balance"
-                >
-                  {openItem.name}
-                </motion.h3>
-
-                <p className="font-body text-[15px] md:text-[16px] text-mahogany/70 leading-[1.8] text-pretty max-w-2xl">
-                  {openItem.description}
-                </p>
-
-                <div className="flex items-center gap-6 flex-wrap border-t border-mahogany/10 mt-2 pt-6">
-                  <div className="flex items-center gap-2 font-editorial text-[11px] tracking-[0.22em] uppercase text-mahogany/55">
-                    <Clock className="h-4 w-4" />
-                    <span>{openItem.mins} mins prep</span>
-                  </div>
-                  <span className="font-editorial text-[11px] tracking-[0.22em] uppercase text-mahogany/55">
-                    {openItem.quantity}
-                  </span>
-                  <div className="flex items-center gap-2 font-editorial text-[11px] tracking-[0.22em] uppercase text-mahogany/55">
-                    <span
-                      className={`inline-block w-3.5 h-3.5 rounded-sm border bg-cream-page flex items-center justify-center ${
-                        openItem.isVegetarian ? 'border-sage-deep' : 'border-clay-deep'
-                      }`}
-                    >
-                      <span
-                        className={`block w-1.5 h-1.5 rounded-full ${
-                          openItem.isVegetarian ? 'bg-sage-deep' : 'bg-clay-deep'
-                        }`}
-                      />
-                    </span>
-                    <span>{openItem.isVegetarian ? 'Vegetarian' : 'Non-Veg'}</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4 flex-wrap mt-2">
-                  <button
-                    onClick={(e) => {
-                      handleAdd(openItem, e.currentTarget.getBoundingClientRect());
-                      setOpenIndex(null);
-                    }}
-                    className="px-7 py-3.5 font-editorial text-[11px] tracking-[0.28em] uppercase bg-mahogany text-cream-page hover:bg-mahogany-soft transition-colors rounded"
-                  >
-                    Add to Order &mdash; Rs. {openItem.price.toLocaleString()}
-                  </button>
-                  <Link
-                    href="/menu"
-                    className="font-editorial text-[10px] tracking-[0.28em] uppercase text-mahogany/55 hover:text-clay-warm transition-colors inline-flex items-center gap-2"
-                  >
-                    View Full Menu <span aria-hidden>&rarr;</span>
-                  </Link>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+      <MenuItemModal
+        item={openItem ? toMenuItemDetail(openItem) : null}
+        onClose={() => setOpenIndex(null)}
+        onAddToCart={(qty, rect) => {
+          if (!openItem) return;
+          handleAdd(openItem, rect, qty);
+          setOpenIndex(null);
+        }}
+      />
     </section>
   );
 }
