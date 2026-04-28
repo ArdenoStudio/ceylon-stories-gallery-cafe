@@ -256,13 +256,32 @@ i,
   align-items: stretch;
   overflow: hidden;
   color: var(--color-ink-deep);
-  background: var(--color-gold-leaf);
-  border: 1px solid color-mix(in oklab, var(--color-gold-leaf) 80%, transparent);
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(15, 8, 5, 0.04),
+    0 10px 28px rgba(15, 8, 5, 0.14);
   text-decoration: none;
   cursor: pointer;
   isolation: isolate;
-  transition: color 480ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition:
+    background 500ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 500ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 500ms cubic-bezier(0.16, 1, 0.3, 1);
   -webkit-font-smoothing: antialiased;
+}
+
+.button06:hover,
+.button06:focus-visible {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.62);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    inset 0 -1px 0 rgba(15, 8, 5, 0.05),
+    0 16px 36px rgba(15, 8, 5, 0.2);
 }
 
 .button06:focus-visible {
@@ -270,20 +289,18 @@ i,
   outline-offset: 3px;
 }
 
-/* Sliding bg */
+/* Sliding highlight — soft diagonal sheen on hover */
 .button06_bg {
   position: absolute;
   inset: 0;
-  background: var(--color-mahogany);
-  transform: translateY(105%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 60%);
+  transform: translateY(101%);
   transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 0;
+  pointer-events: none;
 }
 .button06:hover .button06_bg,
 .button06:focus-visible .button06_bg { transform: translateY(0); }
-
-.button06:hover,
-.button06:focus-visible { color: var(--color-cream-page); }
 
 /* Text area — clips the rolling text */
 .button06_inner {
