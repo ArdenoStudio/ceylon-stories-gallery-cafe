@@ -44,7 +44,7 @@ export default function Lounge() {
         {/* Image */}
         <div
           ref={imgRef}
-          className="reveal-inset relative w-full aspect-[16/10] overflow-hidden border border-gold-leaf/15"
+          className="reveal-inset relative w-full aspect-[16/10] overflow-hidden rounded-2xl border border-gold-leaf/15"
         >
           <img
             src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1600&auto=format&fit=crop"
