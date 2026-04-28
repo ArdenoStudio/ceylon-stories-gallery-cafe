@@ -84,9 +84,23 @@ export default function Footer() {
           </div>
           </div>
 
-          <p className="mt-auto pt-8 text-center font-editorial text-[8px] tracking-[0.3em] uppercase text-mahogany/20">
-            An <a href="https://ardeno-studio-website.vercel.app" target="_blank" rel="noopener noreferrer" className="hover:text-mahogany/40 transition-colors">Ardeno Studio</a> Production
-          </p>
+          <a
+            href="https://ardeno-studio-website.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="An Ardeno Studio Production"
+            className="mt-auto pt-8 flex flex-col items-center gap-3 group"
+          >
+            <img
+              src="/ardeno-logo.png"
+              alt=""
+              aria-hidden="true"
+              className="h-10 w-auto opacity-30 group-hover:opacity-60 transition-opacity"
+            />
+            <p className="text-center font-editorial text-[8px] tracking-[0.3em] uppercase text-mahogany/20 group-hover:text-mahogany/40 transition-colors">
+              An Ardeno Studio Production
+            </p>
+          </a>
         </div>
       </div>
 
