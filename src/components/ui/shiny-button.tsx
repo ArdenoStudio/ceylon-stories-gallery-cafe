@@ -44,13 +44,13 @@ export const ShinyButton: React.FC<ShinyButtonProps> = ({
   onClick
 }) => {
   const classNames = cn(
-    "relative inline-flex min-h-[54px] items-center justify-center overflow-hidden rounded-full px-7 py-2 font-editorial text-[11px] font-medium uppercase tracking-[0.24em] backdrop-blur-xl transition-shadow duration-300 ease-in-out hover:shadow dark:bg-[radial-gradient(circle_at_50%_0%,hsl(var(--primary)/10%)_0%,transparent_60%)] dark:hover:shadow-[0_0_20px_hsl(var(--primary)/10%)]",
+    "relative inline-flex min-h-[54px] items-center justify-center overflow-hidden rounded-full border border-white/15 bg-[radial-gradient(circle_at_50%_0%,rgba(201,162,90,0.22)_0%,rgba(46,24,18,0.96)_56%,rgba(20,10,8,0.98)_100%)] px-7 py-2 font-editorial text-[11px] font-medium uppercase tracking-[0.24em] shadow-[inset_0_1px_0_rgba(255,255,255,0.18),0_16px_42px_rgba(20,10,8,0.28)] backdrop-blur-xl transition-shadow duration-300 ease-in-out hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_0_26px_rgba(201,162,90,0.28),0_20px_48px_rgba(20,10,8,0.32)]",
     className
   );
 
   const labelStyle: ShinyStyle = {
     maskImage:
-      "linear-gradient(-75deg,hsl(var(--primary)) calc(var(--x) + 20%),transparent calc(var(--x) + 30%),hsl(var(--primary)) calc(var(--x) + 100%))",
+      "linear-gradient(-75deg,rgb(255,246,225) calc(var(--x) + 20%),transparent calc(var(--x) + 30%),rgb(255,246,225) calc(var(--x) + 100%))",
   };
 
   const borderStyle: React.CSSProperties = {
@@ -60,12 +60,12 @@ export const ShinyButton: React.FC<ShinyButtonProps> = ({
 
   const inner = (
     <>
-      <span className="relative block size-full text-sm uppercase tracking-wide text-[rgb(0,0,0,65%)] dark:font-light dark:text-[rgb(255,255,255,90%)]" style={labelStyle}>
+      <span className="relative z-20 block size-full text-sm uppercase tracking-wide text-cream-page" style={labelStyle}>
         {children}
       </span>
       <span
         style={borderStyle}
-        className="absolute inset-0 z-10 block rounded-[inherit] bg-[linear-gradient(-75deg,hsl(var(--primary)/10%)_calc(var(--x)+20%),hsl(var(--primary)/50%)_calc(var(--x)+25%),hsl(var(--primary)/10%)_calc(var(--x)+100%))] p-px"
+        className="absolute inset-0 z-10 block rounded-[inherit] bg-[linear-gradient(-75deg,rgba(201,162,90,0.15)_calc(var(--x)+20%),rgba(255,246,225,0.78)_calc(var(--x)+25%),rgba(201,162,90,0.15)_calc(var(--x)+100%))] p-px"
       />
     </>
   );
