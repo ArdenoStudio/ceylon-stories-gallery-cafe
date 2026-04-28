@@ -37,6 +37,7 @@ export default function Footer() {
 
             <div className="mt-8 md:mt-0">
               <FancyButton
+                variant="pink"
                 ariaLabel="Ceylon Stories on Instagram"
                 onClick={() => window.open(INSTAGRAM_URL, '_blank', 'noopener,noreferrer')}
                 icon={<Instagram className="h-4 w-4 text-cream-page" strokeWidth={1.6} />}

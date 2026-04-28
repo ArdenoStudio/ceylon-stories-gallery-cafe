@@ -3,7 +3,7 @@
 import React from 'react';
 import { cn } from '@/src/lib/utils';
 
-type Variant = 'default' | 'green' | 'indigo' | 'red';
+type Variant = 'default' | 'green' | 'indigo' | 'red' | 'pink';
 
 interface FancyButtonProps {
   icon: React.ReactNode;
@@ -15,25 +15,30 @@ interface FancyButtonProps {
 
 const variantClasses: Record<Variant, string> = {
   default: `
-    border border-white/10 hover:border-white/30
+    border-white/10 hover:border-white/30
     bg-gradient-to-tr from-black/60 to-black/40
     hover:bg-gradient-to-tr hover:from-white/10 hover:to-black/40
     hover:shadow-white/20`,
   green: `
-    border border-green-500/20 hover:border-green-500/50
+    border-green-500/20 hover:border-green-500/50
     bg-gradient-to-tr from-black/60 to-black/40
     hover:bg-gradient-to-tr hover:from-green-500/10 hover:to-black/40
     hover:shadow-green-500/30`,
   indigo: `
-    border border-indigo-500/20 hover:border-indigo-500/50
+    border-indigo-500/20 hover:border-indigo-500/50
     bg-gradient-to-tr from-black/60 to-black/40
     hover:bg-gradient-to-tr hover:from-indigo-500/10 hover:to-black/40
     hover:shadow-indigo-500/30`,
   red: `
-    border border-red-500/20 hover:border-red-500/50
+    border-red-500/20 hover:border-red-500/50
     bg-gradient-to-tr from-black/60 to-black/40
     hover:bg-gradient-to-tr hover:from-red-500/10 hover:to-black/40
     hover:shadow-red-500/30`,
+  pink: `
+    border-pink-500/20 hover:border-pink-500/50
+    bg-gradient-to-tr from-black/60 to-black/40
+    hover:bg-gradient-to-tr hover:from-pink-500/10 hover:to-black/40
+    hover:shadow-pink-500/30`,
 };
 
 const glowGradientClasses: Record<Variant, string> = {
@@ -41,6 +46,7 @@ const glowGradientClasses: Record<Variant, string> = {
   green: 'via-green-400/20',
   indigo: 'via-indigo-400/20',
   red: 'via-red-400/20',
+  pink: 'via-pink-400/20',
 };
 
 const FancyButton: React.FC<FancyButtonProps> = ({
@@ -52,7 +58,6 @@ const FancyButton: React.FC<FancyButtonProps> = ({
 }) => {
   return (
     <button
-      type="button"
       onClick={onClick}
       aria-label={ariaLabel}
       className={cn(
