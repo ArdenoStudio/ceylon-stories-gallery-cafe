@@ -91,12 +91,14 @@ export default function Footer() {
             aria-label="An Ardeno Studio Production"
             className="mt-auto pt-8 flex flex-col items-center gap-3 group"
           >
-            <img
-              src="/ardeno-logo.png"
-              alt=""
+            <svg
+              viewBox="0 0 1500 1500"
               aria-hidden="true"
-              className="h-10 w-auto opacity-30 group-hover:opacity-60 transition-opacity"
-            />
+              className="h-9 w-auto text-stone-400/70 group-hover:text-stone-500 transition-colors"
+              fill="currentColor"
+            >
+              <path d="M 1114.464844 1093.320312 L 902.367188 666.722656 C 839.917969 722.578125 784.960938 820.574219 788.027344 900.875 L 852.203125 1027.425781 C 854.507812 1031.96875 858.433594 1035.472656 863.210938 1037.246094 L 1089.253906 1121.335938 C 1106.46875 1127.742188 1122.644531 1109.769531 1114.464844 1093.320312 Z M 733.84375 860.191406 C 733.300781 860.992188 732.796875 861.84375 732.347656 862.757812 L 651.828125 1025.953125 C 649.539062 1030.585938 645.566406 1034.179688 640.71875 1035.984375 L 410.511719 1121.617188 C 393.394531 1127.992188 377.25 1110.242188 385.203125 1093.804688 L 726.917969 387.246094 C 734.253906 372.085938 755.8125 371.960938 763.3125 387.042969 L 895.113281 652.152344 C 822.84375 703.808594 766.253906 776.003906 733.84375 860.191406 " />
+            </svg>
             <p className="text-center font-editorial text-[8px] tracking-[0.3em] uppercase text-mahogany/20 group-hover:text-mahogany/40 transition-colors">
               An Ardeno Studio Production
             </p>
