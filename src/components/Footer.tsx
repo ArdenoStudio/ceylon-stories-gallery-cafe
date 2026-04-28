@@ -103,6 +103,10 @@ export default function Footer() {
           />
         </div>
       </div>
+
+      <p className="text-center font-editorial text-[8px] tracking-[0.3em] uppercase text-mahogany/25 mt-5">
+        An <a href="https://ardeno-studio-website.vercel.app" target="_blank" rel="noopener noreferrer" className="hover:text-mahogany/45 transition-colors">Ardeno Studio</a> Production
+      </p>
     </footer>
   );
 }
