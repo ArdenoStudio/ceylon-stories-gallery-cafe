@@ -1,11 +1,15 @@
 'use client';
 
+import { Instagram } from 'lucide-react';
 import ShinyButton from './ui/shiny-button';
+import FancyButton from './ui/FancyButton';
 import { FlickeringGrid } from './ui/flickering-grid';
 import { useEffect, useState } from 'react';
 
 const WHATSAPP_URL =
   'https://wa.me/94770000000?text=Hi%20Ceylon%20Stories%2C%20I%27d%20like%20to%20make%20a%20reservation.';
+// TODO: replace with the real Instagram handle
+const INSTAGRAM_URL = 'https://www.instagram.com/ceylonstories.lk/';
 
 export default function Footer() {
   const [isMobile, setIsMobile] = useState(false);
@@ -31,13 +35,14 @@ export default function Footer() {
               <img src="/logo-black.png" alt="Ceylon Stories" className="w-full h-full object-contain" />
             </div>
 
-            <a href="#" aria-label="Instagram" className="text-mahogany/50 hover:text-mahogany transition-colors w-max mt-8 md:mt-0">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                <circle cx="12" cy="12" r="4" />
-                <circle cx="17.5" cy="6.5" r="0.7" fill="currentColor" stroke="none" />
-              </svg>
-            </a>
+            <div className="mt-8 md:mt-0">
+              <FancyButton
+                ariaLabel="Ceylon Stories on Instagram"
+                onClick={() => window.open(INSTAGRAM_URL, '_blank', 'noopener,noreferrer')}
+                icon={<Instagram className="h-4 w-4 text-cream-page" strokeWidth={1.6} />}
+                className="!p-3"
+              />
+            </div>
           </div>
 
           {/* RIGHT — two info columns */}
