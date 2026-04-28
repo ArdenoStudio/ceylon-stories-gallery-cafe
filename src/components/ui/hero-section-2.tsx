@@ -289,7 +289,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
             <motion.div
               role="img"
               aria-label={panelImageAlt ?? 'Featured pairing'}
-              className="relative isolate w-full overflow-hidden border border-gold-leaf/35 bg-ink-deep/65 shadow-[0_24px_70px_rgba(25,14,9,0.32)]"
+              className="relative isolate w-full overflow-hidden rounded-2xl border border-gold-leaf/35 bg-ink-deep/65 shadow-[0_24px_70px_rgba(25,14,9,0.32)]"
               variants={panelVariants}
             >
               <div className="aspect-[4/3] w-full sm:aspect-[5/4] lg:aspect-[3/4]" />

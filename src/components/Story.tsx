@@ -34,7 +34,7 @@ export default function Story() {
         </div>
 
         {/* Hero photo + caption */}
-        <div ref={heroRef} className="reveal-clip relative mt-10 mb-12 aspect-[16/8] overflow-hidden">
+        <div ref={heroRef} className="reveal-clip relative mt-10 mb-12 aspect-[16/8] overflow-hidden rounded-2xl">
           <img
             src="/images/story/tea-tasting.jpg"
             alt="A Dilmah tea tasting at Ceylon Stories — Marine Drive, Colombo"
@@ -66,7 +66,7 @@ export default function Story() {
           {/* Right column — founders portrait */}
           <aside className="md:col-span-5 flex flex-col">
             <span aria-hidden className="block w-full h-px bg-mahogany/25" />
-            <figure className="relative aspect-[4/5] overflow-hidden mt-6">
+            <figure className="relative aspect-[4/5] overflow-hidden rounded-2xl mt-6">
               <img
                 src="/images/story/founders.jpg"
                 alt="Founders Shazi Salim and Rumaiz Ramzy at Ceylon Stories"
