@@ -242,24 +242,25 @@ i,
   }
 }
 
-/* ─── Button06 — extending-arrow CTA ────────────────────────────────────────
-   Text rolls up on hover (::after clone slides in from below via data-text).
-   Right-side icon extends: mid bar grows, pushing the end cap rightward.
-   Background: gold-leaf → mahogany slides up.
-   ──────────────────────────────────────────────────────────────────────────── */
+/* ─── Button06 — glass CTA ─────────────────────────────────────────────────── */
 /* Webflow utility kept for compatibility */
 .w-inline-block { display: inline-flex; }
 
 .button06 {
   position: relative;
   display: inline-flex;
-  align-items: stretch;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
   overflow: hidden;
+  min-height: 54px;
+  padding: 0 30px;
   color: var(--color-ink-deep);
   background: rgba(255, 255, 255, 0.18);
   backdrop-filter: blur(14px) saturate(160%);
   -webkit-backdrop-filter: blur(14px) saturate(160%);
   border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 999px;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.5),
     inset 0 -1px 0 rgba(15, 8, 5, 0.04),
@@ -302,14 +303,10 @@ i,
 .button06:hover .button06_bg,
 .button06:focus-visible .button06_bg { transform: translateY(0); }
 
-/* Text area — clips the rolling text */
-.button06_inner {
+.button06_text {
+  display: inline-block;
   position: relative;
   z-index: 1;
-  display: inline-flex;
-  align-items: center;
-  padding: 14px 12px 14px 28px;
-  overflow: hidden;
   font-family: var(--font-editorial);
   font-size: 11px;
   font-weight: 400;
@@ -319,73 +316,21 @@ i,
   white-space: nowrap;
 }
 
-/* Clone text rolls in from below on hover */
-.button06_inner::after {
-  content: attr(data-text);
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  padding: 0 12px 0 28px;
-  font-family: var(--font-editorial);
-  font-size: 11px;
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 0.24em;
-  transform: translateY(110%);
-  transition: transform 480ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.button06_text {
-  display: inline-block;
-  transition: transform 480ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.button06:hover .button06_text,
-.button06:focus-visible .button06_text { transform: translateY(-110%); }
-
-.button06:hover .button06_inner::after,
-.button06:focus-visible .button06_inner::after { transform: translateY(0); }
-
-/* Icon — extending arrow on the right */
-.button06_icon {
+.button06_arrow {
   position: relative;
   z-index: 1;
-  display: flex;
-  align-items: stretch;
-  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+  color: var(--color-gold-leaf);
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.button06_icon-start,
-.button06_icon-end {
-  display: flex;
-  align-items: stretch;
-  flex-shrink: 0;
-}
-
-.button06_icon-svg {
-  display: block;
-  height: 100%;
-  width: auto;
-}
-
-/* Mid bar — starts at 0, expands on hover to push end cap right */
-.button06_icon-mid {
-  display: block;
-  width: 0;
-  background: currentColor;
-  flex-shrink: 0;
-  transition: width 500ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.button06:hover .button06_icon-mid,
-.button06:focus-visible .button06_icon-mid { width: 16px; }
+.button06:hover .button06_arrow,
+.button06:focus-visible .button06_arrow { transform: translateX(4px); }
 
 @media (prefers-reduced-motion: reduce) {
   .button06_bg,
-  .button06_text,
-  .button06_inner::after,
-  .button06_icon-mid { transition: none; }
+  .button06_arrow { transition: none; }
 }
 
 /* ─── Lounge page view toggle (InteractiveNav) ──────────────────────────────── */

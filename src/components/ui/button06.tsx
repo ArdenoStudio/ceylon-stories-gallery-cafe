@@ -1,40 +1,36 @@
 'use client';
 
 import React from 'react';
+import { ArrowRight } from 'lucide-react';
+import { cn } from '@/src/lib/utils';
 
 interface Button06Props {
   text?: string;
   href?: string;
   onClick?: () => void;
+  className?: string;
 }
 
-export const Button06 = ({ text = 'Reserve Your Table', href, onClick }: Button06Props) => {
+export const Button06 = ({ text = 'Reserve Your Table', href, onClick, className }: Button06Props) => {
   const inner = (
     <>
       <span className="button06_bg" aria-hidden />
-      <span data-text={text} className="button06_inner">
-        <span className="button06_text">{text}</span>
-      </span>
-      <span className="button06_icon" aria-hidden>
-        <span className="button06_icon-start">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 16" className="button06_icon-svg">
-            <path fill="currentColor" d="M1.113 9.327a2.065 2.065 0 0 1 0-2.654L6.4.37C6.596.135 6.886 0 7.191 0h.55v16h-.55c-.305 0-.595-.135-.79-.369L1.112 9.327Z" />
-          </svg>
-        </span>
-        <span className="button06_icon-mid" />
-        <span className="button06_icon-end">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 16" className="button06_icon-svg">
-            <path fill="currentColor" fillRule="evenodd" d="M5.288 1.696A1.032 1.032 0 0 0 4.497 0H1.032C.462 0 0 .462 0 1.032v13.936C0 15.538.462 16 1.032 16h3.465c.876 0 1.354-1.024.79-1.696L1.114 9.327a2.065 2.065 0 0 1 0-2.654l4.175-4.977Z" clipRule="evenodd" />
-            <path fill="currentColor" d="M0 0h1.548v1.548H0zM0 14.452h1.548V16H0z" />
-          </svg>
-        </span>
-      </span>
+      <span className="button06_text">{text}</span>
+      <ArrowRight className="button06_arrow" aria-hidden strokeWidth={1.6} />
     </>
   );
 
   if (href) {
-    return <a href={href} onClick={onClick} className="button06 w-inline-block">{inner}</a>;
+    return (
+      <a href={href} onClick={onClick} className={cn('button06 w-inline-block', className)}>
+        {inner}
+      </a>
+    );
   }
 
-  return <button type="button" onClick={onClick} className="button06 w-inline-block">{inner}</button>;
+  return (
+    <button type="button" onClick={onClick} className={cn('button06 w-inline-block', className)}>
+      {inner}
+    </button>
+  );
 };
