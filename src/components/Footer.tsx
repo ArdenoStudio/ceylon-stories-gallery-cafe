@@ -43,13 +43,17 @@ export default function Footer() {
           <div className="flex flex-col sm:flex-row gap-10 sm:gap-0 md:w-[62%]">
             <div className="flex-1">
               <h3 className="font-display text-[1.1rem] font-normal text-mahogany mb-5 leading-none">Explore</h3>
-              <nav className="flex flex-col gap-[0.65rem]">
+              <nav className="flex flex-col gap-[0.55rem]">
                 {[
                   { label: 'Home', href: '/' },
+                  { label: 'Our Story', href: '/our-story' },
                   { label: 'Menu', href: '/menu' },
-                  { label: 'Gallery', href: '/gallery' },
                   { label: 'Dilmah', href: '/dilmah' },
-                  { label: 'About', href: '/our-story' },
+                  { label: 'Experience', href: '/experience' },
+                  { label: 'Gallery', href: '/gallery' },
+                  { label: 'Shisha', href: '/shisha' },
+                  { label: 'Stories', href: '/stories' },
+                  { label: 'Visit Us', href: '/visit' },
                 ].map(({ label, href }) => (
                   <a key={label} href={href} className="font-editorial text-[8px] tracking-[0.22em] uppercase text-mahogany/55 hover:text-mahogany transition-colors w-max">
                     {label}
