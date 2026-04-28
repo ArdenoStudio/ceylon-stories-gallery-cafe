@@ -245,12 +245,11 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
                 </motion.p>
               ) : null}
 
-              <motion.div className="mt-10 grid w-full max-w-[620px] grid-cols-1 gap-4 sm:grid-cols-2" variants={itemVariants}>
+              <motion.div className="mt-10 flex flex-wrap items-center gap-4" variants={itemVariants}>
                 <Button06
                   text={callToAction.text}
                   href={callToAction.href}
                   onClick={callToAction.onClick}
-                  className="w-full"
                 />
 
                 {secondaryCallToAction ? (
@@ -258,7 +257,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
                     href={secondaryCallToAction.href}
                     target={shouldOpenExternally(secondaryCallToAction.href) ? '_blank' : undefined}
                     rel={shouldOpenExternally(secondaryCallToAction.href) ? 'noreferrer' : undefined}
-                    className="group inline-flex min-h-[54px] w-full items-center justify-center gap-3 overflow-hidden rounded-full border border-white/40 bg-white/15 px-7 font-editorial text-[11px] uppercase tracking-[0.24em] text-mahogany backdrop-blur-md backdrop-saturate-150 shadow-[inset_0_1px_0_rgba(255,255,255,0.5),inset_0_-1px_0_rgba(15,8,5,0.04),0_10px_28px_rgba(15,8,5,0.14)] transition-all duration-500 hover:border-white/60 hover:bg-white/25 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.65),inset_0_-1px_0_rgba(15,8,5,0.05),0_16px_36px_rgba(15,8,5,0.2)]"
+                    className="group inline-flex min-h-[46px] items-center justify-center gap-3 overflow-hidden rounded-lg border border-white/40 bg-white/15 px-6 font-editorial text-[11px] uppercase tracking-[0.24em] text-mahogany backdrop-blur-md backdrop-saturate-150 shadow-[inset_0_1px_0_rgba(255,255,255,0.5),inset_0_-1px_0_rgba(15,8,5,0.04),0_10px_28px_rgba(15,8,5,0.14)] transition-all duration-500 hover:border-white/60 hover:bg-white/25 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.65),inset_0_-1px_0_rgba(15,8,5,0.05),0_16px_36px_rgba(15,8,5,0.2)]"
                   >
                     <span>{secondaryCallToAction.text}</span>
                     <ArrowRight className="h-3.5 w-3.5 text-gold-leaf transition-transform duration-500 group-hover:translate-x-1" />
