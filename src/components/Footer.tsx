@@ -21,7 +21,8 @@ export default function Footer() {
       {/* Outer frame — sharp corners */}
       <div className="border border-mahogany/30 p-[6px]">
         {/* Inner frame — rounded corners */}
-        <div className="border border-mahogany/30 rounded-[10px] p-8 md:p-12 lg:p-14 flex flex-col md:flex-row gap-12 md:gap-0 min-h-[340px]">
+        <div className="border border-mahogany/30 rounded-[10px] p-8 md:p-12 lg:p-14 flex flex-col min-h-[340px]">
+          <div className="flex flex-col md:flex-row gap-12 md:gap-0 flex-1">
 
           {/* LEFT — monogram + social pinned to bottom */}
           <div className="md:w-[38%] flex flex-col justify-between">
@@ -81,7 +82,11 @@ export default function Footer() {
               </div>
             </div>
           </div>
+          </div>
 
+          <p className="mt-auto pt-8 text-center font-editorial text-[8px] tracking-[0.3em] uppercase text-mahogany/20">
+            An <a href="https://ardeno-studio-website.vercel.app" target="_blank" rel="noopener noreferrer" className="hover:text-mahogany/40 transition-colors">Ardeno Studio</a> Production
+          </p>
         </div>
       </div>
 
@@ -103,10 +108,6 @@ export default function Footer() {
           />
         </div>
       </div>
-
-      <p className="text-center font-editorial text-[8px] tracking-[0.3em] uppercase text-mahogany/25 mt-5">
-        An <a href="https://ardeno-studio-website.vercel.app" target="_blank" rel="noopener noreferrer" className="hover:text-mahogany/45 transition-colors">Ardeno Studio</a> Production
-      </p>
     </footer>
   );
 }
