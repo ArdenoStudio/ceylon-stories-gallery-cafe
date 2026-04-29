@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { TiltCard } from './ui/tilt-card';
-import dilmahLogo from '@/assets/dilmah-logo.svg';
+import dilmahLogo from '../../assets/dilmah-logo.svg';
 
 export default function Hero({ isLoaded }: { isLoaded: boolean }) {
   return (

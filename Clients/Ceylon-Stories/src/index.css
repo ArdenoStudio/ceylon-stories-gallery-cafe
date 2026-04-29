@@ -1,0 +1,83 @@
+@import "tailwindcss";
+@import "@fontsource-variable/fraunces";
+@import "@fontsource/tenor-sans";
+@import "@fontsource/inter";
+
+@theme {
+  --color-clay-deep: #8b3a1f;
+  --color-clay-warm: #b5552e;
+  --color-clay-rust: #7a3820;
+  --color-cream-page: #f4ecdc;
+  --color-cream-paper: #ebe0ca;
+  --color-mahogany: #2a1810;
+  --color-mahogany-soft: #4a2e20;
+  --color-ink-night: #1a0f0a;
+  --color-ink-deep: #0f0805;
+  --color-forest: #2f3e2a;
+  --color-sage: #6b7a5a;
+  --color-sage-deep: #4a5a3d;
+  --color-gold-leaf: #b8924a;
+
+  --color-background: #f4ecdc;
+  --color-foreground: #2a1810;
+  --color-card: #f4ecdc;
+  --color-border: #d4c8b0;
+
+  --font-display: "Fraunces Variable", "Georgia", serif;
+  --font-editorial: "Tenor Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
+
+  --shadow-ink: 0 4px 20px rgba(42, 24, 16, 0.08);
+  --shadow-ornament: 0 2px 8px rgba(139, 58, 31, 0.12);
+}
+
+@layer base {
+  *, ::before, ::after { border-color: var(--color-border); }
+
+  html { scrollbar-width: none; -ms-overflow-style: none; }
+  html::-webkit-scrollbar { display: none; }
+
+  body {
+    @apply bg-cream-page text-mahogany font-body;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  body::-webkit-scrollbar { display: none; }
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { scrollbar-width: none; -ms-overflow-style: none; }
+
+  .photo-heritage {
+    filter: saturate(0.88) contrast(1.06) brightness(0.97);
+  }
+
+  .glass-filter-bar {
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    box-shadow: 0 2px 16px rgba(42, 24, 16, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  }
+
+  .glass-pill {
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    box-shadow: 0 1px 4px rgba(42, 24, 16, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    transition: all 0.25s ease;
+  }
+
+  .glass-pill:hover {
+    background: rgba(255, 255, 255, 0.48);
+    border-color: rgba(255, 255, 255, 0.7);
+  }
+
+  .glass-pill-active {
+    background: rgba(42, 24, 16, 0.88);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(42, 24, 16, 0.2);
+    box-shadow: 0 2px 8px rgba(42, 24, 16, 0.2);
+  }
+}
