@@ -1,0 +1,5 @@
+{
+  "installCommand": "npm --prefix Clients/Ceylon-Stories install",
+  "buildCommand": "npm --prefix Clients/Ceylon-Stories run build",
+  "outputDirectory": "Clients/Ceylon-Stories/dist"
+}
