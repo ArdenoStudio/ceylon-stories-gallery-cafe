@@ -43,8 +43,8 @@ const defaultNavItems: iNavItem[] = [
 	{ heading: "Menu", href: "/menu", subheading: "Food, beverages, Dilmah tea" },
 	{ heading: "Dilmah", href: "/dilmah", subheading: "Ceylon tea — brand & story" },
 	{ heading: "The Gallery", href: "/gallery", subheading: "Monthly rotating artist feature" },
-	{ heading: "Experience", href: "/experience", subheading: "Tea tastings, shisha lounge" },
-	{ heading: "Stories", href: "/stories", subheading: "Editorial blog & heritage" },
+	{ heading: "Experience", href: "/experience", subheading: "Tea tastings & cultural events" },
+	{ heading: "Shisha", href: "/shisha", subheading: "Premium shisha lounge" },
 	{ heading: "Visit Us", href: "/visit", subheading: "Location, hours & reservations" },
 	{ heading: "Contact", href: "/contact", subheading: "Inquiry form & social links" },
 ];
@@ -289,7 +289,7 @@ export default function CurvedMenuHeader({
 			<div className="relative pointer-events-auto">
 				<div
 					onClick={handleClick}
-					className="fixed right-6 top-6 md:right-12 md:top-8 z-50 w-14 h-14 rounded-full flex items-center justify-center cursor-pointer bg-cream-paper border border-mahogany/20 hover:bg-cream-page transition-colors duration-300 shadow-ink"
+					className="fixed right-6 top-6 md:right-12 md:top-8 z-50 w-14 h-14 rounded-full flex items-center justify-center cursor-pointer bg-cream-paper border border-mahogany/20 hover:bg-cream-page transition-colors duration-300 shadow-ink lg:hidden"
 				>
 					<div className="relative w-6 h-4 flex flex-col justify-between items-center">
 						<span

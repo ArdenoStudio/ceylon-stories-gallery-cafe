@@ -2,38 +2,45 @@
 
 import { HeroSection } from './ui/hero-section-2';
 import { useReservation } from './ReservationProvider';
+import { heroContent } from '@/src/content/hero';
 
 export default function Hero() {
   const { openReservation } = useReservation();
+  const c = heroContent;
 
   return (
     <HeroSection
-      slogan="Marine Drive · Colombo 03 · Gallery Cafe"
+      slogan={c.slogan}
       title={
         <>
-          Ceylon Tea.<br />
-          Curated Art.<br />
-          <span className="italic text-gold-leaf">Stay a little longer.</span>
+          {c.title.line1}
+          <br />
+          {c.title.line2}
         </>
       }
-      subtitle="On Marine Drive, Ceylon Stories pairs single-estate brews with rotating works, warm plates, and the kind of afternoon you do not rush."
-      hours="Open Daily · 8:00 AM — 10:00 PM"
+      tagline={c.tagline}
+      subtitle={c.subtitle}
+      hours={c.hours.label}
+      liveHours={{
+        openHour: c.hours.open,
+        closeHour: c.hours.close,
+        openLabel: c.hours.openNowLabel,
+        closedLabel: c.hours.closedLabel,
+        timezone: c.hours.timezone,
+      }}
       callToAction={{
-        text: 'Reserve Your Table',
+        text: c.primaryCta,
         onClick: openReservation,
       }}
-      secondaryCallToAction={{
-        text: 'Browse the Menu',
-        href: '#menu',
-      }}
-      backgroundImage="/dilmah-bg.png"
-      accentImage="/dilmah-logo.png"
-      establishedYear="24"
-      contactInfo={{
-        website: 'ceylonstories.lk',
-        phone: '+94 77 000 0000',
-        address: 'Marine Drive, Colombo 03',
-      }}
+      secondaryCallToAction={c.secondaryCta}
+      backgroundImage={c.background}
+      panelImage={c.panel.image}
+      panelImageAlt={c.panel.alt}
+      accentImage={c.panel.logo}
+      accentImageAlt={c.panel.logoAlt}
+      establishedYear={c.established.display}
+      establishedPrefix={c.established.prefix}
+      contactInfo={c.contact}
     />
   );
 }

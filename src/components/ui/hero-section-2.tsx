@@ -1,53 +1,104 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { cn } from '../../lib/utils';
 import { motion, type Variants, useReducedMotion } from 'motion/react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ChevronDown, Globe, MapPin, Phone } from 'lucide-react';
 import { Motif } from '@/src/components/heritage/Motif';
+import { TiltCard } from './tilt-card';
+import { Button06 } from './button06';
 
 const InfoIcon = ({ type }: { type: 'website' | 'phone' | 'address' }) => {
-  const icons = {
-    website: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 text-gold-leaf">
-        <circle cx="12" cy="12" r="10"></circle>
-        <line x1="2" x2="22" y1="12" y2="12"></line>
-        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-      </svg>
-    ),
-    phone: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 text-gold-leaf">
-        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-      </svg>
-    ),
-    address: (
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 text-gold-leaf">
-        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
-        <circle cx="12" cy="10" r="3"></circle>
-      </svg>
-    ),
-  };
-  return <div className="mr-2 flex-shrink-0">{icons[type]}</div>;
+  const Icon = { website: Globe, phone: Phone, address: MapPin }[type];
+  return (
+    <div className="mr-2 flex-shrink-0">
+      <Icon className="h-4 w-4 text-gold-leaf" strokeWidth={1.75} />
+    </div>
+  );
 };
+
+interface LiveHours {
+  openHour: number;
+  closeHour: number;
+  openLabel: string;
+  closedLabel: string;
+  timezone?: string;
+}
 
 interface HeroSectionProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   logo?: { url: string; alt: string; text?: string };
   slogan?: string;
   title: React.ReactNode;
+  tagline?: string;
   subtitle: string;
   hours?: string;
+  liveHours?: LiveHours;
   callToAction: { text: string; href?: string; onClick?: () => void };
   secondaryCallToAction?: { text: string; href: string };
   backgroundImage: string;
+  panelImage?: string;
+  panelImageAlt?: string;
   accentImage?: string;
+  accentImageAlt?: string;
   establishedYear?: string;
+  establishedPrefix?: string;
   contactInfo: { website: string; phone: string; address: string };
 }
 
+function useLiveOpenStatus(live: LiveHours | undefined) {
+  const [mounted, setMounted] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (!live) return;
+    const compute = () => {
+      const fmt = new Intl.DateTimeFormat('en-US', {
+        hour: 'numeric',
+        hour12: false,
+        timeZone: live.timezone ?? 'Asia/Colombo',
+      });
+      const hour = parseInt(fmt.format(new Date()), 10);
+      setIsOpen(hour >= live.openHour && hour < live.closeHour);
+    };
+    compute();
+    setMounted(true);
+    const id = setInterval(compute, 60_000);
+    return () => clearInterval(id);
+  }, [live]);
+
+  return { mounted, isOpen };
+}
+
 const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
-  ({ className, logo, slogan, title, subtitle, hours, callToAction, secondaryCallToAction, backgroundImage, accentImage, establishedYear, contactInfo, ...props }, ref) => {
+  (
+    {
+      className,
+      logo,
+      slogan,
+      title,
+      tagline,
+      subtitle,
+      hours,
+      liveHours,
+      callToAction,
+      secondaryCallToAction,
+      backgroundImage,
+      panelImage,
+      panelImageAlt,
+      accentImage,
+      accentImageAlt,
+      establishedYear,
+      establishedPrefix,
+      contactInfo,
+      ...props
+    },
+    ref,
+  ) => {
     const prefersReducedMotion = useReducedMotion();
     const shouldOpenExternally = (href: string) => href.startsWith('http');
+    const { mounted: hoursMounted, isOpen } = useLiveOpenStatus(liveHours);
+
     const containerVariants: Variants = {
       hidden: { opacity: 0 },
       visible: {
@@ -75,13 +126,17 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
       },
     };
 
-    const badgeVariants: Variants = {
-      hidden: prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 14 },
-      visible: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.8, delay: 0.38, ease: [0.16, 1, 0.3, 1] },
-      },
+    const hoursLabel = liveHours && hoursMounted
+      ? (isOpen ? liveHours.openLabel : liveHours.closedLabel)
+      : hours;
+    const hoursDotClass = liveHours && hoursMounted
+      ? (isOpen ? 'bg-emerald-500 shadow-[0_0_0_3px_rgba(16,185,129,0.18)]' : 'bg-mahogany/30')
+      : 'bg-gold-leaf';
+
+    const scrollDown = () => {
+      if (typeof window !== 'undefined') {
+        window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+      }
     };
 
     return (
@@ -89,7 +144,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
         ref={ref}
         className={cn(
           'relative isolate flex w-full min-h-[100svh] flex-col overflow-hidden bg-cream-page text-mahogany',
-          className
+          className,
         )}
         initial="hidden"
         animate="visible"
@@ -98,16 +153,21 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
       >
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(140%_120%_at_15%_0%,rgba(245,237,220,0.95)_0%,rgba(244,236,220,0.84)_38%,rgba(228,214,186,0.8)_100%)]" />
         <motion.div
-          className="pointer-events-none absolute inset-0 opacity-45 mix-blend-multiply"
-          style={{
-            backgroundImage: `url(${backgroundImage})`,
-            backgroundPosition: 'center',
-            backgroundSize: 'cover',
-          }}
+          className="pointer-events-none absolute inset-0 mix-blend-multiply"
           initial={prefersReducedMotion ? { opacity: 0.45 } : { opacity: 0.2, scale: 1.05 }}
           animate={prefersReducedMotion ? { opacity: 0.45 } : { opacity: 0.45, scale: 1 }}
           transition={{ duration: prefersReducedMotion ? 0 : 1.2, ease: [0.16, 1, 0.3, 1] }}
-        />
+        >
+          <Image
+            src={backgroundImage}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            quality={70}
+            className="object-cover"
+          />
+        </motion.div>
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(244,236,220,0.06)_0%,rgba(244,236,220,0.18)_45%,rgba(42,24,16,0.2)_100%)]" />
         <div className="pointer-events-none absolute inset-y-0 left-[58%] hidden w-px bg-gradient-to-b from-transparent via-gold-leaf/30 to-transparent lg:block" />
 
@@ -126,7 +186,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
               <div className="flex flex-col gap-3">
                 {logo ? (
                   <div className="flex items-center gap-3">
-                    <img src={logo.url} alt={logo.alt} className="h-8 w-auto opacity-90" />
+                    <Image src={logo.url} alt={logo.alt} width={120} height={32} className="h-8 w-auto opacity-90" />
                     {logo.text ? (
                       <span className="font-editorial text-[11px] uppercase tracking-[0.24em] text-mahogany/70">{logo.text}</span>
                     ) : null}
@@ -139,11 +199,9 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
                     {slogan}
                   </p>
                 ) : null}
-              </div>
-
-              <div className="hidden items-center gap-3 rounded-full border border-gold-leaf/35 bg-cream-paper/70 px-5 py-2.5 backdrop-blur-sm md:inline-flex">
-                <span className="h-2 w-2 rounded-full bg-forest/80" />
-                <span className="font-editorial text-[10px] uppercase tracking-[0.24em] text-mahogany/65">Open Today</span>
+                {establishedPrefix && establishedYear ? (
+                  <span className="sr-only">{`${establishedPrefix} ${establishedYear}`}</span>
+                ) : null}
               </div>
             </motion.header>
 
@@ -154,6 +212,15 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
               >
                 {title}
               </motion.h1>
+
+              {tagline ? (
+                <motion.p
+                  className="mt-2 font-display text-[clamp(50px,8vw,118px)] font-light italic leading-[0.88] tracking-[-0.03em] text-gold-leaf whitespace-nowrap"
+                  variants={itemVariants}
+                >
+                  {tagline}
+                </motion.p>
+              ) : null}
 
               <motion.div
                 className="my-8 h-px w-24 bg-gradient-to-r from-gold-leaf/0 via-gold-leaf/90 to-gold-leaf/20 lg:my-10"
@@ -167,46 +234,32 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
                 {subtitle}
               </motion.p>
 
-              {hours ? (
+              {hoursLabel ? (
                 <motion.p
                   className="mt-8 inline-flex items-center gap-3 rounded-full border border-mahogany/15 bg-cream-paper/65 px-5 py-2.5 font-editorial text-[10px] uppercase tracking-[0.24em] text-mahogany/60 backdrop-blur-sm"
                   variants={itemVariants}
+                  aria-live={liveHours ? 'polite' : undefined}
                 >
-                  <span className="h-1.5 w-1.5 rounded-full bg-gold-leaf" />
-                  {hours}
+                  <span className={cn('h-1.5 w-1.5 rounded-full transition-colors duration-500', hoursDotClass)} />
+                  {hoursLabel}
                 </motion.p>
               ) : null}
 
-              <motion.div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4" variants={itemVariants}>
-                {callToAction.href ? (
-                  <a
-                    href={callToAction.href}
-                    onClick={callToAction.onClick}
-                    target={shouldOpenExternally(callToAction.href) ? '_blank' : undefined}
-                    rel={shouldOpenExternally(callToAction.href) ? 'noreferrer' : undefined}
-                    className="group inline-flex items-center gap-3 border border-gold-leaf/80 bg-gold-leaf px-7 py-3.5 font-editorial text-[11px] uppercase tracking-[0.24em] text-ink-deep transition-colors duration-500 hover:bg-mahogany hover:text-cream-page"
-                  >
-                    <span>{callToAction.text}</span>
-                    <ArrowRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover:translate-x-1" />
-                  </a>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={callToAction.onClick}
-                    className="group inline-flex items-center gap-3 border border-gold-leaf/80 bg-gold-leaf px-7 py-3.5 font-editorial text-[11px] uppercase tracking-[0.24em] text-ink-deep transition-colors duration-500 hover:bg-mahogany hover:text-cream-page"
-                  >
-                    <span>{callToAction.text}</span>
-                    <ArrowRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover:translate-x-1" />
-                  </button>
-                )}
+              <motion.div className="mt-10 flex flex-wrap items-center gap-4" variants={itemVariants}>
+                <Button06
+                  text={callToAction.text}
+                  href={callToAction.href}
+                  onClick={callToAction.onClick}
+                />
+
                 {secondaryCallToAction ? (
                   <a
                     href={secondaryCallToAction.href}
                     target={shouldOpenExternally(secondaryCallToAction.href) ? '_blank' : undefined}
                     rel={shouldOpenExternally(secondaryCallToAction.href) ? 'noreferrer' : undefined}
-                    className="group inline-flex items-center gap-2 font-editorial text-[10px] uppercase tracking-[0.24em] text-mahogany/70"
+                    className="group inline-flex min-h-[46px] items-center justify-center gap-3 overflow-hidden rounded-lg border border-white/40 bg-white/15 px-6 font-editorial text-[11px] uppercase tracking-[0.24em] text-mahogany backdrop-blur-md backdrop-saturate-150 shadow-[inset_0_1px_0_rgba(255,255,255,0.5),inset_0_-1px_0_rgba(15,8,5,0.04),0_10px_28px_rgba(15,8,5,0.14)] transition-all duration-500 hover:border-white/60 hover:bg-white/25 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.65),inset_0_-1px_0_rgba(15,8,5,0.05),0_16px_36px_rgba(15,8,5,0.2)]"
                   >
-                    <span className="border-b border-mahogany/25 pb-1 transition-colors group-hover:border-gold-leaf">{secondaryCallToAction.text}</span>
+                    <span>{secondaryCallToAction.text}</span>
                     <ArrowRight className="h-3.5 w-3.5 text-gold-leaf transition-transform duration-500 group-hover:translate-x-1" />
                   </a>
                 ) : null}
@@ -232,24 +285,28 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
             </motion.footer>
           </div>
 
-          <div className="relative flex min-h-[48vh] items-end px-6 pb-10 sm:px-10 lg:col-span-5 lg:min-h-[100svh] lg:px-[clamp(32px,4vw,76px)] lg:pb-14">
+          <div className="relative flex min-h-[48vh] items-center px-6 pb-10 sm:px-10 lg:col-span-5 lg:min-h-[100svh] lg:px-[clamp(16px,2.5vw,52px)] lg:pb-10 lg:pt-9">
             <motion.div
-              className="relative isolate w-full overflow-hidden border border-gold-leaf/35 bg-ink-deep/65 shadow-[0_24px_70px_rgba(25,14,9,0.32)]"
+              role="img"
+              aria-label={panelImageAlt ?? 'Featured pairing'}
+              className="relative isolate w-full overflow-hidden rounded-2xl border border-gold-leaf/35 bg-ink-deep/65 shadow-[0_24px_70px_rgba(25,14,9,0.32)]"
               variants={panelVariants}
             >
-              <div className="aspect-[16/10] w-full sm:aspect-[5/4] lg:aspect-[4/5]" />
-              <motion.div
-                className="pointer-events-none absolute inset-0"
-                style={{
-                  backgroundImage: `url(${backgroundImage})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  filter: 'sepia(0.28) saturate(0.85) contrast(1.05)',
-                }}
-                initial={prefersReducedMotion ? { scale: 1 } : { scale: 1.08 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: prefersReducedMotion ? 0 : 8, ease: 'linear' }}
-              />
+              <div className="aspect-[4/3] w-full sm:aspect-[5/4] lg:aspect-[3/4]" />
+              {panelImage ? (
+                <div className={cn('pointer-events-none absolute inset-0', !prefersReducedMotion && 'hero-panel-drift')}>
+                  <Image
+                    src={panelImage}
+                    alt=""
+                    fill
+                    priority
+                    sizes="(min-width: 1024px) 42vw, 100vw"
+                    quality={75}
+                    className="object-cover"
+                    style={{ filter: 'sepia(0.18) saturate(0.9) contrast(1.05)' }}
+                  />
+                </div>
+              ) : null}
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_15%_15%,rgba(248,240,221,0.14)_0%,rgba(31,18,12,0.72)_100%)]" />
               <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(15,8,5,0.12)_0%,rgba(15,8,5,0.6)_70%,rgba(15,8,5,0.82)_100%)]" />
               <Motif
@@ -261,30 +318,67 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
                 className="pointer-events-none absolute bottom-6 left-5 h-20 w-20 rotate-[12deg] text-cream-page/30 sm:h-24 sm:w-24"
               />
               <motion.div
-                className="absolute bottom-6 left-6 right-6 border border-cream-page/20 bg-ink-night/55 px-5 py-4 backdrop-blur-[3px]"
+                className="absolute bottom-6 left-6 right-6 hidden sm:block"
                 variants={itemVariants}
               >
-                <p className="font-editorial text-[9px] uppercase tracking-[0.3em] text-gold-leaf/90">Now Pouring</p>
-                <p className="mt-2 font-display text-[clamp(20px,2.8vw,34px)] leading-none text-cream-page">Dilmah Reserve Pairings</p>
+                <div className="relative border border-gold-leaf/50 bg-gradient-to-b from-ink-night/72 via-ink-night/68 to-ink-deep/85 px-4 py-4 sm:px-6 sm:py-5 backdrop-blur-[4px] shadow-[0_22px_52px_rgba(10,6,4,0.55)]">
+                  <div aria-hidden className="pointer-events-none absolute inset-[5px] border border-cream-page/10" />
+                  <span aria-hidden className="pointer-events-none absolute -left-[3px] -top-[3px] h-2.5 w-2.5 border-l-2 border-t-2 border-gold-leaf" />
+                  <span aria-hidden className="pointer-events-none absolute -right-[3px] -top-[3px] h-2.5 w-2.5 border-r-2 border-t-2 border-gold-leaf" />
+                  <span aria-hidden className="pointer-events-none absolute -bottom-[3px] -left-[3px] h-2.5 w-2.5 border-b-2 border-l-2 border-gold-leaf" />
+                  <span aria-hidden className="pointer-events-none absolute -bottom-[3px] -right-[3px] h-2.5 w-2.5 border-b-2 border-r-2 border-gold-leaf" />
+
+                  <div className="relative flex items-center justify-between gap-3 sm:gap-4">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2.5">
+                        <span aria-hidden className="h-px w-5 bg-gradient-to-r from-transparent to-gold-leaf/80" />
+                        <p className="font-editorial text-[9px] uppercase tracking-[0.38em] text-gold-leaf/95">Now Pouring</p>
+                      </div>
+                      <p className="mt-2.5 font-display text-[clamp(15px,4vw,36px)] leading-[1.05] text-cream-page">
+                        Dilmah <span style={{ fontStyle: 'italic' }} className="text-gold-leaf">Reserve</span> Pairings
+                      </p>
+                    </div>
+                    {accentImage && (
+                      <>
+                        <span aria-hidden className="hidden h-14 w-px bg-gradient-to-b from-transparent via-gold-leaf/45 to-transparent sm:block" />
+                        <TiltCard tiltLimit={10} scale={1.05} effect="gravitate" spotlight={false} className="flex-shrink-0 w-11 h-11 sm:w-14 sm:h-14 lg:w-16 lg:h-16">
+                          <Image
+                            src={accentImage}
+                            alt={accentImageAlt ?? 'Featured brand'}
+                            width={64}
+                            height={64}
+                            className="h-full w-full object-contain drop-shadow-[0_6px_18px_rgba(184,146,74,0.45)]"
+                          />
+                        </TiltCard>
+                      </>
+                    )}
+                  </div>
+                </div>
               </motion.div>
             </motion.div>
 
-            {accentImage ? (
-              <motion.div
-                className="absolute -top-3 right-8 z-20 h-20 w-20 sm:h-24 sm:w-24 lg:-right-5 lg:bottom-16 lg:top-auto lg:h-28 lg:w-28"
-                variants={badgeVariants}
-              >
-                <div className="absolute inset-0 rounded-full bg-gold-leaf/30 blur-xl" />
-                <div className="relative h-full w-full overflow-hidden rounded-full border border-gold-leaf/45 bg-cream-paper p-2.5 shadow-[0_10px_26px_rgba(15,8,5,0.28)]">
-                  <img src={accentImage} alt="Dilmah reserve seal" className="h-full w-full object-contain" />
-                </div>
-              </motion.div>
-            ) : null}
           </div>
         </div>
+
+        {!prefersReducedMotion && (
+          <motion.button
+            type="button"
+            onClick={scrollDown}
+            aria-label="Scroll to next section"
+            className="group absolute bottom-6 left-1/2 z-20 hidden -translate-x-1/2 flex-col items-center gap-2 text-mahogany/55 transition-colors duration-500 hover:text-mahogany lg:flex"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.6, duration: 0.8 }}
+          >
+            <span className="font-editorial text-[9px] uppercase tracking-[0.32em]">Scroll</span>
+            <span aria-hidden className="chevron-bounce">
+              <ChevronDown className="h-4 w-4 text-gold-leaf" />
+            </span>
+          </motion.button>
+        )}
       </motion.section>
     );
-  }
+  },
 );
 
 HeroSection.displayName = 'HeroSection';

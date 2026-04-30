@@ -1,7 +1,0 @@
-{
-  "framework": "vite",
-  "name": "ardeno-urban-kitchen",
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
-}

@@ -1,95 +1,113 @@
 'use client';
 
-import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'motion/react';
-import { Motif } from './heritage/Motif';
+import Link from 'next/link';
+import { Clock, Flame, GlassWater, Moon } from 'lucide-react';
+import { useReveal } from '@/src/hooks/useReveal';
+
+const notes = [
+  { icon: Moon, label: 'Low Light', body: 'A slower room for the second half of the evening.' },
+  { icon: Flame, label: 'Shisha Ritual', body: 'Imported blends prepared with brass, charcoal, and patience.' },
+  { icon: GlassWater, label: 'Tea & Cold Drinks', body: 'Pair the lounge with chai, iced coffee, or a long lemonade.' },
+];
 
 export default function Lounge() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-
-  const y1 = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-  const y2 = useTransform(scrollYProgress, [0, 1], ["0%", "-20%"]);
+  const copyRef = useReveal('-10%');
+  const imageRef = useReveal('-12%');
+  const notesRef = useReveal('-12%');
 
   return (
-    <section ref={containerRef} id="experience" className="relative w-full min-h-[90svh] bg-ink-night overflow-hidden flex items-center justify-center py-32 px-6">
+    <section
+      id="experience"
+      className="relative w-full overflow-hidden bg-ink-night py-[clamp(76px,11vh,136px)] text-cream-page"
+    >
+      <div className="absolute inset-x-0 top-0 h-px bg-gold-leaf/20" />
+      <div className="absolute -left-24 top-20 h-72 w-72 rounded-full bg-clay-warm/10 blur-3xl" />
+      <div className="absolute bottom-0 right-0 h-96 w-96 bg-[radial-gradient(circle_at_center,rgba(184,146,74,0.16),transparent_62%)]" />
 
-      {/* Background Ambience */}
-      <div className="absolute inset-0 bg-ink-deep mix-blend-multiply pointer-events-none z-10" />
-      <div className="absolute inset-0 shadow-[inset_0_0_200px_rgba(0,0,0,0.8)] z-20 pointer-events-none" />
+      <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 md:px-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+        <div ref={copyRef} className="reveal-up">
+          <p className="mb-5 flex items-center gap-3 font-editorial text-[10px] uppercase tracking-[0.34em] text-gold-leaf">
+            <span className="h-px w-8 bg-gold-leaf/45" />
+            04 · The Lounge
+          </p>
+          <h2 className="font-display text-[clamp(48px,7vw,104px)] font-light leading-[0.9] tracking-[-0.02em]">
+            After dusk,
+            <br />
+            <i className="text-clay-warm">stay awhile.</i>
+          </h2>
+          <p className="mt-7 max-w-md font-body text-[15px] leading-[1.85] text-cream-page/68">
+            A quieter corner of Ceylon Stories for shisha, soft conversation, and unhurried cups.
+            Dark timber, tea smoke, brass details, and a pace that belongs to the evening.
+          </p>
 
-      {/* Botanical drift — frangipani behind Kolpetty Nights text */}
-      <Motif
-        name="frangipani"
-        className="pointer-events-none absolute -bottom-10 -right-10 h-[360px] w-[360px] text-clay-warm/20 z-10"
-      />
-      <Motif
-        name="fern-frond"
-        className="pointer-events-none absolute top-16 left-8 h-40 w-40 text-gold-leaf/15 z-10 hidden md:block"
-      />
+          <div className="mt-9 flex flex-wrap gap-3">
+            <Link
+              href="/shisha"
+              className="inline-flex min-h-12 items-center rounded-full bg-cream-page px-6 font-editorial text-[10px] uppercase tracking-[0.24em] text-mahogany transition-colors hover:bg-gold-leaf"
+            >
+              Shisha Menu
+            </Link>
+            <Link
+              href="/visit"
+              className="inline-flex min-h-12 items-center rounded-full border border-cream-page/25 px-6 font-editorial text-[10px] uppercase tracking-[0.24em] text-cream-page transition-colors hover:border-gold-leaf hover:text-gold-leaf"
+            >
+              Visit the Lounge
+            </Link>
+          </div>
+        </div>
 
-      <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative z-30">
-        
-        {/* Left Side Typography Overlap */}
-        <div className="md:col-span-7 flex flex-col items-start relative z-20 md:-mr-20 lg:-mr-32 mt-12 md:mt-0 order-2 md:order-1">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <p className="font-editorial text-[9px] md:text-[10px] tracking-[0.3em] uppercase text-clay-warm mb-8 flex items-center gap-4">
-              <span className="w-12 h-[1px] bg-clay-warm" /> 04 — THE LOUNGE
-            </p>
-            <h2 className="font-display italic font-light text-cream-page/90 text-[clamp(56px,8vw,120px)] leading-[0.85] tracking-[-0.02em] mix-blend-screen drop-shadow-2xl">
-              After six, <br />
-              <span className="text-gold-leaf not-italic font-normal">the room</span> <br />
-              turns amber.
-            </h2>
-            <div className="mt-12 flex items-center gap-8 border-l border-gold-leaf/20 pl-6 max-w-md">
-              <p className="font-body text-sm text-cream-page/60 leading-[1.8] uppercase tracking-wider">
-                Our evening lounge pairs imported shisha blends with an understated, slow ambiance. Strictly reserved for evenings.
-              </p>
+        <div ref={imageRef} className="reveal-inset relative">
+          <div className="grid grid-cols-[0.72fr_1fr] gap-4 sm:gap-5">
+            <div className="mt-16 flex flex-col gap-4 sm:gap-5">
+              <div className="border border-gold-leaf/20 bg-mahogany/50 p-4">
+                <Clock className="mb-6 h-5 w-5 text-gold-leaf" strokeWidth={1.5} />
+                <p className="font-editorial text-[9px] uppercase tracking-[0.26em] text-cream-page/48">
+                  Best After
+                </p>
+                <p className="mt-2 font-display text-3xl text-cream-page">7 PM</p>
+              </div>
+              <div className="aspect-[4/5] overflow-hidden border border-gold-leaf/20">
+                <img
+                  src="/images/story/tea-tasting.jpg"
+                  alt="Tea service at Ceylon Stories"
+                  className="h-full w-full object-cover photo-heritage-deep"
+                />
+              </div>
             </div>
-          </motion.div>
+            <div className="space-y-4 sm:space-y-5">
+              <div className="aspect-[4/5] overflow-hidden border border-gold-leaf/20">
+                <img
+                  src="/images/story/team.jpg"
+                  alt="Ceylon Stories cafe team"
+                  className="h-full w-full object-cover photo-heritage-deep"
+                />
+              </div>
+              <div className="border border-gold-leaf/20 bg-cream-page p-5 text-mahogany">
+                <p className="font-display text-3xl leading-none">Brass, smoke, tea.</p>
+                <p className="mt-3 font-body text-xs leading-relaxed text-mahogany/62">
+                  A lounge treatment that feels connected to the gallery cafe, not a generic hotel bar.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Right Side Parallax Image Block */}
-        <div className="md:col-span-5 relative z-10 order-1 md:order-2 h-[50vh] md:h-[80vh] w-full">
-          <motion.div 
-            className="w-full h-full absolute inset-0 overflow-hidden"
-            initial={{ clipPath: "scale(0.9) inset(20% 0% 0% 0%)" }}
-            whileInView={{ clipPath: "scale(1) inset(0% 0% 0% 0%)" }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 1.5, ease: [0.76, 0, 0.24, 1] }}
-          >
-            <motion.img
-              src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop"
-              alt="Shisha lounge at night glowing in amber light"
-              referrerPolicy="no-referrer"
-              className="w-full h-full object-cover photo-heritage-deep"
-              style={{ y: y2, scale: 1.2 }}
-            />
-            {/* Edge mask for the image block to softly blend */}
-            <div className="absolute inset-0 bg-gradient-to-l from-transparent to-ink-night mix-blend-multiply opacity-50" />
-          </motion.div>
+        <div ref={notesRef} className="reveal-up lg:col-span-2">
+          <div className="grid grid-cols-1 border border-gold-leaf/16 md:grid-cols-3">
+            {notes.map((note) => (
+              <div key={note.label} className="border-b border-gold-leaf/16 p-6 md:border-b-0 md:border-r last:border-0">
+                <note.icon className="mb-5 h-5 w-5 text-gold-leaf" strokeWidth={1.5} />
+                <p className="font-editorial text-[10px] uppercase tracking-[0.26em] text-cream-page/70">
+                  {note.label}
+                </p>
+                <p className="mt-3 max-w-xs font-body text-sm leading-relaxed text-cream-page/55">
+                  {note.body}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
-
       </div>
-
-      {/* Atmospheric Text Drift */}
-      <motion.div 
-        className="absolute bottom-10 right-10 whitespace-nowrap opacity-10 pointer-events-none"
-        style={{ x: y1 }}
-      >
-        <span className="font-display italic text-[160px] text-clay-warm select-none">
-          Kolpetty Nights
-        </span>
-      </motion.div>
-
     </section>
   );
 }
