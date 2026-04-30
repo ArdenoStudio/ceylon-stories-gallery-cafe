@@ -1,8 +1,4 @@
 @import "tailwindcss";
-@import "@fontsource-variable/fraunces";
-@import "@fontsource/tenor-sans";
-@import "@fontsource/inter";
-@import "@fontsource/instrument-serif/400-italic.css";
 
 @theme {
   --color-clay-deep: #8b3a1f;
@@ -40,9 +36,10 @@
   --color-input: #d4c8b0;
   --color-ring: #b8924a;
 
-  --font-display: "Fraunces Variable", "Georgia", serif;
-  --font-editorial: "Tenor Sans", "Helvetica Neue", Arial, sans-serif;
-  --font-body: "Inter", "Helvetica Neue", Arial, sans-serif;
+  /* Fonts mapped via Next.js Google Fonts in layout.tsx */
+  --font-display: var(--font-display), "Georgia", serif;
+  --font-editorial: var(--font-editorial), "Helvetica Neue", Arial, sans-serif;
+  --font-body: var(--font-body), "Helvetica Neue", Arial, sans-serif;
 
   --shadow-ink: 0 4px 20px rgba(42, 24, 16, 0.08);
   --shadow-ornament: 0 2px 8px rgba(139, 58, 31, 0.12);
@@ -78,7 +75,7 @@ i,
 .italic,
 [class*=" italic"],
 [class^="italic"] {
-  font-family: "Instrument Serif", Georgia, serif !important;
+  font-family: var(--font-display), Georgia, serif !important;
   font-style: italic !important;
 }
 

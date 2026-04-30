@@ -2,9 +2,10 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { motion } from 'motion/react';
+import { MessageCircle } from 'lucide-react';
 import CurvedMenuHeader from './ui/curved-menu';
-import ShinyButton from './ui/shiny-button';
 import { useReservation } from './ReservationProvider';
 
 const leftLinks = [
@@ -21,7 +22,32 @@ const rightLinks = [
 ];
 
 const linkClass =
-  'inline-flex items-center rounded-full px-2.5 py-2 font-editorial text-[11px] uppercase tracking-[0.18em] text-mahogany/80 transition-colors hover:text-mahogany xl:px-3 xl:text-[12px]';
+  'relative inline-flex items-center rounded-full px-3 py-2 font-editorial text-[11px] uppercase tracking-[0.18em] transition-colors xl:px-4 xl:text-[12px] hover:text-mahogany z-10';
+
+const WHATSAPP_URL =
+  'https://wa.me/94770000000?text=Hi%20Ceylon%20Stories%2C%20I%27d%20like%20to%20make%20a%20reservation.';
+
+function NavLink({ href, label }: { href: string; label: string }) {
+  const pathname = usePathname();
+  const active = pathname === href || (href !== '/' && pathname.startsWith(`${href}/`));
+
+  return (
+    <Link
+      href={href}
+      aria-current={active ? 'page' : undefined}
+      className={`${linkClass} ${active ? 'text-mahogany font-medium' : 'text-mahogany/60'}`}
+    >
+      <span className="relative z-20 mix-blend-multiply">{label}</span>
+      {active && (
+        <motion.span
+          layoutId="desktop-nav-active"
+          className="absolute inset-0 rounded-full bg-mahogany/[0.06] border border-mahogany/[0.04] pointer-events-none z-10 shadow-[inset_0_2px_4px_rgba(42,24,16,0.02)]"
+          transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+        />
+      )}
+    </Link>
+  );
+}
 
 export default function Navigation() {
   const { openReservation } = useReservation();
@@ -40,9 +66,7 @@ export default function Navigation() {
           {/* Left: nav links */}
           <div className="flex min-w-0 flex-1 items-center gap-0.5">
             {leftLinks.map((item) => (
-              <Link key={item.href} href={item.href} className={linkClass}>
-                {item.label}
-              </Link>
+              <NavLink key={item.href} href={item.href} label={item.label} />
             ))}
           </div>
 
@@ -63,14 +87,25 @@ export default function Navigation() {
           {/* Right: nav links + CTA */}
           <div className="flex flex-1 items-center justify-end gap-0.5">
             {rightLinks.map((item) => (
-              <Link key={item.href} href={item.href} className={linkClass}>
-                {item.label}
-              </Link>
+              <NavLink key={item.href} href={item.href} label={item.label} />
             ))}
-            <div className="ml-2 xl:ml-3">
-              <ShinyButton onClick={openReservation} className="!px-4 !py-2 !text-[11px] !rounded-full !font-editorial !tracking-[0.2em] !uppercase">
+            <div className="ml-2 flex items-center gap-2 xl:ml-3">
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Reserve via WhatsApp"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-sage-deep/25 bg-sage-deep text-cream-page shadow-[0_10px_24px_rgba(47,62,42,0.18)] transition-colors hover:bg-forest focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage-deep focus-visible:ring-offset-2 focus-visible:ring-offset-cream-paper"
+              >
+                <MessageCircle className="h-4 w-4" strokeWidth={1.8} />
+              </a>
+              <button
+                type="button"
+                onClick={openReservation}
+                className="inline-flex min-h-10 items-center justify-center rounded-full bg-mahogany px-5 py-2 font-editorial text-[11px] uppercase tracking-[0.2em] text-cream-page shadow-[0_12px_26px_rgba(42,24,16,0.22)] transition-colors hover:bg-clay-rust focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-leaf focus-visible:ring-offset-2 focus-visible:ring-offset-cream-paper"
+              >
                 Book a Table
-              </ShinyButton>
+              </button>
             </div>
           </div>
         </div>

@@ -2,3 +2,7 @@ node_modules/
 dist/
 .env
 .env.local
+.next/
+*.log
+DESIGN_PLAN.md
+DESIGN_MEMORY.md

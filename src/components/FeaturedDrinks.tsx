@@ -143,21 +143,21 @@ export default function FeaturedDrinks() {
   const openItem = openIndex !== null ? items[openIndex] : null;
 
   return (
-    <section className="relative w-full bg-mahogany-soft overflow-hidden py-[clamp(80px,12vh,160px)]">
+    <section className="relative w-full bg-mahogany-soft overflow-hidden py-[clamp(64px,9vh,112px)]">
       <div className="batik-line absolute top-0 left-0 bg-white/20" />
 
       <MotifCorner motif="tea-leaf" position="tr" size={140} className="text-cream-page/10" />
       <MotifCorner motif="fern-frond" position="bl" size={110} className="text-cream-page/10 hidden md:block" />
 
       {/* Header */}
-      <div ref={headerRef} className="reveal-up relative max-w-[1380px] mx-auto px-6 md:px-10 mb-12 md:mb-16">
+      <div ref={headerRef} className="reveal-up relative max-w-[1320px] mx-auto px-5 md:px-8 mb-9 md:mb-12">
         <div className="flex items-end justify-between gap-6 flex-wrap">
           <div className="flex flex-col gap-5 max-w-xl">
             <p className="font-editorial text-[10px] tracking-[0.3em] uppercase text-gold-leaf flex items-center gap-3">
               <span className="w-8 h-px bg-gold-leaf/40" />
               <span>Curated Selection</span>
             </p>
-            <h2 className="font-display font-light text-cream-page text-[clamp(44px,5.5vw,82px)] leading-[0.9] tracking-[-0.02em] text-balance">
+            <h2 className="font-display font-light text-cream-page text-[clamp(38px,4.8vw,66px)] leading-[0.92] tracking-[-0.02em] text-balance">
               Special <i className="text-clay-warm">Items</i>
             </h2>
           </div>
@@ -185,7 +185,7 @@ export default function FeaturedDrinks() {
 
         <div
           ref={trackRef}
-          className="flex gap-4 md:gap-6 overflow-x-auto overscroll-x-contain scroll-smooth touch-pan-y px-6 md:px-10 py-4 -my-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+            className="flex gap-4 md:gap-5 overflow-x-auto overscroll-x-contain scroll-smooth touch-pan-y px-5 md:px-8 py-4 -my-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
           {items.map((it, i) => (
             <motion.div
@@ -208,11 +208,11 @@ export default function FeaturedDrinks() {
                   setOpenIndex(i);
                 }
               }}
-              className="group cursor-pointer shrink-0 basis-[82%] sm:basis-[58%] md:basis-[40%] lg:basis-[30%] xl:basis-[26%] flex flex-col rounded-2xl overflow-hidden border border-mahogany/10 bg-cream-paper text-mahogany shadow-ink transition-transform duration-500 ease-out hover:-translate-y-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-leaf focus-visible:ring-offset-4 focus-visible:ring-offset-mahogany"
+              className="group cursor-pointer shrink-0 basis-[78%] sm:basis-[48%] md:basis-[34%] lg:basis-[25%] xl:basis-[21%] flex flex-col rounded-xl overflow-hidden border border-mahogany/10 bg-cream-paper text-mahogany shadow-ink transition-transform duration-500 ease-out hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-leaf focus-visible:ring-offset-4 focus-visible:ring-offset-mahogany"
             >
               <motion.div
                 layoutId={`card-image-${it.id}`}
-                className="relative aspect-[4/5] w-full overflow-hidden"
+                className="relative aspect-[5/4] w-full overflow-hidden md:aspect-[4/4.6]"
               >
                 <img
                   src={it.image}
@@ -261,9 +261,9 @@ export default function FeaturedDrinks() {
                 </div>
               </motion.div>
 
-              <div className="flex flex-col flex-1 p-6 md:p-7 text-left">
+              <div className="flex flex-col flex-1 p-4 md:p-5 text-left">
                 <div className="flex items-baseline gap-2">
-                  <span className="font-display font-light text-mahogany text-[26px] md:text-[28px] leading-none tabular-nums">
+                  <span className="font-display font-light text-mahogany text-[22px] md:text-[24px] leading-none tabular-nums">
                     Rs. {it.price.toLocaleString()}
                   </span>
                 </div>
@@ -274,16 +274,16 @@ export default function FeaturedDrinks() {
 
                 <motion.h3
                   layoutId={`card-title-${it.id}`}
-                  className="mt-3 font-display text-mahogany text-[24px] md:text-[26px] leading-[1.1] text-balance"
+                  className="mt-2 font-display text-mahogany text-[20px] md:text-[22px] leading-[1.1] text-balance"
                 >
                   {it.name}
                 </motion.h3>
 
-                <p className="mt-3 font-body text-[13px] text-mahogany/60 leading-[1.7] text-pretty flex-1">
+                <p className="mt-2 font-body text-[12px] text-mahogany/60 leading-[1.55] text-pretty flex-1">
                   {it.description}
                 </p>
 
-                <div className="flex items-center justify-between mt-5 pt-4 border-t border-mahogany/10">
+                <div className="flex items-center justify-between mt-4 pt-3 border-t border-mahogany/10">
                   <div className="flex items-center gap-1.5 font-editorial text-[10px] tracking-[0.18em] uppercase text-mahogany/55">
                     <Clock className="w-3.5 h-3.5" />
                     <span>{it.mins} mins</span>
@@ -300,7 +300,7 @@ export default function FeaturedDrinks() {
       </div>
 
       {/* Controls */}
-      <div className="relative max-w-[1380px] mx-auto px-6 md:px-10 mt-10 md:mt-12 flex items-center justify-between gap-6 flex-wrap">
+      <div className="relative max-w-[1320px] mx-auto px-5 md:px-8 mt-8 md:mt-10 flex items-center justify-between gap-5 flex-wrap">
         <span className="font-editorial text-[10px] tracking-[0.3em] uppercase text-cream-page/40 tabular-nums">
           {String(active + 1).padStart(2, '0')} / {String(items.length).padStart(2, '0')}
         </span>

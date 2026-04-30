@@ -215,7 +215,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
 
               {tagline ? (
                 <motion.p
-                  className="mt-2 font-display text-[clamp(50px,8vw,118px)] font-light italic leading-[0.88] tracking-[-0.03em] text-gold-leaf"
+                  className="mt-2 font-display text-[clamp(50px,8vw,118px)] font-light italic leading-[0.88] tracking-[-0.03em] text-gold-leaf whitespace-nowrap"
                   variants={itemVariants}
                 >
                   {tagline}

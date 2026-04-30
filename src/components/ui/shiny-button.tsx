@@ -44,7 +44,7 @@ export const ShinyButton: React.FC<ShinyButtonProps> = ({
   onClick
 }) => {
   const classNames = cn(
-    "relative inline-flex min-h-[46px] items-center justify-center overflow-hidden rounded-lg bg-white/12 px-6 py-2 font-editorial text-[11px] font-medium uppercase tracking-[0.24em] shadow-[inset_0_1px_0_rgba(255,255,255,0.32),0_12px_30px_rgba(20,10,8,0.12)] backdrop-blur-xl transition-shadow duration-300 ease-in-out hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.42),0_0_20px_rgba(255,246,225,0.16),0_16px_34px_rgba(20,10,8,0.16)]",
+    "relative inline-flex min-h-[46px] items-center justify-center overflow-hidden rounded-lg bg-mahogany px-6 py-2 font-editorial text-[11px] font-medium uppercase tracking-[0.24em] shadow-[inset_0_1px_0_rgba(255,255,255,0.18),0_12px_30px_rgba(20,10,8,0.18)] backdrop-blur-xl transition-shadow duration-300 ease-in-out hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_0_20px_rgba(255,246,225,0.16),0_16px_34px_rgba(20,10,8,0.22)]",
     className
   );
 

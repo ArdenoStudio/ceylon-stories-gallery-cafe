@@ -1,200 +1,205 @@
 'use client';
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { useMemo, useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
+import { X } from 'lucide-react';
+import { drinkData } from '@/src/components/ui/animate-card-animation';
 
-const artworks = [
+type GalleryCategory = 'All' | 'Cafe' | 'Food' | 'Tea' | 'People' | 'Lounge';
+
+type GalleryItem = {
+  title: string;
+  category: Exclude<GalleryCategory, 'All'>;
+  image: string;
+  span?: string;
+};
+
+const categories: GalleryCategory[] = ['All', 'Cafe', 'Food', 'Tea', 'People', 'Lounge'];
+
+const galleryItems: GalleryItem[] = [
   {
-    num: '01',
-    artist: 'Anoma Wijewardene',
-    title: 'Slow Weather of Memory',
-    medium: 'Oil on Canvas',
-    dimensions: '120 × 180 cm',
-    year: '2026',
-    description: 'Wijewardene paints the interior atmospheres of colonial space — walls that absorb light differently at noon than at dusk. This series of forty-two works occupies the full gallery through April. Each canvas is a room you can almost enter.',
-    image: 'https://images.unsplash.com/photo-1544865582-73a76efc255d?q=80&w=1200&auto=format&fit=crop',
-    available: true,
+    title: 'Founders at Ceylon Stories',
+    category: 'People',
+    image: '/images/story/founders.jpg',
+    span: 'md:col-span-2 md:row-span-2',
   },
   {
-    num: '02',
-    artist: 'Nimal Jayasinghe',
-    title: 'Clay Cosmologies I–III',
-    medium: 'Terracotta & mixed media',
-    dimensions: 'Variable — approx. 60 × 40 cm each',
-    year: '2025',
-    description: "Three sculptural forms cast in locally sourced red clay, fired in an anagama kiln in Matale. Jayasinghe's work interrogates the domestic object — how we assign value to the vessel that holds our daily rituals.",
-    image: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?q=80&w=1200&auto=format&fit=crop',
-    available: true,
+    title: 'Tea tasting table',
+    category: 'Tea',
+    image: '/images/story/tea-tasting.jpg',
   },
   {
-    num: '03',
-    artist: 'Priya Rodrigo',
-    title: 'Monsoon Cartography',
-    medium: 'Watercolour on handmade paper',
-    dimensions: '80 × 100 cm',
-    year: '2026',
-    description: 'Rodrigo maps the monsoon not as weather but as memory — the routes water takes through a city, the marks it leaves behind. The paper itself is made from jute sourced in the Eastern Province.',
-    image: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=1200&auto=format&fit=crop',
-    available: false,
+    title: 'Cafe team',
+    category: 'People',
+    image: '/images/story/team.jpg',
+  },
+  {
+    title: 'Family table',
+    category: 'Cafe',
+    image: '/images/story/founders-family.jpg',
+    span: 'md:col-span-2',
+  },
+  {
+    title: 'Cardamom Cold Brew',
+    category: 'Food',
+    image: drinkData[1].image,
+  },
+  {
+    title: 'Gallery Chai',
+    category: 'Tea',
+    image: drinkData[3].image,
+  },
+  {
+    title: 'Heritage Lemonade',
+    category: 'Food',
+    image: drinkData[4].image,
+  },
+  {
+    title: 'Evening lounge mood',
+    category: 'Lounge',
+    image: '/images/story/parents.jpg',
+    span: 'md:col-span-2',
+  },
+  {
+    title: 'Silver Tips Reserve',
+    category: 'Tea',
+    image: drinkData[5].image,
+  },
+  {
+    title: 'Spiced Coconut Latte',
+    category: 'Food',
+    image: drinkData[2].image,
   },
 ];
 
 export default function GalleryPage() {
-  const [inquiryArtwork, setInquiryArtwork] = useState<string | null>(null);
-  const [submitted, setSubmitted] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<GalleryCategory>('All');
+  const [selected, setSelected] = useState<GalleryItem | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setInquiryArtwork(null);
-    }, 3000);
-  };
+  const items = useMemo(
+    () =>
+      activeCategory === 'All'
+        ? galleryItems
+        : galleryItems.filter((item) => item.category === activeCategory),
+    [activeCategory]
+  );
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative w-full bg-mahogany text-cream-page pt-40 pb-20 px-6 overflow-hidden">
-        <div className="batik-line absolute top-0 left-0 bg-white/20" />
-        <div className="absolute inset-0 pointer-events-none select-none overflow-hidden">
-          <span className="absolute top-10 left-[-5%] font-display italic text-[28vw] text-mahogany-soft/15 leading-none">04</span>
-        </div>
-        <div className="max-w-7xl mx-auto relative z-10">
-          <p className="font-editorial text-[10px] tracking-[0.25em] uppercase text-gold-leaf mb-6 flex items-center gap-4">
-            <span className="w-8 h-[1px] bg-gold-leaf/50" /> 04 — THE GALLERY
+      <section className="relative overflow-hidden bg-mahogany px-6 pb-16 pt-36 text-cream-page md:px-10 md:pt-44">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(184,146,74,0.18),transparent_32%),radial-gradient(circle_at_80%_0%,rgba(181,85,46,0.18),transparent_30%)]" />
+        <div className="relative mx-auto max-w-7xl">
+          <p className="mb-6 flex items-center gap-3 font-editorial text-[10px] uppercase tracking-[0.32em] text-gold-leaf">
+            <span className="h-px w-8 bg-gold-leaf/50" />
+            The Gallery
           </p>
-          <h1 className="font-display font-light text-cream-page text-[clamp(52px,8vw,110px)] leading-[0.9] tracking-[-0.02em]">
-            Works on <br />
-            <i className="text-clay-warm">the wall.</i>
-          </h1>
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-[1fr_0.72fr] md:items-end">
+            <h1 className="font-display text-[clamp(58px,9vw,128px)] font-light leading-[0.86] tracking-[-0.025em]">
+              Scenes from
+              <br />
+              <i className="text-clay-warm">the cafe.</i>
+            </h1>
+            <p className="max-w-md font-body text-[15px] leading-[1.85] text-cream-page/62 md:justify-self-end">
+              A living gallery for the rooms, dishes, tea rituals, and people that make Ceylon Stories
+              feel like more than a menu.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Artworks */}
-      <section className="relative w-full bg-cream-page py-[clamp(60px,8vh,120px)] px-6">
-        <div className="max-w-7xl mx-auto flex flex-col gap-32 md:gap-48">
-          {artworks.map((work, idx) => (
-            <motion.div
-              key={idx}
-              className={`flex flex-col ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-start gap-12 md:gap-20`}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-8%' }}
-              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            >
-              {/* Image */}
-              <div className="w-full md:w-[55%] relative overflow-hidden group">
-                <div className="absolute -top-10 font-display italic text-[140px] leading-none text-mahogany/5 select-none pointer-events-none z-0">
-                  {work.num}
-                </div>
-                <div className="w-full aspect-[4/5] overflow-hidden relative z-10">
+      <section className="bg-cream-page px-5 py-[clamp(52px,8vh,96px)] text-mahogany md:px-10">
+        <div className="mx-auto max-w-7xl">
+          <div className="sticky top-24 z-20 mb-8 flex gap-2 overflow-x-auto border border-mahogany/12 bg-cream-page/88 p-2 backdrop-blur-md [scrollbar-width:none] md:top-28 md:w-fit [&::-webkit-scrollbar]:hidden">
+            {categories.map((category) => {
+              const active = category === activeCategory;
+              return (
+                <button
+                  key={category}
+                  type="button"
+                  onClick={() => setActiveCategory(category)}
+                  className={`shrink-0 rounded-full px-4 py-2 font-editorial text-[10px] uppercase tracking-[0.2em] transition-colors ${
+                    active
+                      ? 'bg-mahogany text-cream-page'
+                      : 'text-mahogany/62 hover:bg-cream-paper hover:text-mahogany'
+                  }`}
+                >
+                  {category}
+                </button>
+              );
+            })}
+          </div>
+
+          <motion.div layout className="grid auto-rows-[230px] grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <AnimatePresence mode="popLayout">
+              {items.map((item) => (
+                <motion.button
+                  layout
+                  key={`${item.category}-${item.title}`}
+                  type="button"
+                  onClick={() => setSelected(item)}
+                  initial={{ opacity: 0, y: 18 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 18 }}
+                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                  className={`group relative overflow-hidden border border-mahogany/12 bg-cream-paper text-left shadow-ink ${item.span ?? ''}`}
+                >
                   <img
-                    src={work.image}
-                    alt={`${work.title} by ${work.artist}`}
+                    src={item.image}
+                    alt={item.title}
                     referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover grayscale-[0.2] sepia-[0.15] transition-transform duration-700 group-hover:scale-[1.03]"
+                    className="h-full w-full object-cover photo-heritage transition-transform duration-700 group-hover:scale-[1.04]"
                   />
-                  {!work.available && (
-                    <div className="absolute top-4 left-4 font-editorial text-[9px] tracking-[0.2em] uppercase bg-mahogany text-cream-page px-3 py-1">
-                      Sold
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Details */}
-              <div className="w-full md:w-[45%] flex flex-col pt-4 md:pt-12">
-                <p className="font-editorial text-[9px] tracking-[0.25em] uppercase text-clay-warm mb-6">
-                  {work.medium} · {work.year}
-                </p>
-                <h2 className="font-display font-light text-mahogany text-[clamp(32px,4vw,56px)] leading-[1] tracking-tight mb-3">
-                  {work.title}
-                </h2>
-                <p className="font-editorial text-[10px] tracking-[0.15em] text-mahogany/50 mb-8">
-                  {work.artist} — {work.dimensions}
-                </p>
-                <p className="font-body text-sm text-mahogany/65 leading-[1.8] mb-10 max-w-[40ch]">
-                  {work.description}
-                </p>
-
-                {work.available && (
-                  <button
-                    onClick={() => setInquiryArtwork(work.title)}
-                    className="font-editorial text-[10px] tracking-[0.2em] uppercase text-clay-deep inline-flex items-center gap-3 border border-mahogany/20 px-6 py-3 hover:bg-mahogany hover:text-cream-page transition-colors duration-500 w-fit"
-                  >
-                    PURCHASE INQUIRY <span>→</span>
-                  </button>
-                )}
-              </div>
-            </motion.div>
-          ))}
+                  <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(42,24,16,0.72),transparent_58%)] opacity-80 transition-opacity group-hover:opacity-95" />
+                  <div className="absolute bottom-0 left-0 right-0 p-5">
+                    <p className="font-editorial text-[9px] uppercase tracking-[0.24em] text-gold-leaf">
+                      {item.category}
+                    </p>
+                    <h2 className="mt-2 font-display text-2xl leading-none text-cream-page">{item.title}</h2>
+                  </div>
+                </motion.button>
+              ))}
+            </AnimatePresence>
+          </motion.div>
         </div>
       </section>
 
-      {/* Inquiry Modal */}
       <AnimatePresence>
-        {inquiryArtwork && (
+        {selected && (
           <motion.div
-            className="fixed inset-0 z-[200] flex items-center justify-center px-6"
+            className="fixed inset-0 z-[200] flex items-center justify-center bg-ink-deep/82 px-5 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <motion.div
-              className="absolute inset-0 bg-mahogany/50 backdrop-blur-sm"
-              onClick={() => setInquiryArtwork(null)}
-            />
-            <motion.div
-              className="relative bg-cream-page w-full max-w-lg p-10 z-10"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              transition={{ ease: [0.16, 1, 0.3, 1], duration: 0.5 }}
+            <button
+              type="button"
+              onClick={() => setSelected(null)}
+              aria-label="Close gallery image"
+              className="absolute right-5 top-5 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream-page text-mahogany transition-colors hover:bg-gold-leaf"
             >
-              <button
-                onClick={() => setInquiryArtwork(null)}
-                className="absolute top-4 right-4 font-editorial text-[10px] tracking-widest uppercase text-mahogany/40 hover:text-mahogany"
-              >
-                Close
-              </button>
-
-              {submitted ? (
-                <div className="text-center py-8">
-                  <p className="font-display text-3xl text-mahogany mb-3">Thank you.</p>
-                  <p className="font-body text-sm text-mahogany/60">We will be in touch shortly.</p>
-                </div>
-              ) : (
-                <>
-                  <p className="font-editorial text-[9px] tracking-[0.2em] uppercase text-clay-warm mb-4">Purchase Inquiry</p>
-                  <h3 className="font-display text-2xl text-mahogany mb-8">{inquiryArtwork}</h3>
-                  <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-                    <input
-                      type="text"
-                      placeholder="Your name"
-                      required
-                      className="w-full border-b border-mahogany/20 bg-transparent py-3 font-body text-sm text-mahogany placeholder:text-mahogany/30 focus:outline-none focus:border-mahogany"
-                    />
-                    <input
-                      type="email"
-                      placeholder="Your email"
-                      required
-                      className="w-full border-b border-mahogany/20 bg-transparent py-3 font-body text-sm text-mahogany placeholder:text-mahogany/30 focus:outline-none focus:border-mahogany"
-                    />
-                    <textarea
-                      placeholder="Any questions or notes (optional)"
-                      rows={3}
-                      className="w-full border-b border-mahogany/20 bg-transparent py-3 font-body text-sm text-mahogany placeholder:text-mahogany/30 focus:outline-none focus:border-mahogany resize-none"
-                    />
-                    <button
-                      type="submit"
-                      className="font-editorial text-[10px] tracking-[0.2em] uppercase bg-mahogany text-cream-page px-6 py-3 hover:bg-clay-deep transition-colors duration-300 mt-2"
-                    >
-                      SEND INQUIRY
-                    </button>
-                  </form>
-                </>
-              )}
+              <X className="h-5 w-5" strokeWidth={1.8} />
+            </button>
+            <motion.div
+              initial={{ opacity: 0, y: 24, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 24, scale: 0.98 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full max-w-5xl"
+            >
+              <div className="max-h-[78vh] overflow-hidden border border-cream-page/20 bg-mahogany">
+                <img
+                  src={selected.image}
+                  alt={selected.title}
+                  referrerPolicy="no-referrer"
+                  className="max-h-[78vh] w-full object-contain"
+                />
+              </div>
+              <div className="mt-4 flex items-center justify-between gap-4 text-cream-page">
+                <p className="font-display text-3xl leading-none">{selected.title}</p>
+                <p className="font-editorial text-[10px] uppercase tracking-[0.24em] text-gold-leaf">
+                  {selected.category}
+                </p>
+              </div>
             </motion.div>
           </motion.div>
         )}
