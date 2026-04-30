@@ -5,15 +5,15 @@ import { motion } from 'motion/react';
 import Image from 'next/image';
 
 export default function IntroSequence({ onComplete }: { onComplete: () => void }) {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
 
   useEffect(() => {
     const hasVisited = sessionStorage.getItem('hasVisitedCeylonStories');
     if (hasVisited) {
+      setShow(false);
       onComplete();
     } else {
       sessionStorage.setItem('hasVisitedCeylonStories', 'true');
-      setShow(true);
       const timer = setTimeout(() => {
         setShow(false);
         onComplete();

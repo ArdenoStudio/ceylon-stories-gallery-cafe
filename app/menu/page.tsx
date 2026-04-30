@@ -75,81 +75,61 @@ export default function MenuPage() {
       />
 
       {/* Hero */}
-      <section className="relative w-full bg-mahogany text-cream-page overflow-hidden" style={{ minHeight: '60vh' }}>
-        {/* Vertical copper accent bar */}
-        <span aria-hidden="true" className="absolute left-0 top-0 bottom-0 w-[3px] bg-clay-warm opacity-70" />
-
-        <div
-          className="flex flex-col justify-center"
-          style={{ minHeight: '60vh', padding: 'clamp(56px, 9vw, 112px) clamp(40px, 8vw, 120px)' }}
-        >
-          {/* Overline */}
-          <div className="flex items-baseline gap-6 mb-10">
-            <span className="font-editorial text-[10px] tracking-[0.22em] uppercase text-clay-warm/60">03</span>
-            <span className="block w-12 h-px bg-clay-warm/30 self-center" />
-            <span className="font-editorial text-[10px] tracking-[0.18em] uppercase text-cream-page/30">The Menu</span>
-          </div>
-
-          {/* Heading */}
-          <h1 className="font-display font-light leading-[0.92] tracking-[-0.025em]" style={{ fontSize: 'clamp(54px, 8.5vw, 124px)' }}>
-            <span className="block text-cream-page">Food, Tea</span>
-            <i className="block text-clay-warm" style={{ marginTop: 8 }}>& the Lounge.</i>
-          </h1>
-
-          {/* Descriptor */}
-          <p className="font-body text-cream-page/30 leading-relaxed mt-12" style={{ fontSize: 13, maxWidth: '36ch', letterSpacing: '0.01em' }}>
-            An exploration of Sri Lankan cuisine, tea, and the art of gathering.
+      <section className="relative w-full bg-mahogany text-cream-page pt-40 pb-20 px-6 overflow-hidden">
+        <div className="batik-line absolute top-0 left-0 bg-white/20" />
+        <div className="absolute inset-0 pointer-events-none select-none overflow-hidden">
+          <span className="absolute top-10 left-[-5%] font-display italic text-[28vw] text-mahogany-soft/15 leading-none">03</span>
+        </div>
+        <div className="max-w-7xl mx-auto relative z-10">
+          <p className="font-editorial text-[10px] tracking-[0.25em] uppercase text-gold-leaf mb-6 flex items-center gap-4">
+            <span className="w-8 h-[1px] bg-gold-leaf/50" /> 03 — THE MENU
           </p>
+          <h1 className="font-display font-light text-cream-page text-[clamp(52px,8vw,110px)] leading-[0.9] tracking-[-0.02em]">
+            Food, Tea <br />
+            <i className="text-clay-warm">& the Lounge.</i>
+          </h1>
         </div>
       </section>
 
       {/* Filter + Grid */}
-      <section className="relative w-full bg-cream-page py-10 sm:py-[clamp(60px,8vh,120px)] px-4 sm:px-6">
+      <section className="relative w-full bg-cream-page py-[clamp(60px,8vh,120px)] px-6">
         <div className="max-w-7xl mx-auto">
 
           {/* Filter Tabs */}
-          <div className="mb-10 sm:mb-16">
-            {/* On mobile: stacked rows. On desktop: single inline row. */}
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-1">
+          <div className="mb-16">
+            <div className={`glass-filter-bar rounded-2xl px-3 py-3 flex items-center gap-1 ${activeTier === 'All' ? 'justify-center' : ''}`}>
               {/* Tier 1 */}
               <motion.div layout="position" transition={{ duration: 0.3, ease: 'easeInOut' }} className="flex gap-1.5 flex-shrink-0">
                 {TIERS.map(({ label, Icon }) => (
                   <button
                     key={label}
                     onClick={() => { setActiveTier(label); setActive('All'); }}
-                    className={`relative font-editorial text-[10px] tracking-[0.2em] uppercase whitespace-nowrap px-4 py-2 rounded-full flex-shrink-0 cursor-pointer glass-pill ${
-                      activeTier === label ? 'text-cream-page' : 'text-mahogany/65 hover:text-mahogany'
+                    className={`font-editorial text-[10px] tracking-[0.2em] uppercase whitespace-nowrap px-4 py-2 rounded-full flex-shrink-0 cursor-pointer inline-flex items-center gap-1.5 ${
+                      activeTier === label
+                        ? 'glass-pill-active text-cream-page'
+                        : 'glass-pill text-mahogany/65 hover:text-mahogany'
                     }`}
                   >
-                    {activeTier === label && (
-                      <motion.span
-                        layoutId="tier-pill"
-                        className="absolute inset-0 rounded-full glass-pill-active"
-                        transition={{ type: 'spring', bounce: 0.2, duration: 0.45 }}
-                      />
-                    )}
-                    <span className="relative z-10 inline-flex items-center gap-2">
-                      <Icon className="w-3.5 h-3.5" />
-                      {label}
-                    </span>
+                    <Icon className="w-2.5 h-2.5" />
+                    {label}
                   </button>
                 ))}
               </motion.div>
 
-              {/* Tier 2 — own scrollable row on mobile, inline on desktop */}
+              {/* Divider + Tier 2 */}
               <AnimatePresence>
                 {activeTier !== 'All' && (
                   <motion.div
                     key="tier2"
-                    initial={{ opacity: 0, y: -4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -4 }}
-                    transition={{ duration: 0.2, ease: 'easeOut' }}
-                    className="flex items-center gap-1 min-w-0 sm:flex-1"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -10 }}
+                    transition={{ duration: 0.25, ease: 'easeOut' }}
+                    className="flex items-center gap-1 flex-1 min-w-0"
                   >
-                    <div className="hidden sm:block w-px h-4 bg-mahogany/15 mx-1.5 flex-shrink-0" />
+                    <div className="w-px h-4 bg-mahogany/15 mx-1.5 flex-shrink-0" />
                     <div className="relative flex-1 min-w-0">
-                      <div className="pointer-events-none absolute right-0 top-0 h-full w-8 bg-gradient-to-l from-cream-page to-transparent z-10" />
+                      <div className="pointer-events-none absolute right-0 top-0 h-full w-8 bg-gradient-to-l from-white/10 to-transparent z-10" />
                       <div className="flex gap-1.5 overflow-x-auto scrollbar-hide">
                         {(['All', ...(activeTier === 'Food' ? FOOD_CATS : DRINK_CATS).filter(c => categories.includes(c))] as string[]).map((cat) => {
                           const Icon = CATEGORY_ICONS[cat] ?? Utensils;
@@ -158,21 +138,14 @@ export default function MenuPage() {
                               key={cat}
                               ref={(el) => { if (el) pillRefs.current.set(cat, el); else pillRefs.current.delete(cat); }}
                               onClick={() => setActive(cat)}
-                              className={`relative font-editorial text-[10px] tracking-[0.2em] uppercase whitespace-nowrap px-4 py-2 rounded-full flex-shrink-0 cursor-pointer glass-pill ${
-                                active === cat ? 'text-cream-page' : 'text-mahogany/65 hover:text-mahogany'
+                              className={`font-editorial text-[10px] tracking-[0.2em] uppercase whitespace-nowrap px-4 py-2 rounded-full flex-shrink-0 cursor-pointer inline-flex items-center gap-1.5 ${
+                                active === cat
+                                  ? 'glass-pill-active text-cream-page'
+                                  : 'glass-pill text-mahogany/65 hover:text-mahogany'
                               }`}
                             >
-                              {active === cat && (
-                                <motion.span
-                                  layoutId="cat-pill"
-                                  className="absolute inset-0 rounded-full glass-pill-active"
-                                  transition={{ type: 'spring', bounce: 0.2, duration: 0.45 }}
-                                />
-                              )}
-                              <span className="relative z-10 inline-flex items-center gap-2">
-                                <Icon className="w-3.5 h-3.5" />
-                                {cat}
-                              </span>
+                              <Icon className="w-2.5 h-2.5" />
+                              {cat}
                             </button>
                           );
                         })}

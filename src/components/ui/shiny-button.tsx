@@ -1,88 +1,105 @@
-"use client";
+'use client';
 
-import React from "react";
-import { motion } from "motion/react";
+import type { ReactNode } from 'react';
+import { motion, AnimatePresence, type HTMLMotionProps } from 'motion/react';
 
-import { cn } from "@/src/lib/utils";
+import { cn } from '@/src/lib/utils';
 
-const animationProps = {
-  initial: { "--x": "100%", scale: 0.8 },
-  animate: { "--x": "-100%", scale: 1 },
-  whileTap: { scale: 0.95 },
-  transition: {
-    repeat: Infinity,
-    repeatType: "loop" as const,
-    repeatDelay: 1,
-    type: "spring" as const,
-    stiffness: 20,
-    damping: 15,
-    mass: 2,
-    scale: {
-      type: "spring" as const,
-      stiffness: 200,
-      damping: 5,
-      mass: 0.5,
-    },
-  },
-};
-
-interface ShinyButtonProps {
-  children: React.ReactNode;
+type ShinyButtonProps = Omit<HTMLMotionProps<'button'>, 'children'> & {
+  children: ReactNode;
   className?: string;
-  href?: string;
-  onClick?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
-}
-
-type ShinyStyle = React.CSSProperties & {
-  "--x"?: string;
+  icon?: ReactNode;
+  collapsed?: boolean;
 };
 
-export const ShinyButton: React.FC<ShinyButtonProps> = ({
+export default function ShinyButton({
   children,
   className,
-  href,
-  onClick
-}) => {
-  const classNames = cn(
-    "relative inline-flex min-h-[46px] items-center justify-center overflow-hidden rounded-lg bg-mahogany px-6 py-2 font-editorial text-[11px] font-medium uppercase tracking-[0.24em] shadow-[inset_0_1px_0_rgba(255,255,255,0.18),0_12px_30px_rgba(20,10,8,0.18)] backdrop-blur-xl transition-shadow duration-300 ease-in-out hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_0_20px_rgba(255,246,225,0.16),0_16px_34px_rgba(20,10,8,0.22)]",
-    className
-  );
-
-  const labelStyle: ShinyStyle = {
-    maskImage:
-      "linear-gradient(-75deg,rgb(255,255,255) calc(var(--x) + 20%),transparent calc(var(--x) + 30%),rgb(255,255,255) calc(var(--x) + 100%))",
-  };
-
-  const borderStyle: React.CSSProperties = {
-    mask: "linear-gradient(rgb(0,0,0), rgb(0,0,0)) content-box,linear-gradient(rgb(0,0,0), rgb(0,0,0))",
-    maskComposite: "exclude",
-  };
-
-  const inner = (
-    <>
-      <span className="relative z-20 block size-full text-sm uppercase tracking-wide text-white/90" style={labelStyle}>
-        {children}
-      </span>
-      <span
-        style={borderStyle}
-        className="absolute inset-0 z-10 block rounded-[inherit] bg-[linear-gradient(-75deg,rgba(255,255,255,0.14)_calc(var(--x)+20%),rgba(255,255,255,0.72)_calc(var(--x)+25%),rgba(255,255,255,0.14)_calc(var(--x)+100%))] p-px"
-      />
-    </>
-  );
-
-  if (href) {
-    return (
-      <motion.a {...animationProps} href={href} onClick={onClick} className={classNames}>
-        {inner}
-      </motion.a>
-    );
-  }
-
+  icon,
+  collapsed = false,
+  type = 'button',
+  ...props
+}: ShinyButtonProps) {
   return (
-    <motion.button {...animationProps} onClick={onClick} className={classNames}>
-      {inner}
+    <motion.button
+      layout
+      type={type}
+      initial={{ ['--x' as string]: '100%', scale: 0.98 }}
+      animate={{ ['--x' as string]: '-100%', scale: 1 }}
+      whileTap={{ scale: 0.96 }}
+      transition={{
+        repeat: Infinity,
+        repeatType: 'loop',
+        repeatDelay: 1.1,
+        type: 'spring',
+        stiffness: 22,
+        damping: 16,
+        mass: 2,
+        scale: {
+          type: 'spring',
+          stiffness: 280,
+          damping: 18,
+          mass: 0.6,
+        },
+        layout: {
+          type: 'spring',
+          stiffness: 260,
+          damping: 28,
+        },
+      }}
+      {...props}
+      className={cn(
+        'group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-[2px] border border-[#6e4d37] bg-[#2a1810] px-5 py-3 font-editorial text-[10px] tracking-[0.34em] uppercase text-cream-page shadow-[0_16px_36px_rgba(42,24,16,0.16)] transition-shadow duration-300 ease-out hover:shadow-[0_18px_46px_rgba(42,24,16,0.24)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-leaf/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cream-page active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60',
+        !collapsed && 'min-w-[170px]',
+        className
+      )}
+    >
+      <span
+        className="pointer-events-none absolute inset-0 opacity-80"
+        style={{
+          background:
+            'linear-gradient(-75deg, rgba(184,146,74,0) calc(var(--x) + 18%), rgba(184,146,74,0.34) calc(var(--x) + 25%), rgba(184,146,74,0.08) calc(var(--x) + 46%), rgba(184,146,74,0) calc(var(--x) + 64%))',
+        }}
+      />
+      <span className="pointer-events-none absolute inset-[1px] rounded-[inherit] bg-[radial-gradient(circle_at_50%_0%,rgba(184,146,74,0.16)_0%,rgba(184,146,74,0)_62%)]" />
+      <span className="pointer-events-none absolute inset-0 rounded-[inherit] border border-white/8" />
+
+      <span className="relative z-10 flex items-center">
+        {icon ? (
+          <motion.span
+            layout
+            className={cn(
+              'flex shrink-0 items-center justify-center rounded-full border text-gold-leaf transition-[width,height,border-color,background-color] duration-300',
+              collapsed
+                ? 'size-7 border-gold-leaf/55 bg-gold-leaf/14'
+                : 'size-5 border-gold-leaf/35 bg-gold-leaf/8'
+            )}
+          >
+            {icon}
+          </motion.span>
+        ) : null}
+
+        <AnimatePresence>
+          {!collapsed && (
+            <motion.span
+              key="label"
+              initial={{ opacity: 0, maxWidth: 0, marginLeft: 0 }}
+              animate={{ opacity: 1, maxWidth: 140, marginLeft: 12 }}
+              exit={{ opacity: 0, maxWidth: 0, marginLeft: 0 }}
+              transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
+              className="relative block overflow-hidden whitespace-nowrap text-cream-page"
+              style={{
+                maskImage:
+                  'linear-gradient(-75deg, rgba(0,0,0,1) calc(var(--x) + 18%), rgba(0,0,0,0.28) calc(var(--x) + 28%), rgba(0,0,0,1) calc(var(--x) + 92%))',
+                WebkitMaskImage:
+                  'linear-gradient(-75deg, rgba(0,0,0,1) calc(var(--x) + 18%), rgba(0,0,0,0.28) calc(var(--x) + 28%), rgba(0,0,0,1) calc(var(--x) + 92%))',
+              }}
+            >
+              {children}
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </span>
     </motion.button>
   );
-};
-
-export default ShinyButton;
+}
