@@ -75,19 +75,31 @@ export default function MenuPage() {
       />
 
       {/* Hero */}
-      <section className="relative w-full bg-mahogany text-cream-page pt-40 pb-20 px-6 overflow-hidden">
-        <div className="batik-line absolute top-0 left-0 bg-white/20" />
-        <div className="absolute inset-0 pointer-events-none select-none overflow-hidden">
-          <span className="absolute top-10 left-[-5%] font-display italic text-[28vw] text-mahogany-soft/15 leading-none">03</span>
-        </div>
-        <div className="max-w-7xl mx-auto relative z-10">
-          <p className="font-editorial text-[10px] tracking-[0.25em] uppercase text-gold-leaf mb-6 flex items-center gap-4">
-            <span className="w-8 h-[1px] bg-gold-leaf/50" /> 03 — THE MENU
-          </p>
-          <h1 className="font-display font-light text-cream-page text-[clamp(52px,8vw,110px)] leading-[0.9] tracking-[-0.02em]">
-            Food, Tea <br />
-            <i className="text-clay-warm">& the Lounge.</i>
+      <section className="relative w-full bg-mahogany text-cream-page overflow-hidden" style={{ minHeight: '60vh' }}>
+        {/* Vertical copper accent bar */}
+        <span aria-hidden="true" className="absolute left-0 top-0 bottom-0 w-[3px] bg-clay-warm opacity-70" />
+
+        <div
+          className="flex flex-col justify-center"
+          style={{ minHeight: '60vh', padding: 'clamp(56px, 9vw, 112px) clamp(40px, 8vw, 120px)' }}
+        >
+          {/* Overline */}
+          <div className="flex items-baseline gap-6 mb-10">
+            <span className="font-editorial text-[10px] tracking-[0.22em] uppercase text-clay-warm/60">03</span>
+            <span className="block w-12 h-px bg-clay-warm/30 self-center" />
+            <span className="font-editorial text-[10px] tracking-[0.18em] uppercase text-cream-page/30">The Menu</span>
+          </div>
+
+          {/* Heading */}
+          <h1 className="font-display font-light leading-[0.92] tracking-[-0.025em]" style={{ fontSize: 'clamp(54px, 8.5vw, 124px)' }}>
+            <span className="block text-cream-page">Food, Tea</span>
+            <i className="block text-clay-warm" style={{ marginTop: 8 }}>& the Lounge.</i>
           </h1>
+
+          {/* Descriptor */}
+          <p className="font-body text-cream-page/30 leading-relaxed mt-12" style={{ fontSize: 13, maxWidth: '36ch', letterSpacing: '0.01em' }}>
+            An exploration of Sri Lankan cuisine, tea, and the art of gathering.
+          </p>
         </div>
       </section>
 
