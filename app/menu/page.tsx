@@ -109,21 +109,28 @@ export default function MenuPage() {
 
           {/* Filter Tabs */}
           <div className="mb-16">
-            <div className={`glass-filter-bar rounded-2xl px-3 py-3 flex items-center gap-1 ${activeTier === 'All' ? 'justify-center' : ''}`}>
+            <div className="flex items-center gap-1">
               {/* Tier 1 */}
               <motion.div layout="position" transition={{ duration: 0.3, ease: 'easeInOut' }} className="flex gap-1.5 flex-shrink-0">
                 {TIERS.map(({ label, Icon }) => (
                   <button
                     key={label}
                     onClick={() => { setActiveTier(label); setActive('All'); }}
-                    className={`font-editorial text-[10px] tracking-[0.2em] uppercase whitespace-nowrap px-4 py-2 rounded-full flex-shrink-0 cursor-pointer inline-flex items-center gap-1.5 ${
-                      activeTier === label
-                        ? 'glass-pill-active text-cream-page'
-                        : 'glass-pill text-mahogany/65 hover:text-mahogany'
+                    className={`relative font-editorial text-[10px] tracking-[0.2em] uppercase whitespace-nowrap px-4 py-2 rounded-full flex-shrink-0 cursor-pointer glass-pill ${
+                      activeTier === label ? 'text-cream-page' : 'text-mahogany/65 hover:text-mahogany'
                     }`}
                   >
-                    <Icon className="w-2.5 h-2.5" />
-                    {label}
+                    {activeTier === label && (
+                      <motion.span
+                        layoutId="tier-pill"
+                        className="absolute inset-0 rounded-full glass-pill-active"
+                        transition={{ type: 'spring', bounce: 0.2, duration: 0.45 }}
+                      />
+                    )}
+                    <span className="relative z-10 inline-flex items-center gap-2">
+                      <Icon className="w-3.5 h-3.5" />
+                      {label}
+                    </span>
                   </button>
                 ))}
               </motion.div>
@@ -141,7 +148,7 @@ export default function MenuPage() {
                   >
                     <div className="w-px h-4 bg-mahogany/15 mx-1.5 flex-shrink-0" />
                     <div className="relative flex-1 min-w-0">
-                      <div className="pointer-events-none absolute right-0 top-0 h-full w-8 bg-gradient-to-l from-white/10 to-transparent z-10" />
+                      <div className="pointer-events-none absolute right-0 top-0 h-full w-8 bg-gradient-to-l from-cream-page to-transparent z-10" />
                       <div className="flex gap-1.5 overflow-x-auto scrollbar-hide">
                         {(['All', ...(activeTier === 'Food' ? FOOD_CATS : DRINK_CATS).filter(c => categories.includes(c))] as string[]).map((cat) => {
                           const Icon = CATEGORY_ICONS[cat] ?? Utensils;
@@ -150,14 +157,21 @@ export default function MenuPage() {
                               key={cat}
                               ref={(el) => { if (el) pillRefs.current.set(cat, el); else pillRefs.current.delete(cat); }}
                               onClick={() => setActive(cat)}
-                              className={`font-editorial text-[10px] tracking-[0.2em] uppercase whitespace-nowrap px-4 py-2 rounded-full flex-shrink-0 cursor-pointer inline-flex items-center gap-1.5 ${
-                                active === cat
-                                  ? 'glass-pill-active text-cream-page'
-                                  : 'glass-pill text-mahogany/65 hover:text-mahogany'
+                              className={`relative font-editorial text-[10px] tracking-[0.2em] uppercase whitespace-nowrap px-4 py-2 rounded-full flex-shrink-0 cursor-pointer glass-pill ${
+                                active === cat ? 'text-cream-page' : 'text-mahogany/65 hover:text-mahogany'
                               }`}
                             >
-                              <Icon className="w-2.5 h-2.5" />
-                              {cat}
+                              {active === cat && (
+                                <motion.span
+                                  layoutId="cat-pill"
+                                  className="absolute inset-0 rounded-full glass-pill-active"
+                                  transition={{ type: 'spring', bounce: 0.2, duration: 0.45 }}
+                                />
+                              )}
+                              <span className="relative z-10 inline-flex items-center gap-2">
+                                <Icon className="w-3.5 h-3.5" />
+                                {cat}
+                              </span>
                             </button>
                           );
                         })}
