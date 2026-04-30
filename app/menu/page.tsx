@@ -104,12 +104,13 @@ export default function MenuPage() {
       </section>
 
       {/* Filter + Grid */}
-      <section className="relative w-full bg-cream-page py-[clamp(60px,8vh,120px)] px-6">
+      <section className="relative w-full bg-cream-page py-10 sm:py-[clamp(60px,8vh,120px)] px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
 
           {/* Filter Tabs */}
-          <div className="mb-16">
-            <div className="flex items-center gap-1">
+          <div className="mb-10 sm:mb-16">
+            {/* On mobile: stacked rows. On desktop: single inline row. */}
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-1">
               {/* Tier 1 */}
               <motion.div layout="position" transition={{ duration: 0.3, ease: 'easeInOut' }} className="flex gap-1.5 flex-shrink-0">
                 {TIERS.map(({ label, Icon }) => (
@@ -135,18 +136,18 @@ export default function MenuPage() {
                 ))}
               </motion.div>
 
-              {/* Divider + Tier 2 */}
+              {/* Tier 2 — own scrollable row on mobile, inline on desktop */}
               <AnimatePresence>
                 {activeTier !== 'All' && (
                   <motion.div
                     key="tier2"
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -10 }}
-                    transition={{ duration: 0.25, ease: 'easeOut' }}
-                    className="flex items-center gap-1 flex-1 min-w-0"
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    transition={{ duration: 0.2, ease: 'easeOut' }}
+                    className="flex items-center gap-1 min-w-0 sm:flex-1"
                   >
-                    <div className="w-px h-4 bg-mahogany/15 mx-1.5 flex-shrink-0" />
+                    <div className="hidden sm:block w-px h-4 bg-mahogany/15 mx-1.5 flex-shrink-0" />
                     <div className="relative flex-1 min-w-0">
                       <div className="pointer-events-none absolute right-0 top-0 h-full w-8 bg-gradient-to-l from-cream-page to-transparent z-10" />
                       <div className="flex gap-1.5 overflow-x-auto scrollbar-hide">
