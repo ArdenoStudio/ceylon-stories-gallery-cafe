@@ -1,0 +1,28 @@
+{
+  "scope": "component",
+  "isRedesign": true,
+  "targetPath": "src/components/ReservationModal.tsx",
+  "targetName": "ReservationModal",
+  "painPoints": ["Form feels generic", "Mobile is cramped"],
+  "inspiration": {
+    "visual": ["Apple", "Stripe"],
+    "functional": ["Progressive disclosure", "Stepped wizard"]
+  },
+  "brand": {
+    "adjectives": ["warm & luxurious", "editorial & minimal", "modern & confident"],
+    "density": "comfortable",
+    "darkMode": false
+  },
+  "persona": {
+    "primary": "End consumer",
+    "context": "Both equally",
+    "keyTasks": ["Select date and time", "Set party size", "Submit contact details"]
+  },
+  "constraints": {
+    "mustKeep": ["Live summary panel", "mailto: submission"],
+    "technical": ["No new dependencies", "Use existing components"]
+  },
+  "framework": "nextjs-app",
+  "packageManager": "npm",
+  "stylingSystem": "tailwind-v4"
+}
